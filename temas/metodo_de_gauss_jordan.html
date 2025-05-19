@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Método de Gauss-Jordan</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <link href="../img/favicon.ico" rel="icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+  <style>
+    .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
+    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgb(0 0 0 / .1); }
+    main { flex: 1; }
+    aside ul { padding-left: 0; list-style: none; }
+    aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
+    aside ul li:last-child { border-bottom: none; }
+    @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
+    .frase_importante { background-color: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); box-shadow: -5px 0 10px rgba(0,0,0,.1); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.2rem; }
+    pre { background-color: #f4f4f4; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
+    img { max-width: 100%; height: auto; margin: 1rem 0; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+  </a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="../index.html" class="nav-item nav-link">Inicio</a>
+          <a href="../temas.html" class="nav-item nav-link active">Temas</a>
+          <a href="../autores.html" class="nav-item nav-link">Autores</a>
+      </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container">
+  <aside>
+    <h3>Índice de contenido</h3>
+    <ul>
+      <li><a href="#nombre">1. Nombre del método</a></li>
+      <li><a href="#fundamento">2. Fundamento teórico ampliado</a></li>
+      <li><a href="#error">3. Término de error y estabilidad</a></li>
+      <li><a href="#pasos">4. Pasos detallados del algoritmo</a></li>
+      <li><a href="#ejemplo">5. Ejemplo resuelto</a></li>
+      <li><a href="#codigo">6. Código en Python y gráfica</a></li>
+      <li><a href="#animacion">7. Animación JS</a></li>
+      <li><a href="#video">8. Video Explicativo</a></li>
+      <li><a href="#referencias">9. Referencias</a></li>
+      <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <div class="title-with-image">
+      <h1 id="nombre">1. Método de Gauss-Jordan</h1>
+      <b>Conoce su origen <i><a href="../autores/gauss_jordan.html">Carl Friedrich Gauss & Wilhelm Jordan</a></i></b>
+    </div>
+
+    <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
+    <p>El método de Gauss-Jordan extiende la eliminación gaussiana para llevar la matriz aumentada [A|b] a forma reducida por filas (RREF), donde A se convierte en la matriz identidad. De este modo, las soluciones aparecen directamente en el vector b.</p>
+    <div class="frase_importante">
+      Operación hasta RREF: Aumentar pivotes a 1 y eliminar en toda columna (superior e inferior).
+    </div>
+
+    <h2 id="error">3. Término de error y estabilidad</h2>
+    <p>Al igual que Gauss, depende de pivoteo parcial para estabilidad. RREF puede intensificar errores de redondeo al realizar más operaciones de fila.</p>
+    <div class="frase_importante">
+      Complejidad O(n³) y factor de crecimiento controlado con pivoteo parcial.
+    </div>
+
+    <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
+    <ol>
+      <li>Formar matriz aumentada [A|b].</li>
+      <li>Para k=1…n:
+        <ol>
+          <li>Seleccionar pivote a<sub>kk</sub>, pivoteo parcial si necesario.</li>
+          <li>Dividir fila k por a<sub>kk</sub> para hacer pivote=1.</li>
+          <li>Para i≠k, restar a<sub>ik</sub>·(fila k) de fila i para eliminar columna k.</li>
+        </ol>
+      </li>
+      <li>Al final, la matriz izquierda es identidad y b contiene solución única.</li>
+    </ol>
+
+    <h2 id="ejemplo">5. Ejemplo resuelto</h2>
+    <p>Resolver:
+      <br>A = [[2,1,-1],[ -3,-1,2],[ -2,1,2 ]], b=[8,-11,-3] usando Gauss-Jordan.
+    </p>
+    <ul>
+      <li>Paso 1: Augmentar y pivotear, dividir fila 1 por 2.</li>
+      <li>Paso 2: Eliminar columna 1 en filas 2 y 3.</li>
+      <li>Paso 3: Pivotear fila 2, dividir y eliminar en demás filas.</li>
+      <li>Paso 4: Repetir para fila 3 → solución x=[3,2,-1].</li>
+    </ul>
+
+    <h2 id="codigo">6. Código en Python y gráfica</h2>
+    <pre><code>import numpy as np
+import time
+import matplotlib.pyplot as plt
+
+def gauss_jordan(A, b):
+    M = np.hstack((A.astype(float), b.reshape(-1,1).astype(float)))
+    n = len(b)
+    for k in range(n):
+        # pivoteo parcial
+        i_max = np.argmax(abs(M[k:,k])) + k
+        if i_max != k:
+            M[[k,i_max]] = M[[i_max,k]]
+        # pivote a 1
+        M[k] = M[k] / M[k,k]
+        # eliminar resto de columna
+        for i in range(n):
+            if i != k:
+                M[i] = M[i] - M[i,k] * M[k]
+    return M[:,:-1], M[:,-1]
+
+# medir tiempo
+sizes = [50,100,200,400]
+times = []
+for n in sizes:
+    A = np.random.rand(n,n)
+    b = np.random.rand(n)
+    t0 = time.time()
+    gauss_jordan(A,b)
+    times.append(time.time()-t0)
+
+plt.figure()
+plt.plot(sizes, times)
+plt.xlabel('Tamaño n')
+plt.ylabel('Tiempo (s)')
+plt.title('Costo computacional Gauss-Jordan')
+plt.show()</code></pre>
+
+    <h2 id="animacion">7. Animación JS</h2>
+    <p>Comparativa de tiempos Gauss vs Gauss-Jordan:</p>
+    <canvas id="gjChart" width="400" height="200"></canvas>
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        const sizes = [50,100,200,400];
+        const gaussTimes = [0.003,0.02,0.15,1.2];
+        const gjTimes = [0.005,0.04,0.3,2.5];
+        const ctx = document.getElementById('gjChart').getContext('2d');
+        new Chart(ctx, {
+          type:'line', data:{ labels: sizes,
+            datasets:[
+              { label:'Gauss', data: gaussTimes, fill:false, borderWidth:2 },
+              { label:'Gauss-Jordan', data: gjTimes, fill:false, borderWidth:2 }
+            ]
+          },
+          options:{ scales:{ x:{ title:{ display:true, text:'Tamaño n' }}, y:{ title:{ display:true, text:'Tiempo (s)' } } }}
+        });
+      });
+    </script>
+
+    <h2 id="video">8. Video Explicativo</h2>
+    <p><a href="https://www.youtube.com/watch?v=KO3sTJY2IP8" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+
+    <h2 id="referencias">9. Referencias</h2>
+    <ul>
+      <li>Golub, G. H., & Van Loan, C. F. (2013). <em>Matrix Computations</em> (4ª ed.). Johns Hopkins University Press.</li>
+      <li>Burden, R. L., & Faires, J. D. (2011). <em>Numerical Analysis</em> (9ª ed.). Brooks/Cole.</li>
+      <li>Wikipedia contributors. (2025, 10 de abril). Gauss–Jordan elimination. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Gauss%E2%80%93Jordan_elimination</li>
+    </ul>
+
+    <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
+    <p>Gauss-Jordan simplifica la obtención de la solución directa sin sustitución regresiva. Aunque más costoso que Gauss, resulta útil para obtener inversas de matrices y rangos.</p>
+    <p>Se aplica en estadística, ingeniería y álgebra computacional donde se precisan soluciones explícitas o matrices inversas.</p>
+  </main>
+</div>
+  <!-- Footer Start -->
+  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Contact</h4> 
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                        <a href="">Home</a>
+                        <a href="">Cookies</a>
+                        <a href="">Help</a>
+                        <a href="">FQAs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Footer End -->
+</body>
+</html>

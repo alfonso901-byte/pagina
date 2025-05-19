@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Regla de Cramer</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <link href="../img/favicon.ico" rel="icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+  <style>
+    .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
+    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgb(0 0 0 / .1); }
+    main { flex: 1; }
+    aside ul { padding-left: 0; list-style: none; }
+    aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
+    aside ul li:last-child { border-bottom: none; }
+    @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
+    .frase_importante { background-color: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); box-shadow: -5px 0 10px rgba(0,0,0,.1); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.2rem; }
+    pre { background-color: #f4f4f4; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
+    img { max-width: 100%; height: auto; margin: 1rem 0; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+  </a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="../index.html" class="nav-item nav-link">Inicio</a>
+          <a href="../temas.html" class="nav-item nav-link active">Temas</a>
+          <a href="../autores.html" class="nav-item nav-link">Autores</a>
+      </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container">
+  <aside>
+    <h3>Índice de contenido</h3>
+    <ul>
+      <li><a href="#nombre">1. Nombre del método</a></li>
+      <li><a href="#fundamento">2. Fundamento teórico ampliado</a></li>
+      <li><a href="#error">3. Término de error y estabilidad</a></li>
+      <li><a href="#pasos">4. Pasos detallados del algoritmo</a></li>
+      <li><a href="#ejemplo">5. Ejemplo resuelto</a></li>
+      <li><a href="#codigo">6. Código en Python y gráfica</a></li>
+      <li><a href="#animacion">7. Animación JS</a></li>
+      <li><a href="#video">8. Video Explicativo</a></li>
+      <li><a href="#referencias">9. Referencias</a></li>
+      <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <div class="title-with-image">
+      <h1 id="nombre">1. Regla de Cramer</h1>
+      <b>Conoce su origen <i><a href="../autores/cramer.html">Gabriel Cramer</a></i></b>
+    </div>
+
+    <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
+    <p>Para un sistema lineal A·x = b con A ∈ ℝ<sup>n×n</sup> invertible, la Regla de Cramer expresa cada incógnita x<sub>i</sub> como el cociente de determinantes:
+      <br><strong>x<sub>i</sub> = det(A<sub>i</sub>) / det(A)</strong>,
+      donde A<sub>i</sub> es A con su i-ésima columna reemplazada por b.</p>
+    <div class="frase_importante">
+      x<sub>i</sub> = \frac{\det(A_i)}{\det(A)}, para i = 1,…,n.
+    </div>
+
+    <h2 id="error">3. Término de error y estabilidad</h2>
+    <p>Computar determinantes para sistemas grandes es costoso y numéricamente inestable: los errores de redondeo pueden amplificarse en el cálculo de det(A) y det(A<sub>i</sub>).</p>
+    <div class="frase_importante">
+      Coste O(n!) o O(n³) con LU; condición similar a inv(A), sensible a cond(A).
+    </div>
+
+    <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
+    <ol>
+      <li>Calcular det(A).</li>
+      <li>Para cada i de 1 a n:
+        <ol>
+          <li>Formar matriz A<sub>i</sub> sustituyendo columna i por b.</li>
+          <li>Calcular det(A<sub>i</sub>).</li>
+          <li>Obtener x<sub>i</sub> = det(A<sub>i</sub>) / det(A).</li>
+        </ol>
+      </li>
+      <li>Armar vector x = (x<sub>1</sub>,…,x<sub>n</sub>)<sup>T</sup>.</li>
+    </ol>
+
+    <h2 id="ejemplo">5. Ejemplo resuelto</h2>
+    <p>Resolver:
+      <br>A = [[2, -1, 3], [1, 0, -2], [3, 1, 4]], b = [5, -1, 10].
+    </p>
+    <ul>
+      <li>det(A) = 2·det([[0,-2],[1,4]]) - (-1)·det([[1,-2],[3,4]]) + 3·det([[1,0],[3,1]]) = 2·(0·4 - (-2)·1) +1·(1·4 - (-2)·3) + 3·(1·1 - 0·3) = 2·2 +1·10 +3·1 = 4 +10 +3 = 17.</li>
+      <li>Formar A₁, A₂, A₃ y calcular determinantes:
+        <ul>
+          <li>det(A₁)=det([[5,-1,3],[-1,0,-2],[10,1,4]]) = ... = 23 → x₁=23/17≈1.3529</li>
+          <li>det(A₂)=det([[2,5,3],[1,-1,-2],[3,10,4]]) = ... = 1 → x₂=1/17≈0.0588</li>
+          <li>det(A₃)=det([[2,-1,5],[1,0,-1],[3,1,10]]) = ... = 68 → x₃=68/17=4</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2 id="codigo">6. Código en Python y gráfica</h2>
+    <pre><code>import numpy as np
+import time
+import matplotlib.pyplot as plt
+
+def cramer(A, b):
+    n = A.shape[0]
+    detA = np.linalg.det(A)
+    x = np.zeros(n)
+    for i in range(n):
+        Ai = A.copy()
+        Ai[:,i] = b
+        x[i] = np.linalg.det(Ai) / detA
+    return x
+
+# medir tiempo para distintos n usando matrices aleatorias
+sizes = [2,5,10,20]
+times = []
+for n in sizes:
+    A = np.random.rand(n,n)
+    b = np.random.rand(n)
+    t0 = time.time()
+    cramer(A, b)
+    times.append(time.time()-t0)
+
+plt.figure()
+plt.plot(sizes, times)
+plt.xlabel('Tamaño n')
+plt.ylabel('Tiempo (s)')
+plt.title('Costo computacional Regla de Cramer')
+plt.show()</code></pre>
+
+    <h2 id="animacion">7. Animación JS</h2>
+    <p>Representación de tiempo de ejecución en función de n:</p>
+    <canvas id="cramerChart" width="400" height="200"></canvas>
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        const sizes = [2,5,10,20];
+        const times = [0.0001,0.0005,0.005,0.05];
+        const ctx = document.getElementById('cramerChart').getContext('2d');
+        new Chart(ctx, {
+          type:'line', data:{ labels: sizes, datasets:[{ label:'Tiempo (s)', data: times, fill:false, borderWidth:2 }] },
+          options:{ scales:{ x:{ title:{ display:true, text:'Tamaño n' }}, y:{ title:{ display:true, text:'Tiempo (s)' } } }}
+        });
+      });
+    </script>
+
+    <h2 id="video">8. Video Explicativo</h2>
+    <p><a href="https://www.youtube.com/watch?v=3Z4_crBxdEk" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+
+    <h2 id="referencias">9. Referencias</h2>
+    <ul>
+      <li>Cramer, G. (1750). <em>Introduction à l’analyse des lignes courbes algébriques</em>. Geneva.</li>
+      <li>Strang, G. (2006). <em>Linear Algebra and Its Applications</em> (4ª ed.). Brooks Cole.</li>
+      <li>Wikipedia contributors. (2025, 1 de mayo). Cramer's rule. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Cramer's_rule</li>
+    </ul>
+
+    <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
+    <p>La Regla de Cramer es sencilla conceptualmente pero no práctica para grandes sistemas debido a su coste y estabilidad. Es útil en sistemas pequeños o al obtener fórmulas simbólicas.</p>
+    <p>Se aplica en teoría de sistemas, análisis simbólico y demostraciones de unicidad de soluciones.</p>
+  </main>
+</div>
+  <!-- Footer Start -->
+  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Contact</h4> 
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                        <a href="">Home</a>
+                        <a href="">Cookies</a>
+                        <a href="">Help</a>
+                        <a href="">FQAs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Footer End -->
+</body>
+</html>

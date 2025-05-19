@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Eliminación Gaussiana</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <link href="../img/favicon.ico" rel="icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+  <style>
+    .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
+    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgb(0 0 0 / .1); }
+    main { flex: 1; }
+    aside ul { padding-left: 0; list-style: none; }
+    aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
+    aside ul li:last-child { border-bottom: none; }
+    @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
+    .frase_importante { background-color: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); box-shadow: -5px 0 10px rgba(0,0,0,.1); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.2rem; }
+    pre { background-color: #f4f4f4; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
+    img { max-width: 100%; height: auto; margin: 1rem 0; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+  </a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="../index.html" class="nav-item nav-link">Inicio</a>
+          <a href="../temas.html" class="nav-item nav-link active">Temas</a>
+          <a href="../autores.html" class="nav-item nav-link">Autores</a>
+      </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container">
+  <aside>
+    <h3>Índice de contenido</h3>
+    <ul>
+      <li><a href="#nombre">1. Nombre del método</a></li>
+      <li><a href="#fundamento">2. Fundamento teórico ampliado</a></li>
+      <li><a href="#error">3. Término de error y estabilidad</a></li>
+      <li><a href="#pasos">4. Pasos detallados del algoritmo</a></li>
+      <li><a href="#ejemplo">5. Ejemplo resuelto</a></li>
+      <li><a href="#codigo">6. Código en Python y gráfica</a></li>
+      <li><a href="#animacion">7. Animación JS</a></li>
+      <li><a href="#video">8. Video Explicativo</a></li>
+      <li><a href="#referencias">9. Referencias</a></li>
+      <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <div class="title-with-image">
+      <h1 id="nombre">1. Eliminación Gaussiana</h1>
+      <b>Conoce su origen <i><a href="../autores/gauss.html">Carl Friedrich Gauss</a></i></b>
+    </div>
+
+    <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
+    <p>La eliminación gaussiana transforma un sistema lineal A·x = b en uno equivalente triangular superior por operaciones elementales de fila (suma, intercambio y multiplicación). Después se resuelve por sustitución regresiva.</p>
+    <div class="frase_importante">
+      Operaciones de fila: F<sub>i</sub>→F<sub>i</sub> - (a<sub>ij</sub>/a<sub>jj</sub>)·F<sub>j</sub>,  para j<i></i>.
+    </div>
+
+    <h2 id="error">3. Término de error y estabilidad</h2>
+    <p>La estabilidad numérica depende del pivoteo. Sin pivoteo, errores por cancelación pueden crecer; con pivoteo parcial se controla el factor de crecimiento.</p>
+    <div class="frase_importante">
+      Factor de crecimiento ρ ≤ 2<sup>n-1</sup> sin pivoteo; con pivoteo parcial, ρ suele ≪ 2<sup>n-1</sup>.
+
+    </div>
+
+    <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
+    <ol>
+      <li>Para k=1…n-1, seleccionar pivote a<sub>kk</sub> (con pivoteo parcial intercambiar filas).</li>
+      <li>Para i=k+1…n, calcular m = a<sub>ik</sub>/a<sub>kk</sub> y restar m·(fila k) de fila i.</li>
+      <li>Repetir hasta triangular superior U.</li>
+      <li>Resolver U·x = c por sustitución regresiva.</li>
+    </ol>
+
+    <h2 id="ejemplo">5. Ejemplo resuelto</h2>
+    <p>Resolver:
+      <br>A = [[2,1,-1],[ -3,-1,2],[ -2,1,2 ]], b=[8,-11,-3].
+    </p>
+    <ul>
+      <li>Paso 1: sin pivoteo, m21=-3/2, m31=-2/2 → filas 2 y 3 actualizadas.</li>
+      <li>Paso 2: k=2, pivote a22=0.5, m32=updated/0.5 → fila 3.
+      <li>Resultado U y c: U·x=c → x3= -1, x2=2, x1=3.</li>
+    </ul>
+
+    <h2 id="codigo">6. Código en Python y gráfica</h2>
+    <pre><code>import time
+import numpy as np
+import matplotlib.pyplot as plt
+
+def gauss(A, b):
+    A = A.astype(float).copy(); b = b.astype(float).copy()
+    n = len(b)
+    for k in range(n-1):
+        # pivoteo parcial
+        i_max = np.argmax(abs(A[k:,k])) + k
+        if i_max != k:
+            A[[k,i_max]] = A[[i_max,k]]; b[[k,i_max]] = b[[i_max,k]]
+        for i in range(k+1,n):
+            m = A[i,k]/A[k,k]
+            A[i,k:] -= m*A[k,k:]
+            b[i] -= m*b[k]
+    # sustitución regresiva
+    x = np.zeros(n)
+    for i in range(n-1,-1,-1):
+        x[i] = (b[i] - A[i,i+1:]@x[i+1:]) / A[i,i]
+    return x
+
+# medir tiempo para diferentes tamaños
+sizes = [50,100,200,400]
+times = []
+for n in sizes:
+    A = np.random.rand(n,n)
+    b = np.random.rand(n)
+    t0 = time.time()
+    gauss(A,b)
+    times.append(time.time()-t0)
+
+plt.figure()
+plt.plot(sizes, times)
+plt.xlabel('Tamaño n')
+plt.ylabel('Tiempo (s)')
+plt.title('Costo computacional Eliminación Gaussiana')
+plt.show()</code></pre>
+
+    <h2 id="animacion">7. Animación JS</h2>
+    <p>Visualizar crecimiento del tiempo de cómputo:</p>
+    <canvas id="gaussChart" width="400" height="200"></canvas>
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        const sizes = [50,100,200,400];
+        const times = [0.003,0.02,0.15,1.2]; // ejemplo
+        const ctx = document.getElementById('gaussChart').getContext('2d');
+        new Chart(ctx, {
+          type:'line', data:{ labels: sizes, datasets:[{ label:'Tiempo (s)', data: times, fill:false, borderWidth:2 }] },
+          options:{ scales:{ x:{ title:{ display:true, text:'Tamaño n' }}, y:{ title:{ display:true, text:'Tiempo (s)' } } }}
+        });
+      });
+    </script>
+
+    <h2 id="video">8. Video Explicativo</h2>
+    <p><a href="https://www.youtube.com/watch?v=GZwb5eZJvsc" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+
+    <h2 id="referencias">9. Referencias</h2>
+    <ul>
+      <li>Golub, G. H., & Van Loan, C. F. (2013). <em>Matrix Computations</em> (4ª ed.). Johns Hopkins University Press.</li>
+      <li>Burden, R. L., & Faires, J. D. (2011). <em>Numerical Analysis</em> (9ª ed.). Brooks/Cole.</li>
+      <li>Wikipedia contributors. (2025, 15 de mayo). Gaussian elimination. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Gaussian_elimination</li>
+    </ul>
+
+    <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
+    <p>La eliminación gaussiana es el método fundamental para resolver sistemas lineales directos. Con pivoteo parcial es estable y de complejidad O(n³). Se emplea en ingeniería, ciencia de datos y simulaciones numéricas.</p>
+    <p>Sus variantes (LU, Cholesky) aprovechan estructuras y ofrecen eficiencia adicional.</p>
+  </main>
+</div>
+  <!-- Footer Start -->
+  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Contact</h4> 
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                        <a href="">Home</a>
+                        <a href="">Cookies</a>
+                        <a href="">Help</a>
+                        <a href="">FQAs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Footer End -->
+</body>
+</html>

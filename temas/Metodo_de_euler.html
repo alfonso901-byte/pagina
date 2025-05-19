@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Método de Euler para EDOs</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="../img/favicon.ico" rel="icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <style>
+    .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
+    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgba(0,0,0,.1); }
+    main { flex: 1; }
+    aside ul { list-style: none; padding-left: 0; }
+    aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
+    aside ul li:last-child { border-bottom: none; }
+    .frase_importante { background: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); padding: 15px 20px; margin:30px 0; font-style:italic; font-size:1.2rem; }
+    pre { background:#f4f4f4; padding:1rem; border-radius:.5rem; overflow-x:auto; }
+  </style>
+</head>
+<body>
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+  </a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="../index.html" class="nav-item nav-link">Inicio</a>
+          <a href="../temas.html" class="nav-item nav-link active">Temas</a>
+          <a href="../autores.html" class="nav-item nav-link">Autores</a>
+      </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+<div class="container">
+  <aside>
+    <h3>Índice de contenido</h3>
+    <ul>
+      <li><a href="#nombre">1. Nombre del método</a></li>
+      <li><a href="#fundamento">2. Fundamento teórico</a></li>
+      <li><a href="#error">3. Término de error y estabilidad</a></li>
+      <li><a href="#pasos">4. Pasos detallados</a></li>
+      <li><a href="#ejemplo">5. Ejemplo resuelto</a></li>
+      <li><a href="#codigo">6. Código en Python y gráfica</a></li>
+      <li><a href="#animacion">7. Animación JS</a></li>
+      <li><a href="#video">8. Video Explicativo</a></li>
+      <li><a href="#referencias">9. Referencias</a></li>
+      <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
+    </ul>
+  </aside>
+  <main>
+    <h1 id="nombre">1. Método de Euler</h1>
+    <h2 id="fundamento">2. Fundamento teórico</h2>
+    <p>Euler aproxima la solución de una EDO y' = f(t,y), y(t_0)=y_0, usando la derivada en el punto actual:</p>
+    <div class="frase_importante">
+      y_{n+1} = y_n + h·f(t_n,y_n)
+    </div>
+
+    <h2 id="error">3. Término de error y estabilidad</h2>
+    <p>Es método de orden 1: error local O(h^2), global O(h). Condición de estabilidad depende de paso y región de estabilidad.</p>
+
+    <h2 id="pasos">4. Pasos detallados</h2>
+    <ol>
+      <li>Dividir [t_0,T] en pasos de tamaño h.</li>
+      <li>Para n=0…N-1 calcular y_{n+1}=y_n + h f(t_n,y_n).</li>
+      <li>Actualizar t_{n+1}=t_n + h.</li>
+      <li>Repetir hasta T.</li>
+    </ol>
+
+    <h2 id="ejemplo">5. Ejemplo resuelto</h2>
+    <p>EDO: y' = -2y, y(0)=1, h=0.1 hasta t=0.5.</p>
+    <ul>
+      <li>Tabla:
+        <br>y_1=1+0.1*(-2*1)=0.8,
+        y_2=0.8+0.1*(-2*0.8)=0.64, …
+      </li>
+      <li>Valor exacto y(0.5)=e^{-1}=0.3679, Euler da y_5≈0.3277 (error≈0.04).
+      </li>
+    </ul>
+
+    <h2 id="codigo">6. Código en Python y gráfica</h2>
+    <pre><code>import numpy as np
+import matplotlib.pyplot as plt
+
+def euler(f, t0, y0, h, N):
+    t = np.linspace(t0, t0+N*h, N+1)
+    y = np.zeros(N+1)
+    y[0] = y0
+    for n in range(N):
+        y[n+1] = y[n] + h * f(t[n], y[n])
+    return t, y
+
+f = lambda t,y: -2*y
+t,y = euler(f,0,1,0.1,5)
+plt.figure()
+plt.plot(t, y, 'o-', label='Euler')
+plt.plot(t, np.exp(-2*t), label='Exacta')
+plt.legend()
+plt.title('Método de Euler')
+plt.show()</code></pre>
+
+    <h2 id="animacion">7. Animación JS</h2>
+    <p>Comparar puntos Euler vs exacta:</p>
+    <canvas id="eulerChart" width="400" height="200"></canvas>
+    <script>
+      window.addEventListener('DOMContentLoaded', function(){
+        const t=[0,0.1,0.2,0.3,0.4,0.5];
+        const yE=[1,0.8,0.64,0.512,0.4096,0.32768];
+        const yEx=t.map(v=>Math.exp(-2*v));
+        const ctx=document.getElementById('eulerChart').getContext('2d');
+        new Chart(ctx,{type:'line',data:{labels:t,datasets:[{label:'Euler',data:yE,fill:false,borderWidth:2},{label:'Exacta',data:yEx,fill:false,borderWidth:2,borderDash:[5,5]}]},options:{scales:{x:{title:{display:true,text:'t'}},y:{title:{display:true,text:'y'}}}}});
+      });
+    </script>
+
+    <h2 id="video">8. Video Explicativo</h2>
+    <p><a href="https://www.youtube.com/watch?v=ki4E8wsHVcA" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+
+    <h2 id="referencias">9. Referencias</h2>
+    <ul>
+      <li>Burden, R. L., &amp; Faires, J. D. (2011). <em>Numerical Analysis</em>.</li>
+      <li>Atkinson, K. (1989). <em>An Introduction to Numerical Analysis</em>. Wiley.</li>
+      <li>Wikipedia contributors. (2025, 2 de mayo). Euler method. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Euler_method</li>
+    </ul>
+
+    <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
+    <p>El método de Euler es simple pero de bajo orden; a menudo se usa como base para métodos de orden superior o para visualización rápida de soluciones de EDO.</p>
+  </main>
+</div>
+  <!-- Footer Start -->
+  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Contact</h4> 
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                        <a href="">Home</a>
+                        <a href="">Cookies</a>
+                        <a href="">Help</a>
+                        <a href="">FQAs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Footer End -->
+</body>
+</html>

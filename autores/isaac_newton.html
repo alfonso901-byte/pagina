@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Metodos Numericos</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="../img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../css/style.css" rel="stylesheet">
+
+    <style>
+      /* Contenedor flex para aside y main */
+      .container {
+        display: flex;
+        gap: 2rem; /* espacio entre aside y main */
+        margin-top: 1rem;
+        padding: 0 1rem;
+      }
+
+      /* Aside pequeño sticky */
+      aside {
+        position: sticky;
+        top: 80px; /* para que quede debajo del navbar (ajusta si tu navbar cambia de alto) */
+        flex: 0 0 220px; /* ancho fijo, no crece ni se encoge */
+        background-color: #f8f9fa;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        height: fit-content; /* que tome el alto de su contenido */
+        box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+      }
+
+      /* Main toma todo lo que queda */
+      main {
+        flex: 1;
+      }
+
+      /* Opcional: lista aside sin bullets */
+      aside ul {
+        padding-left: 0;
+        list-style: none;
+      }
+
+      aside ul li {
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #ddd;
+      }
+
+      aside ul li:last-child {
+        border-bottom: none;
+      }
+
+      /* Responsive: en pantallas chicas, aside se pone arriba */
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+        }
+
+        aside {
+          position: relative;
+          top: auto;
+          flex: none;
+          width: 100%;
+          margin-bottom: 1rem;
+          box-shadow: none;
+          background-color: transparent;
+          padding: 0;
+        }
+
+        aside ul li {
+          border: none;
+          padding: 0.25rem 0;
+        }
+      }
+      .title-with-image {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* espacio entre el título y la imagen */
+  margin-bottom: 1rem;
+}
+
+.autor-img {
+  width: 150px; /* tamaño de la imagen, puedes ajustar */
+  height: 200px;
+  object-fit: cover; /* para que la imagen mantenga proporción y no se distorsione */
+  border-radius: 30%; /* para hacerla circular */
+  border: 2px solid #007bff; /* borde azul, opcional */
+}
+.frase_importante{
+    background-color: rgba(128, 128, 128, 0.2); /* gris translúcido */
+    border-left: 5px solid rgba(0, 0, 0, 0.2);  /* borde izquierdo */
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1); /* sombra hacia la derecha */
+    padding: 15px 20px;
+    margin: 30px 0;
+    font-style: italic;
+    font-size: 1.2rem;
+}
+    </style>
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+  </a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="../index.html" class="nav-item nav-link">Inicio</a>
+          <a href="../temas.html" class="nav-item nav-link">Temas</a>
+          <a href="../autores.html" class="nav-item nav-link active">Autores</a>
+      </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container">
+  <aside>
+    <h3>Contenido</h3>
+    <ul>
+      <li><a href="#biografia">Biografia</a></li>
+      <li><a href="#primeras_contribuciones" >Contribuciones</a></li>
+      <li><a href="#desarrollo_del_calculo">Desarrollo del cálculo</a></li>
+      <li><a href="#trabajos_sobre_la_luz"> Trabajos sobre la luz</a></li>
+      <li><a href="#actuacion_publica"> Actuación pública</a></li>
+      <li><a href="#ultimos_anios"> Últimos años</a></li>
+    </ul>
+  </aside>
+  <main>
+    <div class="title-with-image">
+      <h1>Isaac Newton</h1>
+      <img src="../img/isaac.png" alt="Autor del tema" class="autor-img" />
+    </div>
+    
+    <p id="biografia">
+        <h2>Biografia</h2>
+        Isaac Newton (Woolsthorpe-by-Colsterworth, Lincolnshire, 4 de enero de 1643-Londres, 31 de marzo de 1727) fue un físico, teólogo, 
+        inventor, alquimista y matemático inglés. Es autor de los Philosophiæ naturalis principia mathematica, más conocidos como los 
+        Principia, donde describe la ley de la gravitación universal y estableció las bases de la mecánica clásica mediante las leyes 
+        que llevan su nombre. Entre sus otros descubrimientos científicos destacan los trabajos sobre la naturaleza de la luz y la óptica 
+        (que se presentan principalmente en su obra Opticks), y en matemáticas, el desarrollo del cálculo infinitesimal.
+        <br>
+        <br>
+        Newton comparte con Gottfried Leibniz el crédito por el desarrollo del cálculo integral y diferencial, que utilizó para formular 
+        sus leyes de la física y astronomía. También contribuyó en otras áreas de las matemáticas, desarrollando el teorema del binomio y 
+        las fórmulas de Newton-Cotes.
+        <br>
+        <br>
+        Entre sus hallazgos científicos se encuentran el descubrimiento —considerado el inicio de la espectroscopia— de que el espectro 
+        de color que se observa cuando la luz blanca pasa por un prisma es inherente a esa luz, en lugar de provenir del prisma 
+        (como había sido postulado por Roger Bacon en el siglo XIII); su argumentación sobre la posibilidad de que la luz estuviera 
+        compuesta por partículas; su desarrollo de una ley de convección térmica, que describe la tasa de enfriamiento de los objetos 
+        expuestos al aire; sus estudios sobre la velocidad del sonido en el aire; y su propuesta de una teoría sobre el origen de las 
+        estrellas. Fue también un pionero de la mecánica de fluidos, estableciendo una ley sobre la viscosidad. Newton fue el primero 
+        en demostrar que las leyes naturales que gobiernan el movimiento en la Tierra y las que gobiernan el movimiento de los cuerpos 
+        celestes son las mismas. Es, a menudo, calificado como el científico más grande de todos los tiempos, y su obra como la culminación 
+        de la revolución científica.
+        <br>
+        <br>
+        El matemático y físico Joseph Louis Lagrange (1736-1813) dijo que «Newton fue el más grande genio que ha existido y también 
+        el más afortunado, dado que solo una vez se puede encontrar el sistema que rige el mundo».
+    </p>
+    <hr>
+    <p id="primeras_contribuciones">
+        <h2>Primeras contribuciones</h2>
+        Desde finales de 1664 trabajó intensamente en diferentes problemas matemáticos. Abordó entonces el teorema del binomio, a partir 
+        de los trabajos de John Wallis, y desarrolló un método propio denominado cálculo de fluxiones. Poco después regresó a la granja 
+        familiar a causa de una epidemia de peste bubónica.
+        <br>
+        <br>
+        Retirado con su familia entre 1665 y 1666, conoció un período muy intenso de descubrimientos, entre los que destaca la ley 
+        del inverso del cuadrado de la distancia en la gravitación, su desarrollo de las bases de la mecánica clásica, la formalización 
+        del método de fluxiones y la generalización del teorema del binomio, poniendo además de manifiesto la naturaleza física de los 
+        colores. Sin embargo, guardó silencio durante mucho tiempo sobre sus descubrimientos ante el temor a las críticas y al robo de 
+        sus ideas. En 1667 reanudó sus estudios en la Universidad de Cambridge.
+    </p>
+    <hr>
+    <p id="desarrollo_del_calculo">
+        <h2>
+            Desarrollo del cálculo
+        </h2>
+        De 1667 a 1670 emprendió investigaciones sobre óptica y fue elegido fellow del Trinity College. En 1669, su mentor, Isaac Barrow, renunció a su Cátedra Lucasiana de 
+        matemática, puesto en el que Newton le sucedería hasta 1696. El mismo año envió a John Collins, por medio de Barrow, su Analysis per aequationes número terminorum infinitos. 
+        Para Newton, este manuscrito representa la introducción a un potente método general, que desarrollaría más tarde: su cálculo diferencial e integral.
+        <br>
+        <br>
+        Newton había descubierto los principios de su cálculo diferencial e integral hacia 1665-1666 y, durante el decenio siguiente, elaboró al menos tres enfoques 
+        diferentes de su nuevo
+        análisis.
+        <br>
+        <br>
+        Newton y Leibniz protagonizaron una agria polémica sobre la autoría del desarrollo de esta rama de la matemática. Los historiadores de la ciencia consideran que ambos 
+        desarrollaron el cálculo independientemente, si bien la notación de Leibniz era mejor y la formulación de Newton se aplicaba mejor a problemas prácticos. La polémica 
+        dividió aún más a los matemáticos británicos y continentales. Sin embargo esta separación no fue tan profunda como para que Newton y Leibniz dejaran de intercambiar resultados.
+        <br>
+        <br>
+        Newton abordó el desarrollo del cálculo a partir de la geometría analítica desarrollando un enfoque geométrico y analítico de las derivadas matemáticas aplicadas sobre 
+        curvas definidas a través de ecuaciones. Newton también buscaba cómo cuadrar distintas curvas, y la relación entre la cuadratura y la teoría de tangentes. Después de los 
+        estudios de Roberval, Newton se percató de que el método de tangentes podía utilizarse para obtener las velocidades instantáneas de una trayectoria conocida. En sus 
+        primeras investigaciones Newton lidia únicamente con problemas geométricos, como encontrar tangentes, curvaturas y áreas utilizando como base matemática la geometría 
+        analítica de Descartes. No obstante, con el afán de separar su teoría de la de Descartes, comenzó a trabajar únicamente con las ecuaciones y sus variables sin necesidad 
+        de recurrir al sistema cartesiano.
+        <br>
+        <br>
+        Después de 1666 Newton abandonó sus trabajos matemáticos, y se sintió cada vez más interesado por el estudio de la naturaleza y la creación de sus Principia.
+    </p>
+    <hr>
+    <p id="trabajos_sobre_la_luz">
+        <h2>
+            Trabajos sobre la luz
+        </h2>
+        Entre 1670 y 1672 trabajó intensamente en problemas relacionados con la óptica y la naturaleza de la luz. Newton demostró que la luz blanca estaba formada por una banda
+         de colores (rojo, anaranjado, amarillo, verde, cian, azul y violeta) que podían separarse por medio de un prisma. Como consecuencia de estos trabajos concluyó que 
+         cualquier telescopio refractor sufriría de un tipo de aberración conocida en la actualidad como aberración cromática, que consiste en la dispersión de la luz en 
+         diferentes colores al atravesar una lente. Para evitar este problema inventó un telescopio reflector (conocido como telescopio newtoniano).
+        <br>
+        <br>
+        Sus experimentos sobre la naturaleza de la luz le llevaron a formular su teoría general sobre la misma, que, según él, está formada por corpúsculos y se propaga en línea recta
+        y no por medio de ondas. El libro en que expuso esta teoría fue severamente criticado por la mayor parte de sus contemporáneos, entre ellos Hooke (1635-1703) y Huygens, quienes
+        sostenían ideas diferentes defendiendo una naturaleza ondulatoria. Estas críticas provocaron su recelo por las publicaciones, por lo que se retiró a la soledad de su estudio en 
+        Cambridge.
+        <br>
+        <br>
+        En 1704, Newton escribió su obra más importante sobre óptica, Opticks, en la que exponía sus teorías anteriores y la naturaleza corpuscular de la luz, así como un 
+        estudio detallado sobre fenómenos como la refracción, la reflexión y la dispersión de la luz.
+        <br>
+        <br>
+        Aunque sus ideas acerca de la naturaleza corpuscular de la luz pronto fueron desacreditadas en favor de la teoría ondulatoria, los científicos posteriores llegaron a 
+        la conclusión, gracias a los trabajos de Max Planck y Albert Einstein, de que la luz tiene una naturaleza dual: es onda y corpúsculo al mismo tiempo. Esta es la base en
+         la cual se apoya toda la mecánica cuántica.
+            
+    </p>
+    <hr>
+    <p id="actuacion_publica">
+        <h2>
+            Actuación pública
+        </h2>
+        En 1687 defendió los derechos de la Universidad de Cambridge contra el impopular rey Jacobo II, que intentó transformar la universidad en una institución católica. 
+        Como resultado de la eficacia que demostró en esa ocasión fue elegido miembro del Parlamento en 1689, cuando el rey fue destronado y obligado a exiliarse. Mantuvo 
+        su escaño durante varios años sin mostrarse muy activo durante los debates. Durante este tiempo prosiguió sus trabajos de química. Se dedicó también al estudio de 
+        la hidrostática y de la hidrodinámica, además de construir telescopios.
+        <br>
+        <br>
+        Después de haber sido profesor durante cerca de treinta años, Newton abandonó su puesto para aceptar la responsabilidad de Director de la Moneda en 1696. Durante 
+        este periodo fue un incansable perseguidor de falsificadores, a los que enviaba a la horca, y propuso por primera vez el uso del oro como patrón monetario. Durante 
+        los últimos treinta años de su vida, abandonó prácticamente toda actividad científica y se consagró progresivamente a los estudios religiosos. Fue elegido presidente
+         de la Royal Society en 1703 y reelegido cada año hasta su muerte. En 1705 fue nombrado caballero por la reina Ana, como recompensa a los servicios prestados a Inglaterra. 
+         Aún perteneciendo al Gobierno y siendo por ello un hombre rico, hacia 1721 acabó perdiendo 20 000 libras debido a la burbuja de los mares del Sur, ante lo que diría que 
+         «puedo predecir el movimiento de los cuerpos celestes, pero no la locura de las gentes».
+    </p>
+    <hr>
+    <p id="ultimos_anios">
+        <h2>Últimos años</h2>
+        Los últimos años de su vida se vieron ensombrecidos por la desgraciada controversia, de envergadura internacional, con Leibniz a propósito de la prioridad de la 
+        invención del nuevo análisis. Acusaciones mutuas de plagio, secretos disimulados en criptogramas, cartas anónimas, tratados inéditos, afirmaciones a menudo subjetivas 
+        de amigos y partidarios de los dos gigantes enfrentados, celos manifiestos y esfuerzos desplegados por los conciliadores para aproximar a los clanes adversos, solo 
+        terminaron con la muerte de Leibniz en 1716.
+        <br>
+        <br>
+        Newton fue respetado durante toda su vida como ningún otro científico, y prueba de ello fueron los diversos cargos con que se le honró: en 1689 fue elegido miembro del 
+        Parlamento, en 1696 se le encargó la custodia de la Casa de la Moneda, en 1703 se le nombró presidente de la Royal Society y finalmente en 1705 recibió el título de sir
+         de manos de la reina Ana.
+         <br>
+         <br>
+        Padeció durante su vejez diversos problemas renales, incluyendo atroces cólicos nefríticos, sufriendo uno de los cuales murió —tras muchas horas de delirio— la noche del 
+        31 de marzo de 1727 (calendario gregoriano). Sus restos fueron ubicados en la abadía de Westminster junto a otros hombres de Inglaterra.
+        
+        <div class="frase_importante"> 
+        <b>No sé cómo puedo ser visto por el mundo, pero en mi opinión, me he comportado como un niño que juega al borde del mar, y que se divierte buscando de cuando en cuando una 
+            piedra más pulida y una concha más bonita de lo normal, mientras que el gran océano de la verdad se exponía ante mí completamente desconocido.</b>
+        </div>
+        La gran obra de Newton culminó la revolución científica iniciada por Nicolás Copérnico (1473-1543) e inauguró un período de confianza sin límites en la razón, extensivo a 
+        todos los campos del conocimiento.
+        
+    </p>
+  </main>
+  
+</div>
+  <!-- Footer Start -->
+  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Contact</h4> 
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                        <a href="">Home</a>
+                        <a href="">Cookies</a>
+                        <a href="">Help</a>
+                        <a href="">FQAs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Footer End -->
+</body>
+</html>

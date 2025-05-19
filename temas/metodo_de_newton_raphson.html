@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Método de Newton-Raphson</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <link href="../img/favicon.ico" rel="icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+  <style>
+    .container {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+      padding: 0 1rem;
+    }
+    aside {
+      position: sticky;
+      top: 80px;
+      flex: 0 0 220px;
+      background-color: #f8f9fa;
+      border-radius: 0.375rem;
+      padding: 1rem;
+      height: fit-content;
+      box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+    }
+    main { flex: 1; }
+    aside ul { padding-left: 0; list-style: none; }
+    aside ul li { padding: 0.4rem 0; border-bottom: 1px solid #ddd; }
+    aside ul li:last-child { border-bottom: none; }
+    @media (max-width: 768px) {
+      .container { flex-direction: column; }
+      aside {
+        position: relative;
+        top: auto;
+        flex: none;
+        width: 100%;
+        margin-bottom: 1rem;
+        box-shadow: none;
+        background-color: transparent;
+        padding: 0;
+      }
+    }
+    .frase_importante {
+      background-color: rgba(128,128,128,0.2);
+      border-left: 5px solid rgba(0,0,0,0.2);
+      box-shadow: -5px 0 10px rgba(0,0,0,0.1);
+      padding: 15px 20px;
+      margin: 30px 0;
+      font-style: italic;
+      font-size: 1.2rem;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+    }
+    img { max-width: 100%; height: auto; margin: 1rem 0; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+  </a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="../index.html" class="nav-item nav-link">Inicio</a>
+          <a href="../temas.html" class="nav-item nav-link active">Temas</a>
+          <a href="../autores.html" class="nav-item nav-link">Autores</a>
+      </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container">
+  <aside>
+    <h3>Índice de contenido</h3>
+    <ul>
+      <li><a href="#nombre">1. Nombre del método</a></li>
+      <li><a href="#fundamento">2. Fundamento teórico ampliado</a></li>
+      <li><a href="#error">3. Término de error y convergencia</a></li>
+      <li><a href="#pasos">4. Pasos detallados del algoritmo</a></li>
+      <li><a href="#ejemplo">5. Ejemplo resuelto</a></li>
+      <li><a href="#codigo">6. Código en Python y gráfica</a></li>
+      <li><a href="#animacion">7. Animación JS</a></li>
+      <li><a href="#video">8. Video Explicativo</a></li>
+      <li><a href="#referencias">9. Referencias</a></li>
+      <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <div class="title-with-image">
+      <h1 id="nombre">1. Método de Newton-Raphson</h1>
+      <b>Conoce su origen <i><a href="../autores/newton_rhapson.html">Isaac Newton & Joseph Raphson</a></i></b>
+    </div>
+
+    <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
+    <p>El método de Newton-Raphson aproxima raíces de una función diferenciable f(x) mediante iteraciones usando la tangente en el punto actual x<sub>n</sub>. La fórmula básica es:</p>
+    <div class="frase_importante">
+      x<sub>n+1</sub> = x<sub>n</sub> - f(x<sub>n</sub>) / f'(x<sub>n</sub>)
+    </div>
+    <p>Parte de la expansión en serie de Taylor de f alrededor de x<sub>n</sub> y desprecia términos de orden superior.</p>
+
+    <h2 id="error">3. Término de error y convergencia</h2>
+    <p>El método converge cuadráticamente si f'(x*)≠0 y la semilla inicial está suficientemente cerca de la raíz x*. El error satisface:</p>
+    <div class="frase_importante">
+      |x<sub>n+1</sub> - x*| ≈ C · |x<sub>n</sub> - x*|<sup>2</sup>,  con  C = |f''(x*) / (2 f'(x*))|
+    </div>
+
+    <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
+    <ol>
+      <li>Elegir función f(x) y derivada f'(x).</li>
+      <li>Seleccionar estimación inicial x<sub>0</sub> cercana a la raíz.</li>
+      <li>Calcular x<sub>n+1</sub> = x<sub>n</sub> - f(x<sub>n</sub>)/f'(x<sub>n</sub>).</li>
+      <li>Verificar criterio de parada: |x<sub>n+1</sub> - x<sub>n</sub>|< tol o |f(x<sub>n+1</sub>)|< tol.</li>
+      <li>Repetir hasta cumplir tolerancia o iteraciones máximas.</li>
+    </ol>
+
+    <h2 id="ejemplo">5. Ejemplo resuelto</h2>
+    <p>Encontrar √2 resolviendo f(x)=x<sup>2</sup>-2 con x<sub>0</sub>=1.5 y tol=1e-3.</p>
+    <ul>
+      <li>Iteración 1: x<sub>1</sub>=1.5 - (0.25)/3 = 1.4167</li>
+      <li>Iteración 2: x<sub>2</sub>=1.4167 - (0.0069)/2.8333 = 1.4142</li>
+      <li>Iteración 3: x<sub>3</sub>=1.4142 - (6·10<sup>-6</sup>)/2.8284 = 1.4142 (tol)</li>
+      <li>… raíz aproximada: x≈1.4142</li>
+    </ul>
+
+    <h2 id="codigo">6. Código en Python y gráfica</h2>
+    <pre><code>import math
+import numpy as np
+import matplotlib.pyplot as plt
+
+def newton_raphson(f, df, x0, tol=1e-5, max_iter=50):
+    xs = [x0]
+    for i in range(max_iter):
+        x1 = xs[-1] - f(xs[-1]) / df(xs[-1])
+        xs.append(x1)
+        if abs(x1 - xs[-2]) < tol:
+            break
+    return xs
+
+# Ejemplo f(x)=x^2-2, df(x)=2x
+f = lambda x: x**2 - 2
+df = lambda x: 2*x
+its = newton_raphson(f, df, 1.5, tol=1e-3)
+errs = [abs(x - math.sqrt(2)) for x in its]
+
+plt.figure()
+plt.semilogy(range(len(errs)), errs)
+plt.xlabel('Iteración')
+plt.ylabel('Error absoluto (log)')
+plt.title('Convergencia de Newton-Raphson')
+plt.show()</code></pre>
+
+    <h2 id="animacion">7. Animación JS</h2>
+    <p>Representación de la convergencia cuadrática:</p>
+    <canvas id="newtonChart" width="400" height="200"></canvas>
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        function newtonData(x0, iter){
+          const f = x=>x*x-2, df=x=>2*x;
+          let xs=[x0], errs=[];
+          for(let i=1;i<=iter;i++){
+            let x1 = xs[i-1] - f(xs[i-1])/df(xs[i-1]);
+            xs.push(x1);
+            errs.push(Math.abs(x1 - Math.SQRT2));
+          }
+          return errs;
+        }
+        const errsN = newtonData(1.5,10);
+        const ctxN = document.getElementById('newtonChart').getContext('2d');
+        new Chart(ctxN, {
+          type:'line',
+          data:{ labels: errsN.map((_,i)=>i+1), datasets:[{ label:'Error', data:errsN, fill:false, borderWidth:2 }] },
+          options:{ scales:{ x:{ title:{ display:true, text:'Iteración' }}, y:{ title:{ display:true, text:'|x_n - √2|' }, type:'logarithmic' } }}
+        });
+      });
+    </script>
+
+    <h2 id="video">8. Video Explicativo</h2>8. Video Explicativo</h2>
+    <p><a href="https://www.youtube.com/watch?v=Ey9PSHUZn7w" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+
+    <h2 id="referencias">9. Referencias</h2>
+    <ul>
+      <li>Burden, R. L., &amp; Faires, J. D. (2011). <em>Numerical Analysis</em> (9ª ed.). Brooks/Cole.</li>
+      <li>Atkinson, K. (1989). <em>An Introduction to Numerical Analysis</em>. Wiley.</li>
+      <li>Wikipedia contributors. (2025, 12 de marzo). Newton's method. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Newton%27s_method</li>
+      <li>Chapra, S. C., &amp; Canale, R. P. (2015). <em>Numerical Methods for Engineers</em> (7ª ed.). McGraw-Hill Education.</li>
+    </ul>
+
+    <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
+    <p>Newton-Raphson ofrece convergencia cuadrática rápida cuando las hipótesis se cumplen, pero requiere cómputo de la derivada y puede divergir si la semilla está lejos de la raíz o f'≈0.</p>
+    <p>Es ampliamente usado en ingeniería y ciencias para solucionar ecuaciones no lineales con alta precisión y eficiencia.</p>
+  </main>
+</div>
+  <!-- Footer Start -->
+  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Contact</h4> 
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                        <a href="">Home</a>
+                        <a href="">Cookies</a>
+                        <a href="">Help</a>
+                        <a href="">FQAs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Footer End -->
+</body>
+</html>

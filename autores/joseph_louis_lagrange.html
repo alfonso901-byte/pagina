@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Metodos Numericos</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="../img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../css/style.css" rel="stylesheet">
+
+    <style>
+      /* Contenedor flex para aside y main */
+      .container {
+        display: flex;
+        gap: 2rem; /* espacio entre aside y main */
+        margin-top: 1rem;
+        padding: 0 1rem;
+      }
+
+      /* Aside pequeño sticky */
+      aside {
+        position: sticky;
+        top: 80px; /* para que quede debajo del navbar (ajusta si tu navbar cambia de alto) */
+        flex: 0 0 220px; /* ancho fijo, no crece ni se encoge */
+        background-color: #f8f9fa;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        height: fit-content; /* que tome el alto de su contenido */
+        box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+      }
+
+      /* Main toma todo lo que queda */
+      main {
+        flex: 1;
+      }
+
+      /* Opcional: lista aside sin bullets */
+      aside ul {
+        padding-left: 0;
+        list-style: none;
+      }
+
+      aside ul li {
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #ddd;
+      }
+
+      aside ul li:last-child {
+        border-bottom: none;
+      }
+
+      /* Responsive: en pantallas chicas, aside se pone arriba */
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+        }
+
+        aside {
+          position: relative;
+          top: auto;
+          flex: none;
+          width: 100%;
+          margin-bottom: 1rem;
+          box-shadow: none;
+          background-color: transparent;
+          padding: 0;
+        }
+
+        aside ul li {
+          border: none;
+          padding: 0.25rem 0;
+        }
+      }
+      .title-with-image {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* espacio entre el título y la imagen */
+  margin-bottom: 1rem;
+}
+
+.autor-img {
+  width: 150px; /* tamaño de la imagen, puedes ajustar */
+  height: 200px;
+  object-fit: cover; /* para que la imagen mantenga proporción y no se distorsione */
+  border-radius: 30%; /* para hacerla circular */
+  border: 2px solid #007bff; /* borde azul, opcional */
+}
+.frase_importante{
+    background-color: rgba(128, 128, 128, 0.2); /* gris translúcido */
+    border-left: 5px solid rgba(0, 0, 0, 0.2);  /* borde izquierdo */
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1); /* sombra hacia la derecha */
+    padding: 15px 20px;
+    margin: 30px 0;
+    font-style: italic;
+    font-size: 1.2rem;
+}
+    </style>
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+  </a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="../index.html" class="nav-item nav-link">Inicio</a>
+          <a href="../temas.html" class="nav-item nav-link">Temas</a>
+          <a href="../autores.html" class="nav-item nav-link active">Autores</a>
+      </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container">
+  <aside>
+    <h3>Contenido</h3>
+    <ul>
+      <li><a href="#biografia">Biografia</a></li>
+      <li><a href="#contribuciones" >Contribuciones</a></li>
+      <li><a href="#historia">Historia</a></li>
+      <ol><a href="#primeros_anios">Primeros Años</a></ol>
+      <ol><a href="#calculo">Cálculo de Variaciones</a></ol>
+      <ol><a href="#berlin">Berlin</a></ol>
+      <ol><a href="#paris">Paris</a></ol>
+      <ol><a href="#escuela_normal">Escuela Normal</a></ol>
+      <ol><a href="#ultimos_anios">Ultimos Años</a></ol>
+
+    </ul>
+  </aside>
+  <main>
+    <div class="title-with-image">
+      <h1>Joseph-Louis Lagrange</h1>
+      <img src="../img/lagrange.jpg" alt="Autor del tema" class="autor-img" />
+    </div>
+    
+    <p id="biografia">
+        <h2>Biografia</h2>
+        Joseph-Louis Lagrange (nacido Giuseppe Luigi Lagrangia o Giuseppe Ludovico De la Grange Tournier; 25 de enero de 1736 - 10 de abril de 1813), 
+        también conocido como Giuseppe Luigi Lagrange o Lagrangia, fue un matemático, físico y astrónomo italiano, nacionalizado francés más tarde. 
+        Realizó importantes contribuciones en los campos del análisis, la teoría de números y la mecánica clásica y celeste.
+        <br>
+        <br>
+        En 1766, por recomendación de Leonhard Euler y d'Alembert, Lagrange sucedió a Euler como director de matemáticas en la Academia Prusiana 
+        de Ciencias de Berlín (Prusia), donde permaneció más de veinte años, produciendo numerosos volúmenes de obras y ganando varios premios de 
+        la Academia Francesa de Ciencias. El tratado de Lagrange sobre mecánica analítica (Mécanique analytique, 4. ed., 2 vols. París: 
+        Gauthier-Villars et fils, 1788-89), escrito en Berlín y publicado por primera vez en 1788, ofreció el tratamiento más completo de la mecánica 
+        clásica desde Isaac Newton y constituyó una base para el desarrollo de la física matemática en el siglo XIX.
+        <br>
+        <br>
+        En 1787, a la edad de 51 años, se trasladó de Berlín a París y se convirtió en miembro de la Academia Francesa de Ciencias. Permaneció en 
+        Francia hasta el final de su vida. Participó decisivamente en el proceso de decimalización de la Francia revolucionaria, fue el primer 
+        profesor de análisis de la École Polytechnique tras su inauguración en 1794, miembro fundador de la Oficina de Longitudes y senador en 1799.
+    </p>
+    <hr>
+    <p id="contribuciones">
+        <h2>Contribuciones Cientificas</h2>
+        Lagrange fue uno de los creadores del cálculo de variaciones, derivando las ecuaciones de Euler-Lagrange para los extremos de las funciones. 
+        Amplió el método para incluir posibles restricciones, llegando al método de los multiplicadores de Lagrange. Lagrange inventó el método de 
+        resolución de ecuaciones diferenciales conocido como variación de parámetros, aplicó el cálculo diferencial a la teoría de probabilidades y 
+        trabajó en soluciones para ecuaciones algebraicas. Demostró que todo número natural es una suma de cuatro cuadrados. Su tratado Theorie des 
+        fonctions analytiques sentó algunas de las bases de la teoría de grupos, anticipándose a Galois. En cálculo, Lagrange desarrolló un enfoque 
+        novedoso de la interpolación y el teorema de Taylor. Estudió el problema de los tres cuerpos para la Tierra, el Sol y la Luna (1764) y el 
+        movimiento de los satélites de Júpiter (1766), y en 1772 encontró las soluciones de casos especiales a este problema que dan lugar a lo que 
+        hoy se conoce como puntos de Lagrange. Lagrange es conocido sobre todo por haber transformado la mecánica newtoniana en una rama del análisis, 
+        la mecánica lagrangiana. Presentó los «principios» mecánicos como simples resultados del cálculo variacional.
+    </p>
+    <hr>
+    <p id="historia">
+      <h2>Historia</h2>
+      <h3 id="primeros_anios">Primeros años</h3>
+      Primogénito de once hijos como Giuseppe Lodovico Lagrangia, Lagrange era de ascendencia italiana y francesa. Su bisabuelo paterno era un 
+      capitán de caballería francés, cuya familia era originaria de la región francesa de Tours. Tras servir a las órdenes de Luis XIV, había 
+      entrado al servicio de Carlos Manuel II, duque de Saboya, y se había casado con una Conti de la noble familia romana. El padre de 
+      Lagrange, Giuseppe Francesco Lodovico, era doctor en Derecho por la Universidad de Turín, mientras que su madre era hija única de un rico 
+      médico de Cambiano, en la campiña de Turín Fue educado como católico romano (aunque más tarde se hizo agnóstico).
+      <br>
+      <br>
+      Su padre, que tenía a su cargo el arcón militar del rey y era tesorero de la Oficina de Obras Públicas y Fortificaciones de Turín, debería 
+      haber mantenido una buena posición social y riqueza, pero antes de que su hijo creciera había perdido la mayor parte de sus propiedades en 
+      especulaciones. Su padre planeó para Lagrange una carrera de abogado, que parece haber aceptado de buen grado. Estudió en la Universidad 
+      de Turín y su asignatura favorita era el latín clásico. Al principio, las matemáticas no le entusiasmaban y la geometría griega le parecía 
+      aburrida.
+      <br>
+      <br>
+      Hasta los diecisiete años no mostró ningún gusto por las matemáticas, interés que despertó en él un artículo de Edmond Halley de 1693 
+      que encontró por casualidad. Al cabo de un año de trabajo incesante, ya era un matemático consumado. Carlos Manuel III nombró a Lagrange 
+      «Sostituto del Maestro di Matematica» (profesor adjunto de matemáticas) en la Real Academia Militar de Teoría y Práctica de la Artillería 
+      en 1755, donde impartió cursos de cálculo y mecánica para apoyar la temprana adopción por parte del ejército piamontés de las teorías 
+      balísticas de Benjamin Robins y Leonhard Euler. Como tal, Lagrange fue el primero en enseñar cálculo en una escuela de ingeniería. Según 
+      Alessandro Papacino D'Antoni, comandante militar de la academia y célebre teórico de la artillería, Lagrange resultó ser, por desgracia, 
+      un profesor problemático por su estilo de enseñanza olvidadizo, su razonamiento abstracto y su impaciencia con las aplicaciones de la 
+      artillería y la ingeniería de fortificaciones. En esta academia, uno de sus alumnos fue François Daviet.
+      <br>
+      <br>
+      <h3 id="calculo">Cálculo de variaciones</h3>
+      Lagrange es uno de los fundadores del cálculo de variaciones. A partir de 1754, trabajó en el problema de la tautocrona, descubriendo un 
+      método de maximización y minimización de funciones similar a la búsqueda de los extremos de las funciones. Lagrange escribió varias cartas
+      a Leonhard Euler entre 1754 y 1756 describiendo sus resultados. Esbozó su «algoritmo δ», que dio lugar a las ecuaciones de Euler-Lagrange 
+      del cálculo variacional y simplificó considerablemente el análisis anterior de Euler. Lagrange también aplicó sus ideas a problemas de 
+      mecánica clásica, generalizando los resultados de Euler y Maupertuis.
+      <br>
+      <br>
+      Euler quedó muy impresionado con los resultados de Lagrange. Se ha afirmado que «con la cortesía que le caracterizaba, retuvo un artículo 
+      que había escrito anteriormente, que cubría algunos de los mismos temas, para que el joven italiano pudiera tener tiempo de completar su 
+      trabajo y reclamar la invención indiscutible del nuevo cálculo»; sin embargo, esta opinión caballeresca ha sido discutida. Lagrange 
+      publicó su método en dos memorias de la Sociedad de Turín en 1762 y 1773.
+      <h3 id="berlin">Berlin</h3>
+      Ya en 1756, Euler y Maupertuis, viendo el talento matemático de Lagrange, intentaron persuadirle para que fuera a Berlín, pero éste rechazó 
+      tímidamente la oferta. En 1765, d'Alembert intercedió por Lagrange ante Federico de Prusia y le pidió por carta que abandonara Turín para 
+      ocupar un puesto mucho más prestigioso en Berlín. Lagrange rechazó de nuevo la oferta, respondiendo que:
+      <div class="frase_importante">
+        Me parece que Berlín no me convendría en absoluto mientras M. Euler esté allí.
+      </div>
+      En 1766, después de que Euler se marchara de Berlín a San Petersburgo, el propio Federico escribió a Lagrange expresándole el deseo del 
+      «mayor rey de Europa» de tener al «mayor matemático de Europa» residiendo en su corte. Lagrange fue finalmente convencido. Pasó los veinte 
+      años siguientes en Prusia, donde produjo una larga serie de trabajos publicados en las transacciones de Berlín y Turín, y compuso su obra 
+      monumental, la Mécanique analytique. En 1767 contrajo matrimonio con su prima Vittoria Conti.
+      <br>
+      <br>
+      Lagrange era uno de los favoritos del rey, que le sermoneaba con frecuencia sobre las ventajas de una perfecta regularidad de vida. La lección 
+      fue aceptada, y Lagrange estudió su mente y su cuerpo como si fueran máquinas, y experimentó para encontrar la cantidad exacta de trabajo que 
+      podía realizar antes de agotarse. Cada noche se fijaba una tarea definida para el día siguiente, y al terminar cualquier rama de un tema 
+      escribía un breve análisis para ver qué puntos de las demostraciones o de la materia eran susceptibles de mejora. Planificaba cuidadosamente 
+      sus trabajos antes de escribirlos, normalmente sin un solo borrón o corrección.
+      <br>
+      <br>
+      No obstante, durante sus años en Berlín, la salud de Lagrange era bastante precaria, y la de su esposa Vittoria aún peor. Ella murió en 1783 
+      tras años de enfermedad y Lagrange se sintió muy deprimido. En 1786 murió Federico II, y el clima de Berlín se volvió difícil para Lagrange.
+      <h3 id="paris">Paris</h3>
+      En 1786, tras la muerte de Federico, Lagrange recibió invitaciones similares de Estados como España y Nápoles, y aceptó la oferta de Luis XVI 
+      de trasladarse a París. En Francia fue recibido con todos los honores y se prepararon apartamentos especiales en el Louvre para su recepción, 
+      y se convirtió en miembro de la Academia Francesa de Ciencias, que más tarde pasó a formar parte del Institut de France (1795). Al principio 
+      de su residencia en París, sufrió un ataque de melancolía, e incluso la copia impresa de su Mécanique, en la que había trabajado durante un 
+      cuarto de siglo, permaneció durante más de dos años sin abrir en su escritorio. La curiosidad por conocer los resultados de la Revolución 
+      Francesa fue lo primero que le sacó de su letargo, curiosidad que pronto se convirtió en alarma a medida que la revolución se desarrollaba.
+      <br>
+      <br>
+      Fue por la misma época, 1792, cuando la inexplicable tristeza de su vida y su timidez despertaron la compasión de Renée-Françoise-Adélaïde Le 
+      Monnier, de 24 años, hija de su amigo, el astrónomo Pierre Charles Le Monnier. Renée-Françoise-Adélaïde Le Monnier, de 24 años, hija de su 
+      amigo, el astrónomo Pierre Charles Le Monnier, insiste en casarse con él y se convierte en su fiel esposa.
+      <br>
+      <br>
+      En septiembre de 1793 comienza el Terror. Gracias a la intervención de Antoine Lavoisier, que para entonces ya había sido expulsado de la 
+      academia junto con muchos otros académicos, Lagrange fue eximido específicamente por su nombre en el decreto de octubre de 1793 que ordenaba 
+      a todos los extranjeros abandonar Francia. El 4 de mayo de 1794, Lavoisier y otros 27 hacendados fueron detenidos y condenados a muerte y 
+      guillotinados la tarde siguiente al juicio. Lagrange comentó la muerte de Lavoisier:
+      <div class="frase_importante">
+        Bastó un instante para hacer caer esta cabeza y cien años no bastarán para producir algo semejante.
+      </div>
+      Aunque Lagrange había estado preparando su huida de Francia mientras aún había tiempo, nunca corrió peligro alguno; diferentes gobiernos 
+      revolucionarios (y, más tarde, Napoleón) le concedieron honores y distinciones. Esta suerte o seguridad puede deberse en cierta medida a 
+      la actitud vital que expresó muchos años antes: «Creo que, en general, uno de los primeros principios de todo hombre sabio es ajustarse 
+      estrictamente a las leyes del país en el que vive, incluso cuando no son razonables». En 1796, el comisario francés en Italia recibió 
+      la orden de ir a ver al padre de Lagrange y felicitarle por los logros de su hijo, que «había honrado a toda la humanidad con su genio, y 
+      que el Piamonte se había glorioso de haber producido» . Cabe añadir que Napoleón, cuando llegó al poder, alentó calurosamente los estudios 
+      científicos en Francia y fue un generoso benefactor de los mismos. Nombrado senador en 1799, fue el primer firmante del Sénatus-consulte que, 
+      en 1802, anexionó su patria, el Piamonte, a Francia. En consecuencia, adquirió la ciudadanía francesa. Los franceses afirmaron que era 
+      un matemático francés, pero los italianos siguieron reivindicándolo como italiano.
+      <h3 id="unidades_de_medida">
+        Unidades de Medida
+      </h3>
+      Lagrange participó en el desarrollo del sistema métrico decimal en la década de 1790. Se le ofreció la presidencia de la Comisión para la 
+      reforma de los pesos y medidas (la Commission des Poids et Mesures) cuando se disponía a escapar. Tras la muerte de Lavoisier en 1794, fue 
+      Lagrange en gran medida quien influyó en la elección de las unidades de metro y kilogramo con subdivisión decimal, por parte de la comisión 
+      de 1799. Lagrange fue también uno de los miembros fundadores del Bureau des Longitudes en 1795.
+      <h3 id="escuela_normal">
+        Escuela Normal
+      </h3>
+      En 1795, Lagrange fue nombrado titular de una cátedra de matemáticas en la recién creada École Normale, que sólo tuvo una corta existencia de 
+      cuatro meses. Sus conferencias allí fueron elementales; no contienen nada de importancia matemática, aunque sí proporcionan una breve visión 
+      histórica de su razón para proponer el undecimal o Base 11 como número base para el sistema reformado de pesos y medidas.: 23 Las conferencias 
+      se publicaron porque los profesores tenían que «comprometerse con los representantes del pueblo y entre ellos a no leer ni repetir de memoria» 
+      [«Les professeurs aux Écoles Normales ont pris, avec les Représentants du Peuple, et entr'eux l'engagement de ne point lire ou débiter de 
+      mémoire des discours écrits»: iii ]. Los discursos se ordenaron y taquigrafiaron para que los diputados pudieran ver cómo se desenvolvían 
+      los profesores. También se pensó que las conferencias publicadas interesarían a una parte significativa de la ciudadanía.
+      <h3 id="ultimos_anios">
+        Últimos años
+      </h3>
+      En 1810, Lagrange inició una revisión exhaustiva de la Mécanique analytique, pero sólo pudo completar aproximadamente dos tercios de la 
+      misma antes de su muerte en París en 1813, en el número 128 de la rue du Faubourg Saint-Honoré. Napoleón le condecoró con la Gran Cruz 
+      de la Orden Imperial de la Reunión dos días antes de su muerte. Fue enterrado ese mismo año en el Panteón de París. La traducción de la 
+      inscripción de su tumba es la siguiente:
+      <div class="frase_importante">
+        JOSEPH LOUIS LAGRANGE. Senador. Conde del Imperio. Gran Oficial de la Legión de Honor. Gran Cruz de la Orden Imperial de la Reunión. 
+        Miembro del Instituto y de la Oficina de Longitud. Nacido en Turín el 25 de enero de 1736. Falleció en París el 10 de abril de 1813.
+      </div>
+    </p>
+
+  </main>
+  
+</div>
+  <!-- Footer Start -->
+  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Contact</h4> 
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                        <a href="">Home</a>
+                        <a href="">Cookies</a>
+                        <a href="">Help</a>
+                        <a href="">FQAs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Footer End -->
+</body>
+</html>

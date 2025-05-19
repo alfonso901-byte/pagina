@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Metodos Numericos</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="../img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../css/style.css" rel="stylesheet">
+
+    <style>
+      /* Contenedor flex para aside y main */
+      .container {
+        display: flex;
+        gap: 2rem; /* espacio entre aside y main */
+        margin-top: 1rem;
+        padding: 0 1rem;
+      }
+
+      /* Aside pequeño sticky */
+      aside {
+        position: sticky;
+        top: 80px; /* para que quede debajo del navbar (ajusta si tu navbar cambia de alto) */
+        flex: 0 0 220px; /* ancho fijo, no crece ni se encoge */
+        background-color: #f8f9fa;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        height: fit-content; /* que tome el alto de su contenido */
+        box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+      }
+
+      /* Main toma todo lo que queda */
+      main {
+        flex: 1;
+      }
+
+      /* Opcional: lista aside sin bullets */
+      aside ul {
+        padding-left: 0;
+        list-style: none;
+      }
+
+      aside ul li {
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #ddd;
+      }
+
+      aside ul li:last-child {
+        border-bottom: none;
+      }
+
+      /* Responsive: en pantallas chicas, aside se pone arriba */
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+        }
+
+        aside {
+          position: relative;
+          top: auto;
+          flex: none;
+          width: 100%;
+          margin-bottom: 1rem;
+          box-shadow: none;
+          background-color: transparent;
+          padding: 0;
+        }
+
+        aside ul li {
+          border: none;
+          padding: 0.25rem 0;
+        }
+      }
+      .title-with-image {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* espacio entre el título y la imagen */
+  margin-bottom: 1rem;
+}
+
+.autor-img {
+  width: 150px; /* tamaño de la imagen, puedes ajustar */
+  height: 200px;
+  object-fit: cover; /* para que la imagen mantenga proporción y no se distorsione */
+  border-radius: 30%; /* para hacerla circular */
+  border: 2px solid #007bff; /* borde azul, opcional */
+}
+.frase_importante{
+    background-color: rgba(128, 128, 128, 0.2); /* gris translúcido */
+    border-left: 5px solid rgba(0, 0, 0, 0.2);  /* borde izquierdo */
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1); /* sombra hacia la derecha */
+    padding: 15px 20px;
+    margin: 30px 0;
+    font-style: italic;
+    font-size: 1.2rem;
+}
+    </style>
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+  </a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="../index.html" class="nav-item nav-link">Inicio</a>
+          <a href="../temas.html" class="nav-item nav-link">Temas</a>
+          <a href="../autores.html" class="nav-item nav-link active">Autores</a>
+      </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container">
+  <aside>
+    <h3>Contenido</h3>
+    <ul>
+      <li><a href="#biografia">Biografia</a></li>
+      <li><a href="#infancia" >Infancia</a></li>
+      <li><a href="#madurez">Madurez</a></li>
+      <li><a href="#vida_personal"> Vida Personal</a></li>
+      <li><a href="#creencias_religiosas"> Creencias Religiosas</a></li>
+      <li><a href="#contribuciones"> Contribuciones</a></li>
+      <li><a href="#magnetismo">Magnetismo</a></li>
+    </ul>
+  </aside>
+  <main>
+    <div class="title-with-image">
+      <h1>Carl Friedrich Gauss</h1>
+      <img src="../img/Carl_Friedrich.png" alt="Autor del tema" class="autor-img" />
+    </div>
+    
+    <p id="biografia">
+        <h2>Biografia</h2>
+        Johann Carl Friedrich Gauss(Braunschweig, 30 de abril de 1777-Gotinga, 23 de febrero de 1855) fue un matemático, astrónomo, geodesta 
+        y físico alemán que contribuyó significativamente en muchos ámbitos, incluida la teoría de números, el análisis matemático, la geometría 
+        diferencial, la estadística, el álgebra, la geodesia, el magnetismo y la óptica. Considerado ya en vida como Princeps Mathematicorum, 
+        príncipe de los matemáticos, Gauss ha tenido una influencia notable en muchos campos de las matemáticas y de la ciencia. Fue de 
+        los primeros en extender el concepto de divisibilidad a otros conjuntos además de los números enteros.
+        <br>
+        <br>
+        Gauss pronto fue reconocido como un niño prodigio, pese a provenir de una familia campesina de padres con poca cultura: 
+        su madre sabía leer, aunque no escribir; su padre sí, pero en cuanto a las matemáticas, no pasaba de la aritmética más elemental. 
+        De Carl Friedrich Gauss existen muchas anécdotas acerca de su asombrosa precocidad. Hizo sus primeros grandes descubrimientos en 
+        el bachillerato, siendo apenas un adolescente, y completó su magnum opus, Disquisitiones arithmeticae, a los veintiún años (1798), 
+        aunque la obra no se publicó hasta 1801. Constituye un trabajo fundamental como consolidación de la teoría de los números y ha moldeado 
+        esta área hasta los días presentes.
+    </p>
+    <hr>
+    <p id="infancia">
+        <h2>Infancia y Juventud</h2>
+        Johann Carl Friedrich Gauss nació en el Ducado de Brunswick, Alemania, en el seno de una familia humilde. La madre, Dorothea Gauss, 
+        de soltera Bentze, era lista, de temperamento alegre y carácter firme. Había trabajado de criada antes de convertirse en la segunda 
+        esposa de Gebhard Dietrich Gauss. Su hijo estuvo muy ligado a ella, durante toda la vida. El padre pasó por muchas profesiones; entre 
+        ellas, jardinero, carnicero, albañil, asistente de comerciante y cajero de una pequeña casa de seguros.​ Hay anécdotas según las cuales 
+        Carl Friedrich a los tres años ya corregía las cuentas de su padre.
+        <br>
+        <br>
+        Desde muy pequeño, sin que nadie lo ayudara, a una temprana edad, asimiló muy rápido la aritmética elemental. Él mismo dijo, más tarde, 
+        que aprendió a calcular antes que a hablar. En 1784, a los siete años de edad, ingresó a una de las escuelas de primeras letras de Brunswick 
+        donde daba clases un maestro rural llamado Büttner, quien corrigió rápidamente su lectura, le enseñó la gramática y la ortografía del 
+        alto alemán estándar (ya que la lengua nativa de Gauss era el bajo alemán), así como caligrafía, además de perfeccionar su talento matemático.
+        Lo animó a continuar el bachillerato, como consta en la carta que escribió para que lo admitieran en el gymnasium. Sin embargo, sus métodos
+        severos y una estricta disciplina intimidaban a un muchacho sensible.
+        <br>
+        <br>
+        Se cuenta la anécdota de que, a sus nueve años, durante la clase de aritmética, el maestro propuso el problema de sumar los números del 1 al 
+        100, con la mera finalidad de mantener entretenidos a los chicos. Gauss halló la respuesta correcta al cabo de poquísimo tiempo. Cuando
+        terminó la hora se comprobaron las soluciones y se vio que la de Gauss era correcta, mientras que no lo eran muchas de las de sus compañeros.
+        <br>
+        <br>
+        Él, en vez de sumar directamente, había observado que tomando los números por pares, el primero y el último, luego el segundo y el penúltimo, 
+        y así sucesivamente, se obtiene 100+1 = 99+2 = 98+3 = 101 …, es decir, lo que se le pedía era equivalente a multiplicar 101 x 50: el pequeño 
+        Gauss había descubierto la fórmula de la suma de los términos de una progresión aritmética.
+        <br>
+        <br>
+        A los catorce años, fue presentado ante el duque de Brunswick, quien decidió ayudarle económicamente, lo que le permitió continuar sus 
+        estudios en el Collegium Carolinum, una escuela de élite. Allí sorprendió a todos con su facilidad para las lenguas. Llegó a dominar el 
+        griego y el latín en muy poco tiempo. Estuvo tres años en el Collegium y, al salir, no tenía claro si quería dedicarse a las matemáticas
+        o a la filología. En esa época ya había descubierto su ley de los mínimos cuadrados, lo que indica el temprano interés de Gauss por la 
+        teoría de errores de observación y su distribución.
+        <br>
+        <br>
+        A los diecisiete años tuvo sus primeras ideas intuitivas sobre la posibilidad de otro tipo de geometría. A los dieciocho, Gauss se dio a 
+        la tarea de completar lo que, a su juicio, habían dejado sin concluir sus predecesores en materia de teoría de números. Así descubrió su
+        pasión por la aritmética, área en la que poco después tuvo sus primeros triunfos. Su gusto por la aritmética prevaleció por toda su vida, 
+        ya que para él «las matemáticas serían la reina de las ciencias y la teoría de números sería la reina de las matemáticas».
+    </p>
+    <hr>
+    <p id="madurez">
+        <h2>
+            Madurez
+        </h2>
+        En 1796 demostró que se puede dibujar un polígono regular de 17 lados con regla y compás.
+        <br>
+        <br>
+        Fue el primero en probar rigurosamente el teorema fundamental del álgebra (disertación para su tesis doctoral en 1799), aunque una prueba 
+        casi completa de dicho teorema había sido presentada por Jean Le Rond d'Alembert anteriormente. Profundizó en ecuaciones diferenciales y 
+        secciones cónicas.
+        <br>
+        <br>
+        En 1801 publicó el libro Disquisitiones arithmeticae, con seis secciones dedicadas a la teoría de números, dándole a esta rama de las 
+        matemáticas una estructura sistematizada. En la última sección del libro expone su tesis doctoral. Ese mismo año predijo la órbita de 
+        Ceres aproximando parámetros por mínimos cuadrados. La búsqueda del planetoide había despertado gran interés en el mundo científico.
+        <br>
+        <br>
+        En 1809 fue nombrado director del Observatorio de Gotinga, puesto en que se mantuvo el resto de su vida, a pesar de que no le faltaban 
+        ofertas interesantes. En este mismo año publicó Theoria motus corporum coelestium in sectionibus conicis Solem ambientium, describiendo 
+        cómo calcular la órbita de un planeta y cómo refinarla posteriormente. Estos métodos están actualmente un poco modificados, sobre todo 
+        porque se han adaptado al uso de grandes ordenadores, pero en lo esencial no se han podido mejorar.[6]​ Pero Gauss se dedicó a más actividades 
+        aparte de las matemáticas y la astronomía. Puso en marcha la agrimensura de Hannover, y en los primeros años se encargó él solo prácticamente 
+        de todo, del trabajo de campo y de la evaluación de los datos. Con Wilhelm Weber estudió la electricidad y el magnetismo, de donde se obtuvo, 
+        como producto secundario, el telégrafo.
+        <br>
+        <br>
+        En 1835 Carl Friedrich Gauss formularía la ley de Gauss, o teorema de Gauss. Esta ley sería una de sus contribuciones más importantes en 
+        el campo del electromagnetismo, y de ella derivarían dos de las cuatro ecuaciones de Maxwell. Muchos de sus resultados e ideas no las llegó 
+        a publicar en vida. Él tenía que estar muy seguro de que su trabajo estaba perfecto, guiándose por el lema "Pauca sed matura", es decir, "Poco, 
+        pero maduro". Gauss era partidario de la severidad de los "antiguos geómetras", es decir, quería, derivar las afirmaciones matemáticas a partir 
+        de un pequeño número de axiomas, como hizo Euclides. Su rigor y su estilo han influido en las matemáticas hasta nuestros días.
+    </p>
+    <hr>
+    <p id="vida_personal">
+        <h2>
+            Vida Personal
+        </h2>
+        Gauss se casó en 1805 con Johanna Elizabeth Rosina Osthoff. Con ella tuvo tres hijos: Carl Joseph (1806 - 1873), Wilhelmina (1808 - 1840) 
+        y Louis en septiembre de 1809. La madre falleció al mes siguiente como consecuencia del parto, y el niño en marzo de 1810. Gauss cayó en 
+        una depresión. Volvió a casarse en agosto de ese año con la mejor amiga de Johanna, Friederica Wilhelmine Waldeck, que falleció en 1831 
+        tras haber padecido de tuberculosis durante trece años. Con esta última tuvo tres hijos: el matemático Eugene (1811 - 1896), quien emigró 
+        a América y fundó un banco; Wilhelm August Carl Matthias (1813 - 1879), quien siguió a su hermano y también se hizo rico; y Henriette 
+        Wilhelmine Caroline Therese (1816 - 1864), la cual se ocupó del hogar tras la muerte de su madre y hasta el fallecimiento de Gauss, en 
+        Gotinga el 23 de febrero de 1855.
+    </p>
+    <hr>
+    <p id="creencias_religiosas">
+        <h2>
+            Creencias Religiosas
+        </h2>
+        Gauss era un luterano protestante, miembro de la iglesia evangélica luterana de St. Albans en Göttingen. Una posible evidencia de que 
+        Gauss creía en Dios proviene de su respuesta después de resolver un problema que lo había derrotado previamente: Finalmente, hace dos 
+        días, lo logré-no por mis duros esfuerzos, sino por la gracia del Señor. Uno de sus biógrafos, G. Waldo Dunnington, describió las opiniones 
+        religiosas de Gauss de la siguiente manera:
+        <div class="frase_importante">
+          Para él la ciencia era el medio de exponer el núcleo inmortal del alma humana. En los días de su plenitud, le proporcionó recreación y, 
+          por las perspectivas que le abrió, le dio consuelo. Hacia el final de su vida, le aportó confianza. El Dios de Gauss no era una fría y 
+          distante invención de la metafísica, ni una caricatura distorsionada de la teología amargada. Al hombre no se le concede esa plenitud de 
+          conocimiento que le permitiría sostener con arrogancia que su visión borrosa es la luz completa y que no puede haber ninguna otra que pueda 
+          informar de la verdad como lo hace la suya. Para Gauss, no se acepta al que murmura su credo, sino al que lo vive. Él creía que una vida 
+          dignamente gastada aquí en la tierra es la mejor, la única, preparación para el cielo. La religión no es una cuestión de literatura, sino 
+          de vida. La revelación de Dios es continua, no está contenida en tablas de piedra o pergaminos sagrados. Un libro es inspirado cuando inspira.
+          La idea inquebrantable de la continuidad personal después de la muerte, la firme creencia en un último regulador de las cosas, en un Dios
+          eterno, justo, omnisciente y omnipotente, constituían la base de su vida religiosa, que armonizaba completamente con su investigación 
+          científica.
+        </div>
+        Aparte de su correspondencia, no se conocen muchos detalles sobre el credo personal de Gauss. Muchos biógrafos de Gauss no se ponen de acuerdo
+        sobre su postura religiosa, ya que Bühler y otros lo consideran un deísta con opiniones muy poco ortodoxas, mientras que Dunnington
+        (admitiendo que Gauss no creía literalmente en todos los dogmas cristianos y que se desconoce lo que creía en la mayoría de las cuestiones 
+        doctrinales y confesionales) señala que era, al menos, un luterano nominal. escribe:
+        <div class="frase_importante">
+          No se sabe exactamente lo que creía Gauss en la mayoría de las cuestiones doctrinales y confesionales. No creía literalmente en todos los 
+          dogmas cristianos. Oficialmente era miembro de la iglesia de San Albano (evangélica luterana) en Gottingen. Todos los bautizos, entierros
+          y bodas de su familia tuvieron lugar allí. Tampoco se sabe si asistía regularmente a la iglesia o si contribuía económicamente. Un colega
+          de la facultad calificó a Gauss de deísta, pero hay buenas razones para creer que esta etiqueta no encajaba bien. Gauss poseía una fuerte
+          tolerancia religiosa que trasladaba a toda creencia originada en lo más profundo del corazón humano. Esta tolerancia no debe confundirse
+          con la indiferencia religiosa. Se interesó especialmente por el desarrollo religioso del género humano, sobre todo en su propio siglo.
+          Con respecto a las múltiples denominaciones, que con frecuencia no coincidían con sus puntos de vista, siempre subrayó que no está justificado
+          perturbar la fe de los demás, en la que encuentran consuelo para los sufrimientos terrenales y un refugio seguro en los días de infortunio
+        </div>
+        En relación con esto, existe un registro de una conversación entre Rudolf Wagner y Gauss, en la que discutieron el libro de William Whewell
+        De la pluralidad de mundos. En esta obra, Whewell había descartado la posibilidad de que existiera vida en otros planetas, basándose en 
+        argumentos teológicos, pero ésta era una postura con la que tanto Wagner como Gauss no estaban de acuerdo. Más tarde, Wagner explicó que 
+        no creía plenamente en la Biblia, aunque confesó que "envidiaba" a los que podían creer fácilmente. cita:
+         <div class="frase_importante">
+          Liga, creo que eres más creyente en la Biblia que yo. No lo soy, y, añadió, con la expresión de una gran emoción interior, eres mucho más 
+          feliz que yo. Debo decir que tantas veces, en épocas anteriores, cuando veía a gente de las clases bajas, simples trabajadores manuales 
+          que podían creer tan correctamente con sus corazones, siempre los envidiaba, y ahora, continuó, con voz suave y esa ingenua manera infantil
+          que le era peculiar, mientras una lágrima acudía a sus ojos, dime cómo se empieza esto...
+         </div>
+        Esto les llevó más tarde a discutir el tema de la fe, y en algunos otros comentarios religiosos, Gauss dijo que había sido más influenciado
+        por teólogos como el ministro luterano Paul Gerhardt que por Moisés. Otras influencias religiosas fueron Wilhelm Braubach, Johann Peter
+        Süssmilch y el Nuevo Testamento. Dos obras religiosas que Gauss leía con frecuencia eran la Seelenlehre de Braubach (Giessen, 1843) y la
+        Gottliche de Süssmilch (Ordnung gerettet A756); también dedicó bastante tiempo al Nuevo Testamento en el original griego.
+        <br>
+        <br>
+        Dunnington profundiza en las opiniones religiosas de Gauss escribiendo:
+        <div class="frase_importante">
+          La conciencia religiosa de Gauss se basaba en una insaciable sed de verdad y en un profundo sentimiento de justicia que se extendía tanto
+          a los bienes intelectuales como a los materiales. Concebía la vida espiritual en todo el universo como un gran sistema de ley penetrado 
+          por la verdad eterna, y de esta fuente obtuvo la firme confianza de que la muerte no acaba con todo.
+        </div>
+        Gauss declaró que creía firmemente en la vida después de la muerte, y veía la espiritualidad como algo esencialmente importante para el 
+        ser humano. Se le citó afirmando: "El mundo sería un sinsentido, toda la creación un absurdo sin la inmortalidad" 
+        <br>
+        <br>
+        Aunque no era practicante, Gauss defendía firmemente la tolerancia religiosa, creyendo "que no está justificado perturbar la creencia 
+        religiosa de otro, en la que encuentra consuelo para las penas terrenales en tiempos de problemas". Cuando su hijo Eugene anunció 
+        que quería ser misionero cristiano, Gauss lo aprobó, diciendo que, independientemente de los problemas dentro de las organizaciones 
+        religiosas, el trabajo misionero era una tarea "altamente honorable".
+    </p>
+    <hr>
+    <p id="contribuciones">
+      <h2>
+        Contribuciones
+      </h2>
+      El teorema de la divergencia de Gauss, de 1835 pero publicado en 1867, es fundamental para la teoría del potencial y la física. Coloca 
+      en un campo vectorial la integral del volumen para la divergencia de un campo vectorial en relación con la integral de superficie del 
+      campo vectorial alrededor de dicho volumen.
+    </p>
+    <hr>
+    <p id="magnetismo">
+      <h2>
+        Magnetismo
+      </h2>
+      En 1831, Gauss desarrolló una fructífera colaboración con el profesor de física Wilhelm Weber, que condujo a nuevos conocimientos 
+      sobre magnetismo (incluida la búsqueda de una representación de la unidad de magnetismo en términos de masa, carga y tiempo) y al 
+      descubrimiento de las leyes de circuito de Kirchhoff en electricidad. Fue durante este tiempo que formuló la ley de su homónimo.
+      Construyeron el primer telégrafo electromecánico en 1833, que conectaba el observatorio con el instituto de física de Gotinga.
+      Gauss ordenó la construcción de un observatorio magnético en el jardín del observatorio, y con Weber fundó el Magnetischer Verein 
+      (asociación magnética), que apoyó las mediciones del campo magnético de la Tierra en muchas regiones del mundo. Desarrolló un método
+      para medir la intensidad horizontal del campo magnético que estuvo en uso hasta bien entrada la segunda mitad del siglo XX, y elaboró
+      la teoría matemática para separar las fuentes internas y externas (magnetosféricas) del campo magnético de la Tierra.
+    </p>
+  </main>
+  
+</div>
+
+</body>
+</html>

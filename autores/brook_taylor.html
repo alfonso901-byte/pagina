@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Metodos Numericos</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="../img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="../css/style.css" rel="stylesheet">
+
+    <style>
+      /* Contenedor flex para aside y main */
+      .container {
+        display: flex;
+        gap: 2rem; /* espacio entre aside y main */
+        margin-top: 1rem;
+        padding: 0 1rem;
+      }
+
+      /* Aside pequeño sticky */
+      aside {
+        position: sticky;
+        top: 80px; /* para que quede debajo del navbar (ajusta si tu navbar cambia de alto) */
+        flex: 0 0 220px; /* ancho fijo, no crece ni se encoge */
+        background-color: #f8f9fa;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        height: fit-content; /* que tome el alto de su contenido */
+        box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+      }
+
+      /* Main toma todo lo que queda */
+      main {
+        flex: 1;
+      }
+
+      /* Opcional: lista aside sin bullets */
+      aside ul {
+        padding-left: 0;
+        list-style: none;
+      }
+
+      aside ul li {
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #ddd;
+      }
+
+      aside ul li:last-child {
+        border-bottom: none;
+      }
+
+      /* Responsive: en pantallas chicas, aside se pone arriba */
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+        }
+
+        aside {
+          position: relative;
+          top: auto;
+          flex: none;
+          width: 100%;
+          margin-bottom: 1rem;
+          box-shadow: none;
+          background-color: transparent;
+          padding: 0;
+        }
+
+        aside ul li {
+          border: none;
+          padding: 0.25rem 0;
+        }
+      }
+      .title-with-image {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* espacio entre el título y la imagen */
+  margin-bottom: 1rem;
+}
+
+.autor-img {
+  width: 150px; /* tamaño de la imagen, puedes ajustar */
+  height: 200px;
+  object-fit: cover; /* para que la imagen mantenga proporción y no se distorsione */
+  border-radius: 30%; /* para hacerla circular */
+  border: 2px solid #007bff; /* borde azul, opcional */
+}
+.frase_importante{
+    background-color: rgba(128, 128, 128, 0.2); /* gris translúcido */
+    border-left: 5px solid rgba(0, 0, 0, 0.2);  /* borde izquierdo */
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1); /* sombra hacia la derecha */
+    padding: 15px 20px;
+    margin: 30px 0;
+    font-style: italic;
+    font-size: 1.2rem;
+}
+    </style>
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+  </a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="../index.html" class="nav-item nav-link">Inicio</a>
+          <a href="../temas.html" class="nav-item nav-link">Temas</a>
+          <a href="../autores.html" class="nav-item nav-link active">Autores</a>
+      </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container">
+  <aside>
+    <h3>Contenido</h3>
+    <ul>
+      <li><a href="#biografia">Biografia</a></li>
+      <li><a href="#nacimiento" >Nacimiento</a></li>
+      <li><a href="#estudios">Estudios</a></li>
+      <li><a href="#matrimonio"> Matrimonio</a></li>
+      <li><a href="#ultimos_estudios"> Ultimos Estudios</a></li>
+    </ul>
+  </aside>
+  <main>
+    <div class="title-with-image">
+      <h1>Brook Taylor</h1>
+      <img src="../img/brook_taylor.png" alt="Autor del tema" class="autor-img" />
+    </div>
+    
+    <p id="biografia">
+        <h2>Biografia</h2>
+        Brook Taylor (Edmonton, Middlesex, Inglaterra, 18 de agosto de 1685 - Somerset House, Londres, 29 de diciembre de 1731) fue un 
+        matemático británico,​ autor del teorema que lleva su nombre y de destacadas contribuciones al desarrollo del cálculo diferencial.
+    </p>
+    <hr>
+    <p id="nacimiento">
+        <h2>Nacimiento</h2>
+        Hijo de John Taylor, del Parlamento de Bifrons, y de Olivia Tempest (hija de Sir Nicholas Tempest). Entró en la Universidad de St. John 
+        de Cambridge como estudiante en 1701. Se licenció en Derecho en 1709, y se doctoró en 1714. Estudió matemáticas con John Machin y John 
+        Keill. En 1708 encontró una importante solución del problema del "centro de oscilación" que, sin embargo, no se publicó hasta mayo de 1714 
+        ("Phylosophycal Transactions of the Royal Society" vol.28), lo que provocó una disputa sobre su autoría con Johann Bernoulli.
+        
+    </p>
+    <hr>
+    <p id="estudios">
+        <h2>
+            Estudios
+        </h2>
+        En su Methodus Incrementorum Directa et Inversa (Londres, 1715) desarrolló una nueva parte dentro de la investigación matemática, que hoy 
+        se llama cálculo de las diferencias finitas. Entre las distintas aplicaciones, se usó para determinar la forma del movimiento de una cuerda 
+        vibrante, reducido por él por vez primera con éxito a principios mecánicos. El mismo trabajo contenía la famosa fórmula conocida como Teorema 
+        de Taylor, cuya importancia solo se reconoció en 1772, cuando Lagrange se dio cuenta de su valor y lo definió como "el diferencial principal 
+        del fundamento del cálculo".
+        <br>
+        <br>
+        En su ensayo Nuevos principios sobre la perspectiva lineal (Londres, 1715) Taylor quiso expresar los "nuevos" principios de la perspectiva 
+        de modo más original y general que los anteriores; pero el trabajo tuvo problemas por su brevedad, su oscuridad, además de estar faltos de 
+        comprobación y de novedad. Estos defectos se pueden aplicar a la mayor parte de sus obras, y de hecho, este trabajo necesitó el 
+        perfeccionamiento que desarrollaron Joshua Kirby (1754) y Daniel Fournier (1761).
+        <br>
+        <br>
+        Las obras de Taylor, «Linear Perspective» y «New Principles on Linear Perspective», se encuentran entre las fuentes más importantes en 
+        la historia de la teoría de la perspectiva dentro del arte. Se centran en dos aspectos de esta historia. El primero es el desarrollo, a 
+        partir de principios del siglo XVII, de una teoría matemática de la perspectiva donde matemáticos talentosos usaron su creatividad para
+        resolver problemas básicos de perspectiva y simultáneamente se inspiraron para considerar problemas más generales en la geometría proyectiva. 
+        Taylor fue una de las figuras clave en este desarrollo. El segundo aspecto se refiere al problema de transmitir los conocimientos adquiridos 
+        por los matemáticos a los profesionales. Aunque los libros de Taylor eran matemáticos más que desafiantes, fue el primer matemático que logró 
+        que los profesionales se interesaran en enseñar los fundamentos teóricos de la perspectiva. Llegó a ser tan importante en el desarrollo que 
+        fue nombrado "el padre de la perspectiva moderna" en Inglaterra. La escuela inglesa de seguidores de Taylor incluía, entre otros, al pintor 
+        John Kirby y Joseph Highmore y al científico Joseph Priestley. Según Taylor, el punto de fuga de una línea, que no es paralelo al plano de 
+        la imagen, es el lugar donde se intersecan una línea a través del ojo paralela a la dada y el plano que contiene la imagen. También definió 
+        la línea de fuga a un plano dado (no paralelo al plano de la imagen), como la intersección del plano dado y de uno paralelo a éste a través 
+        del ojo. El teorema más importante de la perspectiva lineal de Taylor dice que la proyección de una recta que no sea paralela al plano de 
+        la imagen pasa por su intersección y su punto de fuga.
+        <br>
+        <br>
+        En su obra «New Principles on Linear Perspective», Brook Taylor afirmaba: "Generalmente se piensa que es muy ridículo pretender escribir un 
+        poema heroico, o un buen discurso sobre cualquier tema, sin comprender las propiedades del lenguaje escrito; y a mí no me parece menos ridículo
+        que alguien pretenda hacer una buena imagen sin entender la perspectiva ...".
+        <br>
+        <br>
+        Después de su traducción al italiano, español y al francés en la década de 1750, el trabajo de Taylor se hizo popular en todo el continente.
+        <br>
+        <br>
+        Brook Taylor fue elegido miembro de la Royal Society a principios de 1712 y el mismo año pasó a formar parte del comité para el juicio sobre la 
+        disputa entre Sir Isaac Newton y Gottfried Leibniz. Desde el 13 de enero de 1714 al 21 de octubre a 1718 fue secretario de la sociedad. Desde 1715 
+        sus estudios dieron un giro filosófico y religioso. A partir de este año mantuvo correspondencia con Pierre Rémond de Montmort sobre las doctrinas 
+        de Nicolas Malebranche; a raíz de ello, se encontraron entre sus cartas y documentos inacabados tratados Sobre los sacrificios hebreos y Sobre la 
+        legitimidad de comer sangre, escritos por él a su regreso de Aquisgrán en 1719.
+    </p>
+    <hr>
+    <p id="matrimonio">
+        <h2>
+            Matrimonio
+        </h2>
+        Su matrimonio en 1721 con una dama de Wallington, Surrey le enemistó con su padre, que acabó en 1723 tras la muerte de su mujer durante el parto, en 
+        el que también murió el niño. Los dos años siguientes los pasó con su familia en Bifrons; en 1725 se casó, esta vez con la aprobación de su padre, con 
+        Sabetta Sawbridge de Olantigh, que también murió de parto en 1730; en esta ocasión, sin embargo, su hija sobrevivió. Su frágil salud hizo que su estado 
+        degenerara con rapidez; murió en Somerset House, y la enterraron en la iglesia de St Ann's, Soho. Desde la muerte de su padre (1729) había heredado la 
+        propiedad de Bifrons. Como matemático, era el único inglés tras Isaac Newton y Roger Cotes capaz de competir con matemáticos como Johann Bernoulli. Sin 
+        embargo, gran parte de los resultados de su demostración no tuvieron repercusión o se perdieron a causa de su incapacidad de expresar sus ideas completamente 
+        y con claridad.  
+    </p>
+    <hr>
+    <p id="ultimos_estudios">
+        <h2>Últimos Estudios</h2>
+        Un trabajo póstumo titulado Contemplatio Philosophica fue impreso en 1793 por su sobrino, Sir William Young, que tenía un prólogo sobre la vida 
+        del autor y las cartas recibidas por Bolingbroke y Bossuet. Muchos de sus artículos breves se publicaron en las "Phylosophycal Transactions of the Royal Society", 
+        volúmenes del 27 al 33, incluyendo los informes de algunos experimentos interesantes sobre el magnetismo y sobre la atracción del vaso capilar. Publicó en 1719 una 
+        versión mejorada de su trabajo sobre la prospectiva, con el título Nuevos principios de la prospectiva lineal, revisada por Colson en 1749, e impresa con el retrato
+         y la biografía del autor en 1811.
+        <br>
+        <br>
+        Taylor en su obra Methodus Incrementorum hizo una primera aproximación completa sobre la refracción astronómica.
+        <br>
+        <br>
+        En 1715, Taylor halló que el movimiento de un punto arbitrario de la cuerda es equivalente al de un péndulo simple y determina su tiempo de vibración (periodo). 
+        Obtiene en su lenguaje propio, un tanto distinto del actual, la ecuación diferencial de la cuerda vibrante, es decir, la ecuación unidimensional de ondas, y a 
+        partir de ella determina una solución: la forma de la curva que toma la cuerda en un instante dado es sinusoidal.
+        
+    </p>
+  </main>
+  
+</div>
+   <!-- Footer Start -->
+   <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Contact</h4> 
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                        <a href="">Home</a>
+                        <a href="">Cookies</a>
+                        <a href="">Help</a>
+                        <a href="">FQAs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer End -->
+</body>
+</html>

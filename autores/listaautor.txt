@@ -1,0 +1,11 @@
+adrien_legendre.html
+brook_taylor.html
+carl_friedrich.html
+carl_gustav_jacobo.html
+gabriel_cramer.html
+isaac_newton.html
+joseph_louis_lagrange.html
+joseph_raphson.html
+listaautor.txt
+rene_montante.html
+wilhem_jordan.html

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Método Serie de Taylor</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <link href="../img/favicon.ico" rel="icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    .container {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1rem;
+      padding: 0 1rem;
+    }
+    aside {
+      position: sticky;
+      top: 80px;
+      flex: 0 0 220px;
+      background-color: #f8f9fa;
+      border-radius: 0.375rem;
+      padding: 1rem;
+      height: fit-content;
+      box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+    }
+    main { flex: 1; }
+    aside ul { padding-left: 0; list-style: none; }
+    aside ul li { padding: 0.4rem 0; border-bottom: 1px solid #ddd; }
+    aside ul li:last-child { border-bottom: none; }
+    @media (max-width: 768px) {
+      .container { flex-direction: column; }
+      aside {
+        position: relative;
+        top: auto;
+        flex: none;
+        width: 100%;
+        margin-bottom: 1rem;
+        box-shadow: none;
+        background-color: transparent;
+        padding: 0;
+      }
+    }
+    .frase_importante {
+      background-color: rgba(128,128,128,0.2);
+      border-left: 5px solid rgba(0,0,0,0.2);
+      box-shadow: -5px 0 10px rgba(0,0,0,0.1);
+      padding: 15px 20px;
+      margin: 30px 0;
+      font-style: italic;
+      font-size: 1.2rem;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+    }
+    img { max-width: 100%; height: auto; margin: 1rem 0; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+  </a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="../index.html" class="nav-item nav-link">Inicio</a>
+          <a href="../temas.html" class="nav-item nav-link active">Temas</a>
+          <a href="../autores.html" class="nav-item nav-link">Autores</a>
+      </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container">
+  <aside>
+    <h3>Índice de contenido</h3>
+    <ul>
+      <li><a href="#nombre">1. Nombre del método</a></li>
+      <li><a href="#fundamento">2. Fundamento teórico ampliado</a></li>
+      <li><a href="#error">3. Término de error y convergencia</a></li>
+      <li><a href="#pasos">4. Pasos detallados del algoritmo</a></li>
+      <li><a href="#ejemplo">5. Ejemplo resuelto con sin(x)</a></li>
+      <li><a href="#codigo">6. Código en Python y gráfica</a></li>
+      <li><a href="#animacion">7. Animación JS </a></li>
+      <li><a href="#video">8. Video Explicativo</a></li>
+      <li><a href="#referencias">9. Referencias</a></li>
+      <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <div class="title-with-image">
+      <h1 id="nombre">1. Método Serie de Taylor</h1>
+      <b>Conoce a su creador <i><a href="../autores/brook_taylor.html">Brook Taylor</a></i></b>
+    </div>
+
+    <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
+    <p>La serie de Taylor aproxima una función <em>f(x)</em> alrededor de un punto <em>a</em> mediante un polinomio infinito construido con las derivadas de <em>f</em> en <em>a</em>. Para funciones suficientemente suaves, esta aproximación converge al valor exacto cuando el número de términos crece.</p>
+    <p>Expresión general:</p>
+    <div class="frase_importante">
+      f(x) = &Sigma;<sub>k=0</sub><sup>∞</sup> (f<sup>(k)</sup>(a)/k!)*(x-a)<sup>k</sup>
+    </div>
+
+    <h2 id="error">3. Término de error y convergencia</h2>
+    <p>El residuo de Lagrange tras <em>n</em> términos está dado por:</p>
+    <div class="frase_importante">
+      R<sub>n</sub>(x) = (f<sup>(n+1)</sup>(ξ)/(n+1)!)*(x-a)<sup>n+1</sup>, donde ξ ∈ (a,x).
+    </div>
+    <p>La serie converge si R<sub>n</sub> → 0 cuando <em>n</em>→∞. El radio de convergencia varía según la función (por ejemplo, e<sup>x</sup>: ∞; ln(1+x): |x|<1).</p>
+
+    <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
+    <ol>
+      <li>Seleccionar <em>f(x)</em> y punto de expansión <em>a</em>.</li>
+      <li>Calcular derivadas hasta orden <em>n</em>.</li>
+      <li>Evaluar cada derivada en <em>a</em>.</li>
+      <li>Montar polinomio de grado <em>n</em>.</li>
+      <li>Estimar el residuo R<sub>n</sub> para conocer precisión.</li>
+    </ol>
+
+    <h2 id="ejemplo">5. Ejemplo resuelto con sin(x)</h2>
+    <p>Aproximar sin(x) en x=π/4 con 5 términos (a=0). Derivadas: sin, cos, -sin, -cos,...</p>
+    <ul>
+      <li>sin(0)=0, cos(0)=1, -sin(0)=0, -cos(0)=-1, sin(0)=0</li>
+    </ul>
+    <p>Serie:</p>
+    <p>sin(x)≈ x - x³/3! + x⁵/5! - x⁷/7! + x⁹/9!</p>
+    <p>En x=π/4≈0.7854 rad:</p>
+    <p>sin(π/4)≈0.7854 - 0.0807 + 0.0025 - 0.00005 + 0.000001≈<strong>0.7071</strong></p>
+
+    <h2 id="codigo">6. Código en Python y gráfica</h2>
+    <pre><code>import math
+import numpy as np
+import matplotlib.pyplot as plt
+
+def taylor_series(x, n):
+    return sum((x**k) / math.factorial(k) for k in range(n+1))
+
+# Convergencia para e^x en x=1
+x=1
+ns = list(range(1,11))
+errors = [abs(math.e - taylor_series(x,k)) for k in ns]
+
+plt.figure()
+plt.plot(ns, errors)
+plt.xlabel('Número de términos')
+plt.ylabel('Error absoluto')
+plt.title('Convergencia de la serie de Taylor para e^x en x=1')
+plt.show()</code></pre>
+
+    <h2 id="animacion">7. Animación JS </h2>
+    <p>Se puede usar <code>Chart.js</code> para animar la convergencia:</p>
+    <canvas id="taylorChart" width="400" height="200"></canvas>
+    <script>
+      // Funciones auxiliares en JS
+      function factorial(n) {
+        return n <= 1 ? 1 : n * factorial(n - 1);
+      }
+      function taylorSeries(x, terms) {
+        let sum = 0;
+        for (let k = 0; k < terms; k++) {
+          sum += Math.pow(x, k) / factorial(k);
+        }
+        return sum;
+      }
+      // Datos
+      const x = 1;
+      const labels = Array.from({ length: 10 }, (_, i) => i + 1);
+      const errors = labels.map(n => Math.abs(Math.E - taylorSeries(x, n)));
+      // Crear gráfico
+      const ctx = document.getElementById('taylorChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Error absoluto',
+            data: errors,
+            fill: false,
+            borderWidth: 2
+          }]
+        },
+        options: {
+          animation: { duration: 2000 },
+          scales: {
+            x: { title: { display: true, text: 'Número de términos' }},
+            y: { title: { display: true, text: 'Error absoluto' }}
+          }
+        }
+      });
+    </script>
+     <h2 id="video">8. Video explicativo </h2>
+     <p><a href="https://www.youtube.com/watch?v=3d6DsjIBzJ4" target="_blank">Ver video explicativo en YouTube</a></p>
+    <h2 id="referencias">9. Referencias</h2>
+    <ul>
+      <li>Burden, R. L., &amp; Faires, J. D. (2011). <em>Numerical Analysis</em> (9ª ed.). Brooks/Cole.</li>
+      <li>Abramowitz, M., &amp; Stegun, I. A. (1972). <em>Handbook of Mathematical Functions with Formulas, Graphs, and Mathematical Tables</em>. National Bureau of Standards.</li>
+      <li>Wikipedia contributors. (2025, 10 de mayo). Taylor series. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Taylor_series</li>
+      <li>Chapra, S. C., &amp; Canale, R. P. (2015). <em>Numerical Methods for Engineers</em> (7ª ed.). McGraw-Hill Education.</li>
+      <li>Trench, W. F. (2013). <em>Elementary Differential Equations with Boundary Value Problems</em> (11ª ed.). Pearson.</li>
+    </ul>
+
+    <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
+    <p>La serie de Taylor es fundamental en ingeniería, física y computación para aproximaciones rápidas. Se usa en generación de funciones trigonométricas, exponenciales y soluciones de ecuaciones diferenciales en simulaciones.</p>
+    <p>Comprender el error y el radio de convergencia es clave para aplicar el método de forma segura y eficiente.</p>
+  </main>
+</div>
+  <!-- Footer Start -->
+  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Contact</h4> 
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                        <a href="">Home</a>
+                        <a href="">Cookies</a>
+                        <a href="">Help</a>
+                        <a href="">FQAs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Footer End -->
+</body>
+</html>
