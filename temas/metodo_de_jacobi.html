@@ -1,54 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>Método de Jacobi</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <link href="../img/favicon.ico" rel="icon">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="../css/bootstrap.min.css" rel="stylesheet">
-  <link href="../css/style.css" rel="stylesheet">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link href="../img/favicon.ico" rel="icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="../css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../css/style.css" rel="stylesheet" />
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-
+  <!-- MathJax -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <style>
-    .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
-    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgb(0 0 0 / .1); }
-    main { flex: 1; }
-    aside ul { padding-left: 0; list-style: none; }
-    aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
-    aside ul li:last-child { border-bottom: none; }
-    @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
-    .frase_importante { background-color: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); box-shadow: -5px 0 10px rgba(0,0,0,.1); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.2rem; }
-    pre { background-color: #f4f4f4; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
-    img { max-width: 100%; height: auto; margin: 1rem 0; }
+    .container{display:flex;gap:2rem;margin-top:1rem;padding:0 1rem;}
+    aside{position:sticky;top:80px;flex:0 0 220px;background:#f8f9fa;border-radius:.375rem;padding:1rem;height:fit-content;box-shadow:0 0 10px rgba(0,0,0,.1);}
+    main{flex:1;}
+    aside ul{list-style:none;padding-left:0;}
+    aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}
+    aside ul li:last-child{border-bottom:none;}
+    @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;flex:none;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}}
+    .frase_importante{background:rgba(128,128,128,.15);border-left:5px solid var(--primary);box-shadow:-5px 0 10px rgba(0,0,0,.05);padding:15px 20px;margin:30px 0;font-style:italic;font-size:1.05rem;overflow-x:auto;}
+    pre{background:#f4f4f4;padding:1rem;border-radius:.5rem;overflow-x:auto;}
+    .math-display{text-align:center;margin:1.2rem 0;font-size:1.25rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1rem 0;}
+    .example-table th,.example-table td{border:1px solid #ddd;padding:.5rem;text-align:center;}
+    .example-table th{background:#f0f0f0;}
   </style>
 </head>
 <body>
-
-<!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
-  </a>
-  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-  </button>
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5"><h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2></a>
+  <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
-      <div class="navbar-nav ms-auto p-4 p-lg-0">
-          <a href="../index.html" class="nav-item nav-link">Inicio</a>
-          <a href="../temas.html" class="nav-item nav-link active">Temas</a>
-          <a href="../autores.html" class="nav-item nav-link">Autores</a>
-      </div>
+    <div class="navbar-nav ms-auto p-4 p-lg-0">
+      <a href="../index.html" class="nav-item nav-link">Inicio</a>
+      <a href="../temas.html" class="nav-item nav-link active">Temas</a>
+      <a href="../autores.html" class="nav-item nav-link">Autores</a>
+    </div>
   </div>
 </nav>
-<!-- Navbar End -->
-
 <div class="container">
   <aside>
     <h3>Índice de contenido</h3>
@@ -65,143 +61,150 @@
       <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
     </ul>
   </aside>
-
   <main>
+    <!-- 1 -->
     <div class="title-with-image">
       <h1 id="nombre">1. Método de Jacobi</h1>
-      <b>Conoce su origen <i><a href="../autores/jacobi.html">Carl Gustav Jacob Jacobi</a></i></b>
+      <p class="mt-2">Iterativo paralelo que resuelve \(\mathbf A\mathbf x=\mathbf b\) usando solo valores de la iteración previa.</p>
     </div>
 
+    <!-- 2 -->
     <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
-    <p>El método iterativo de Jacobi resuelve A·x=b descomponiendo A = D + (L+U), donde D es la diagonal, L la parte estrictamente inferior y U la estrictamente superior. Cada iteración calcula:</p>
-    <div class="frase_importante">
-      x<sup>(k+1)</sup> = D<sup>-1</sup> [b - (L+U) x<sup>(k)</sup>].
-    </div>
+    <p>Descomponemos \(\mathbf A=\mathbf D+\mathbf R\) con \(\mathbf D=\operatorname{diag}(a_{11},\dots,a_{nn})\) y \(\mathbf R=\mathbf A-\mathbf D\).   El esquema iterativo es:</p>
+    <div class="math-display">$$\boxed{\;\mathbf x^{(k+1)}=\mathbf D^{-1}(\mathbf b-\mathbf R\,\mathbf x^{(k)})\;}$$</div>
+    <p>Componente a componente:</p>
+    <div class="math-display">$$x_i^{(k+1)}=\frac1{a_{ii}}\Bigl(b_i-\sum_{j\neq i} a_{ij}x_j^{(k)}\Bigr).$$</div>
 
+    <!-- 3 -->
     <h2 id="error">3. Término de error y convergencia</h2>
-    <p>Converge si la matriz de iteración T = -D<sup>-1</sup>(L+U) satisface ||T||<1 en alguna norma. La convergencia es lineal, lenta comparada con Gauss-Seidel.</p>
+    <ul>
+      <li><strong>Matriz de iteración:</strong> \(\mathbf B_J=-\mathbf D^{-1}\mathbf R\).</li>
+      <li><strong>Criterio suficiente:</strong> converge si \(\rho(\mathbf B_J)<1\) (e.g. si \(\mathbf A\) es diagonalmente dominante o SPD).</li>
+      <li><strong>Ritmo:</strong> error \(\|\mathbf e^{(k)}\|\le \rho(\mathbf B_J)^k\|\mathbf e^{(0)}\|\) — más lento que Gauss-Seidel.</li>
+    </ul>
+    <div class="frase_importante">La simplicidad y paralelismo de Jacobi compensan su lentitud en problemas muy grandes.</div>
 
+    <!-- 4 -->
     <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
     <ol>
-      <li>Separar A en D, L y U.</li>
-      <li>Escoger estimación inicial x<sup>(0)</sup>.</li>
-      <li>Para cada iteración k:
-        <ol>
-          <li>Para cada i: x<sub>i</sub><sup>(k+1)</sup> = (b<sub>i</sub> - Σ<sub>j≠i</sub>a<sub>ij</sub>x<sub>j</sub><sup>(k)</sup>)/a<sub>ii</sub>.</li>
-        </ol>
-      </li>
-      <li>Verificar criterio: ||x<sup>(k+1)</sup> - x<sup>(k)</sup>||< tol o ||r||< tol.</li>
-      <li>Repetir hasta convergencia.</li>
+      <li>Separar \(\mathbf A\) en \(\mathbf D\) y \(\mathbf R\).</li>
+      <li>Elegir \(\mathbf x^{(0)}\) y tolerancia \(\varepsilon\).</li>
+      <li>Para \(k=0,1,\dots\): calcular \(\mathbf x^{(k+1)}\) con la fórmula.</li>
+      <li>Detener cuando \(\|\mathbf x^{(k+1)}-\mathbf x^{(k)}\|_\infty<\varepsilon\).</li>
     </ol>
 
+    <!-- 5 -->
     <h2 id="ejemplo">5. Ejemplo resuelto</h2>
-    <p>Resolver sistema: 4x + y + z = 7, x + 3y + z = -8, x + y + 5z = 6. x<sup>(0)</sup>=(0,0,0), tol=0.01.</p>
-    <ul>
-      <li>Iteración 1: x<sub>1</sub>=(7 - 0 - 0)/4=1.75; y<sub>1</sub>=(-8-0-0)/3=-2.67; z<sub>1</sub>=(6-0-0)/5=1.2.</li>
-      <li>Iteración 2: x<sub>2</sub>=(7 - (-2.67) -1.2)/4=2.12; …</li>
-      <li>… hasta converger a x≈[1, -2, 1].</li>
-    </ul>
+    <p>Sistema</p>
+    <div class="math-display">$$4x+y+z=7,\;x+3y+z=-8,\;x+y+5z=6.$$
+    </div>
+    <p>Con \(\mathbf x^{(0)}=\mathbf 0,\;\varepsilon=10^{-2}:\)</p>
+    <table class="example-table">
+      <thead><tr><th>k</th><th>x</th><th>y</th><th>z</th><th>Error ∞</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>0.000</td><td>0.000</td><td>0.000</td><td>—</td></tr>
+        <tr><td>1</td><td>1.750</td><td>-2.667</td><td>1.200</td><td>2.667</td></tr>
+        <tr><td>2</td><td>2.033</td><td>-3.000</td><td>1.253</td><td>0.333</td></tr>
+        <tr><td>3</td><td>1.988</td><td>-2.964</td><td>1.253</td><td>0.045</td></tr>
+        <tr><td>4</td><td>1.994</td><td>-2.973</td><td>1.255</td><td>0.009</td></tr>
+      </tbody>
+    </table>
 
+    <!-- 6 -->
     <h2 id="codigo">6. Código en Python y gráfica</h2>
-    <pre><code>import numpy as np
-import matplotlib.pyplot as plt
+    <pre><code>import numpy as np, matplotlib.pyplot as plt, time
 
-def jacobi(A, b, x0, tol=1e-3, max_iter=100):
-    D = np.diag(np.diag(A))
-    R = A - D
-    x = x0.copy()
-    errs = []
-    for k in range(max_iter):
-        x_new = np.linalg.inv(D).dot(b - R.dot(x))
-        errs.append(np.linalg.norm(x_new - x, ord=np.inf))
+def jacobi(A, b, x0=None, tol=1e-8, max_iter=1000):
+    n = A.shape[0]
+    if x0 is None: x0 = np.zeros(n)
+    D_inv = 1/np.diag(A)
+    x = x0.copy(); errs=[]
+    for _ in range(max_iter):
+        x_new = D_inv * (b - (A - np.diagflat(np.diag(A))) @ x)
+        errs.append(np.linalg.norm(x_new-x, np.inf))
         if errs[-1] < tol:
-            return x_new, errs
+            break
         x = x_new
     return x, errs
 
-# ejemplo\ A = np.array([[4,1,1],[1,3,1],[1,1,5]])
- b = np.array([7,-8,6])
- x0 = np.zeros(3)
- x, errs = jacobi(A, b, x0)
+A = np.array([[4,1,1],[1,3,1],[1,1,5]],float)
+b = np.array([7,-8,6],float)
+_, errs = jacobi(A,b,tol=1e-6)
+plt.figure(); plt.semilogy(errs); plt.xlabel('Iteración'); plt.ylabel('Error ∞'); plt.title('Jacobi'); plt.grid(True); plt.tight_layout()</code></pre>
 
-plt.figure()
-plt.plot(errs)
-plt.yscale('log')
-plt.xlabel('Iteración')
-plt.ylabel('Error ∞ (log)')
-plt.title('Convergencia Método Jacobi')
-plt.show()</code></pre>
-
+    <!-- 7 -->
     <h2 id="animacion">7. Animación JS</h2>
-    <p>Ver evolución del error:</p>
-    <canvas id="jacobiChart" width="400" height="200"></canvas>
+    <p>Error sintético:</p>
+    <canvas id="jacobiChart" width="420" height="220"></canvas>
     <script>
-      window.addEventListener('DOMContentLoaded', function() {
-        const errs = [2.0,1.2,0.7,0.4,0.2,0.1];
-        const ctx = document.getElementById('jacobiChart').getContext('2d');
-        new Chart(ctx, {
-          type:'line', data:{ labels: errs.map((_,i)=>i+1), datasets:[{ label:'Error', data:errs, fill:false, borderWidth:2 }] },
-          options:{ scales:{ y:{ type:'logarithmic', title:{ display:true, text:'Error' }}, x:{ title:{ display:true, text:'Iteración' } } }}
+      window.addEventListener('DOMContentLoaded',()=>{
+        const it=[1,2,3,4,5,6,7,8];
+        const err=[1e0,6e-1,3.6e-1,2.2e-1,1.3e-1,8e-2,5e-2,3e-2];
+        new Chart(document.getElementById('jacobiChart'),{
+          type:'line',
+          data:{labels:it,datasets:[{label:'Error ∞',data:err,borderWidth:2,fill:false}]},
+          options:{scales:{y:{type:'logarithmic',title:{display:true,text:'Error'}},x:{title:{display:true,text:'Iteración'}}}}
         });
       });
     </script>
 
+    <!-- 8 -->
     <h2 id="video">8. Video Explicativo</h2>
-    <p><a href="https://www.youtube.com/watch?v=Yy6Z9vEkt9I" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+      <iframe src="https://www.youtube.com/embed/Yy6Z9vEkt9I" title="Método de Jacobi" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe>
+    </div>
 
+    <!-- 9 -->
     <h2 id="referencias">9. Referencias</h2>
     <ul>
       <li>Saad, Y. (2003). <em>Iterative Methods for Sparse Linear Systems</em>. SIAM.</li>
-      <li>Burden, R. L., & Faires, J. D. (2011). <em>Numerical Analysis</em> (9ª ed.). Brooks/Cole.</li>
-      <li>Wikipedia contributors. (2025, 25 de abril). Jacobi method. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Jacobi_method</li>
+      <li>Hackbusch, W. (2016). <em>Iterative Solution of Large Sparse Systems of Equations</em>. Springer.</li>
+      <li>Burden, R. & Faires, J. (2011). <em>Numerical Analysis</em> (9.ª ed.). Brooks/Cole.</li>
+      <li>Wikipedia contributors. (2025, mayo). <em>Jacobi method</em>. Wikipedia.</li>
     </ul>
 
-    <h2 id="conclusion">10. Conclusión y aplicaciones</p>
-    <p>Jacobi es fácil de implementar y paralelo, pero lento. Útil para sistemas dispersos y precondicionamiento en métodos iterativos avanzados.</p>
+    <!-- 10 -->
+    <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
+    <p>El método de Jacobi destaca por su sencillez y capacidad para ejecutarse <em>en paralelo</em> — cada componente de \(\mathbf x^{(k+1)}\) depende solo de valores de \(k\). Esto resulta valioso en GPUs y arquitecturas distribuidas. Sin embargo, su convergencia lenta hace que se combine con aceleradores (SOR, CG) o se use como precondicionador.</p>
   </main>
 </div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-lg-3 col-md-6">
+          <h4 class="text-white mb-3">Contacto</h4>
+          <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+          <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+          <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+          <div class="d-flex pt-2">
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+          </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
-
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      </div>
   </div>
-  <!-- Footer End -->
+  <div class="container">
+      <div class="copyright">
+          <div class="row">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                  &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Rights Reserved.
+                  Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                  <div class="footer-menu">
+                      <a href="">Home</a>
+                      <a href="">Cookies</a>
+                      <a href="">Help</a>
+                      <a href="">FQAs</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Footer End -->
 </body>
 </html>

@@ -93,28 +93,29 @@
         }
       }
       .title-with-image {
-  display: flex;
-  align-items: center;
-  gap: 1rem; /* espacio entre el título y la imagen */
-  margin-bottom: 1rem;
-}
+        display: flex;
+        align-items: center;
+        gap: 1rem; /* espacio entre el título y la imagen */
+        margin-bottom: 1rem;
+      }
 
-.autor-img {
-  width: 150px; /* tamaño de la imagen, puedes ajustar */
-  height: 200px;
-  object-fit: cover; /* para que la imagen mantenga proporción y no se distorsione */
-  border-radius: 30%; /* para hacerla circular */
-  border: 2px solid #007bff; /* borde azul, opcional */
-}
-.frase_importante{
-    background-color: rgba(128, 128, 128, 0.2); /* gris translúcido */
-    border-left: 5px solid rgba(0, 0, 0, 0.2);  /* borde izquierdo */
-    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1); /* sombra hacia la derecha */
-    padding: 15px 20px;
-    margin: 30px 0;
-    font-style: italic;
-    font-size: 1.2rem;
-}
+      .autor-img {
+        width: 150px; /* tamaño de la imagen */
+        height: 200px;
+        object-fit: cover; /* para mantener proporción */
+        border-radius: 30%;
+        border: 2px solid #007bff;
+      }
+
+      .frase_importante {
+        background-color: rgba(128, 128, 128, 0.2);
+        border-left: 5px solid rgba(0, 0, 0, 0.2);
+        box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1);
+        padding: 15px 20px;
+        margin: 30px 0;
+        font-style: italic;
+        font-size: 1.1rem;
+      }
     </style>
 </head>
 <body>
@@ -141,160 +142,148 @@
   <aside>
     <h3>Contenido</h3>
     <ul>
-      <li><a href="#biografia">Biografia</a></li>
-      <li><a href="#historia" >Historia</a></li>
-      <li><a href="#muerte" >Muerte</a></li>
-      <li><a href="#falso_retrato" >El Falso Retrato</a></li>
+      <li><a href="#biografia">Biografía</a></li>
+      <li><a href="#historia">Historia</a></li>
+      <li><a href="#muerte">Muerte</a></li>
+      <li><a href="#falso_retrato">El falso retrato</a></li>
     </ul>
   </aside>
+
   <main>
     <div class="title-with-image">
       <h1>Adrien-Marie Legendre</h1>
-      <img src="../img/Legendre_real.jpg" alt="Autor del tema" class="autor-img" />
+      <img src="../img/Legendre_real.jpg" alt="Retrato de Adrien-Marie Legendre" class="autor-img" />
     </div>
-    
-    <p id="biografia">
-        <h2>Biografia</h2>
-        Adrien-Marie Legendre (18 de septiembre de 1752-10 de enero de 1833), fue un destacado matemático francés. Otorgó importantes contribuciones 
-        a la estadística, a la teoría de números, al álgebra abstracta y al análisis matemático. Intervino en geodesia y en la comisión que estableció 
-        el metro como unidad de medida internacional.
-    </p>
-    <hr>
-    <p id="historia">
-        <h2>Historia</h2>
-        Legendre nació en París el año 1752 en una familia adinerada. Recibió su educación en el Collège Mazarin en París, y defendió su tesis en 
-        física y matemáticas en 1770.
-        <br>
-        <br>
-        De 1775 a 1780, Legendre fue profesor de matemáticas de la Escuela Militar de París y profesor de la École Normale desde 1795.
-        <br>
-        <br>
-        En esta época, también es posible seguir la intervención de "Le Gendre" (alias de Legendre) en las filas de la comisión internacional 
-        encargada de verificar todos los trabajos implicados en la decisión de adoptar el sistema métrico.
-        <br>
-        <br>
-        En 1782, la Academia de Berlín otorgó a Legendre un premio por su "Tratado de proyectiles en medios resistentes". Este tratado también 
-        le atrajo a la atención de Lagrange.
-        <br>
-        <br>
-        El 30 de marzo de 1783, se convirtió en ingeniero asistente de la Academia de Ciencias de Francia reemplazando a Laplace, pasando a ser 
-        miembro asociado en 1785. En 1789 fue elegido Miembro de la Royal Society.
-        <br>
-        <br>
-        En 1785, basándose en los trabajos de su predecesor Euler, formula una nueva conjetura sobre la ley de reciprocidad cuadrática, que luego 
-        sería demostrada por Gauss.
-        <br>
-        <br>
-        En 1787, fue nombrado Comisionado de Operaciones geodésico junto con Pierre Méchain y Jean-Baptiste Joseph Delambre de la Comisión 
-        Anglo-Francesa (1784-1790) formada para calcular la distancia exacta entre el Observatorio de París y el Real Observatorio de Greenwich 
-        mediante trigonometría. Con este fin, en 1787 visitó Dover y Londres junto con Jean-Dominique, conde de Cassini y Pierre Méchain.
-        <br>
-        <br>
-        Cuando se inicia la Revolución francesa, se ve obligado a esconderse en París durante la etapa del Terror, perdiendo su fortuna personal. 
-        En esta época conoce a Margaret Couhin Claudine, con quien se casó en 1793. Margaret le ayudó a establecer sus asuntos en orden.
-        <br>
-        <br>
-        En 1795, Legendre se convirtió en uno de los seis miembros de la Sección de Matemáticas de la reconstituida Academia de las Ciencias, 
-        rebautizada como Instituto Nacional de Ciencias y Artes.
-        <br>
-        <br>
-        En 1797-1798 formula el teorema de los números primos en su libro sobre teoría de números (al parecer, Gauss ya había hecho esta conjetura
-        en 1792, pero no lo reveló hasta 1849).
-        <br>
-        <br>
-        Más tarde, en 1803, Napoleón Bonaparte reorganizó el Instituto Nacional, y Legendre se convirtió en miembro de la Sección de Geometría. 
-        De 1799 a 1815, trabajó como examinador de matemáticas para estudiantes aspirantes a la graduación en artillería en la École Militaire.
-        <br>
-        <br>
-        Desde 1812, reemplaza a Joseph-Louis Lagrange en el Bureau des Longitudes.
-        <br>
-        <br>
-        En 1824, se le negó su pensión de la École Militaire a Legendre porque se negó a votar por el candidato del gobierno en el Instituto Nacional, 
-        el conde de Corbière, Ministro del Interior del gobierno ultrarrealista. Su pensión fue parcialmente restablecida con el cambio de gobierno en 
-        1828. En 1831 fue nombrado Oficial de la Legión de Honor.
-        <br>
-        <br>
-        Sobre el carácter del hombre, existen pocas evidencias. Stendhal, que tiene muy malas palabras hacia su compañero de Grenoble Joseph Fourier, 
-        con quien había trabajado como prefecto y a quien había ignorado como científico, no es menos irónico con Legendre. En el capítulo 24 de su 
-        Vida de Henry Brulard, escribe que:
-        <div class="frase_importante">
-          "Es cosa singular que los poetas del corazón, los sabios propiamente dichos, son serviles y cobardes... Rentistas de la cobardía: Bacon, 
-          Laplace, Cuvier. Lagrange fue menos llano, creo... El famoso Legendre, geómetra de primera clase, recibiendo la Cruz de la Legión de Honor, 
-          la ató a su abrigo, se miró en el espejo y saltó de alegría. El apartamento era de baja altura, su cabeza golpeó el techo, y cayó medio 
-          aturdido. ¡Habría sido una muerte digna de este sucesor de Arquímedes!"
-        </div>
-    </p>
-    <hr>
-    <p id="muerte">
-      <h2>Muerte</h2>
-      Legendre murió en París el año 1833, después de una larga y penosa enfermedad. Su viuda conservó cuidadosamente las pertenencias del 
-      matemático para preservar su memoria. A su muerte en 1856, fue enterrada junto a su marido en el cementerio del pueblo de Auteuil, 
-      donde la pareja había vivido, y dejó su última casa de campo a la aldea.
-    </p>
-    <hr>
-    <p id="falso_retrato">
-      <h2>El falso Retrato</h2>
-      Durante dos siglos, hasta que se descubrió el error en 2009, la imagen utilizada para representar a Adrien-Marie Legendre era en realidad 
-      la del político francés Louis Legendre (1752-1797). El error proviene del hecho de que el retrato estaba descrito como un simple "Legendre". 
-      El único retrato conocido de Adrien-Marie Legendre, recientemente descubierto, se encuentra en el Álbum de 73 caricaturas a la acuarela de los 
-      miembros del Instituto (1820), una colección de caricaturas de miembros de varias academias (Bellas Artes, Ciencias y Francés) y de algunos de 
-      sus estudiantes, pintadas por el artista francés Julien-Léopold Boilly. 
-      <div class="frase_importante">
-          <img src="../img/legendre.jpg">
-          <br>
-          <i>Retrato del político francés Louis Legendre (1752-1797), utilizado durante casi 200 años para representar a Adrien-Marie Legendre.</i>
-          <br>
-          <img src="../img/adrien_legendre.jpg">
-          <br>
-          <i>Caricaturas a la acuarela de los matemáticos franceses Adrien-Marie Legendre (izquierda) y Joseph Fourier (derecha) por el artista francés Julien-Léopold Boilly</i>
-      </div>
-    </p>
-    
-  </main>
-  
-</div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
 
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <section id="biografia">
+      <h2>Biografía</h2>
+      <p>
+        Adrien-Marie Legendre (París, 18&nbsp;de&nbsp;septiembre de&nbsp;1752 – Auteuil, 10&nbsp;de&nbsp;enero de&nbsp;1833) fue un matemático francés cuyas
+        contribuciones abarcan la <strong>estadística</strong> (método de los mínimos cuadrados), la <strong>teoría de números</strong>
+        (ley de reciprocidad cuadrática, conjetura sobre la distribución de los primos), la <strong>geometría</strong> (polinomios y transformada de
+        Legendre) y el <strong>análisis</strong> (funciones beta y gamma). También participó en trabajos de geodesia y en la comisión que definió el metro
+        como unidad de longitud.&nbsp;Fue presidente de la Academia de Ciencias de Francia (1805-1806) y miembro de varias academias europeas.
+      </p>
+    </section>
+    <hr>
+
+    <section id="historia">
+      <h2>Historia</h2>
+      <p>
+        <strong>Formación y primeros años (1752-1782)</strong>.<br>
+        • Nació en una familia acomodada y se educó en el Collège&nbsp;Mazarin, donde defendió en&nbsp;1770 una disertación conjunta de física y matemáticas.<br>
+        • Entre&nbsp;1775 y&nbsp;1780 enseñó matemáticas en la <em>École&nbsp;Militaire</em> de París; en este periodo publicó un premiado <em>Tratado sobre el
+        tiro de proyectiles en medios resistentes</em> (premio de la Academia de Berlín, 1782).
+      </p>
+      <p>
+        <strong>Consolidación profesional (1783-1799)</strong>.<br>
+        • El&nbsp;30 de marzo de 1783 ingresó como ingeniero ayudante en la Academia de Ciencias de Francia y fue elegido miembro asociado en&nbsp;1785.<br>
+        • Ese mismo año enunció, sobre ideas de Euler, una nueva forma de la ley de reciprocidad cuadrática.<br>
+        • En&nbsp;1787 integró, junto con Méchain y Delambre, la comisión franco-británica que midió el arco meridiano París-Greenwich para afinar el sistema
+        métrico.<br>
+        • Fue elegido <em>Fellow</em> de la Royal Society en&nbsp;1789.
+      </p>
+      <p>
+        <strong>Años revolucionarios y aportaciones clave (1790-1815)</strong>.<br>
+        • Durante el Terror (1793-1794) se ocultó en París y perdió gran parte de su fortuna; en 1793 contrajo matrimonio con Claudine Couhin.<br>
+        • Miembro fundador (1795) de la Sección de Matemáticas del Instituto Nacional de Ciencias y Artes.<br>
+        • Publicó el <em>Essai sur la théorie des nombres</em> (1798) --donde bosquejó el futuro teorema de los números primos-- y el célebre
+        <em>Éléments de géométrie</em> (1794, 20 ediciones en vida).<br>
+        • Sus cálculos de mecánica celeste le llevaron a idear el <strong>método de los mínimos cuadrados</strong>, publicado en&nbsp;1806 como apéndice a
+        <em>Nouvelles méthodes pour la détermination des orbites des comètes</em>.
+      </p>
+      <p>
+        <strong>Última etapa (1812-1833)</strong>.<br>
+        • En&nbsp;1812 sucedió a Lagrange en el Bureau des Longitudes.<br>
+        • El rechazo a respaldar al candidato oficialista en 1824 le costó la pensión de la École Militaire (restablecida en 1828).<br>
+        • Nombrado Oficial de la Legión de Honor en 1831.<br>
+        • Obras maduras: los tres volúmenes de <em>Exercices du calcul intégral</em> (1811-1819) y el monumental <em>Traité des fonctions elliptiques</em>
+          (1825-1829), piedra angular para Abel y Jacobi.
+      </p>
+      <p>
+        <strong>Legado científico</strong>.<br>
+        • <em>Polinomios de Legendre</em> y sus aplicaciones en física (armónicos esféricos).<br>
+        • <em>Transformada de Legendre</em> en mecánica clásica y termodinámica.<br>
+        • Introducción del símbolo&nbsp;Γ y normalización de la función gamma.<br>
+        • Conjetura de Legendre (existe siempre un número primo entre <em>n</em><sup>2</sup> y (<em>n</em>+1)<sup>2</sup>).<br>
+        • Su nombre figura entre los 72 científicos grabados en la Torre Eiffel; el cráter lunar <em>Legendre</em> y el asteroide (26950) honran su
+          memoria.
+      </p>
+    </section>
+    <hr>
+
+    <section id="muerte">
+      <h2>Muerte</h2>
+      <p>
+        Tras una larga enfermedad, Legendre falleció en Auteuil el&nbsp;10 de enero de&nbsp;1833, a los 80 años. Su viuda conservó minuciosamente sus
+        documentos y objetos personales; a su fallecimiento (1856) fue enterrada junto al matemático en el cementerio local, legando la casa de campo
+        familiar a la comunidad.
+      </p>
+    </section>
+    <hr>
+
+    <section id="falso_retrato">
+      <h2>El falso retrato</h2>
+      <p>
+        Durante casi dos siglos la imagen que ilustraba a Adrien-Marie Legendre era, en realidad, la del político revolucionario
+        <strong>Louis Legendre</strong> (1752-1797). El malentendido se detectó en 2009, cuando el historiador Peter Duren halló en un álbum de caricaturas
+        de 1820, pintadas por <em>Julien-Léopold Boilly</em>, el único retrato auténtico conocido del matemático. Desde entonces la caricatura de Boilly
+        sustituye al antiguo grabado en manuales y enciclopedias.
+      </p>
+      <div class="frase_importante">
+        <img src="../img/legendre.jpg" alt="Retrato erróneo de Louis Legendre">
+        <br><i>Retrato de Louis Legendre que se confundió con el de Adrien-Marie Legendre.</i>
+        <br><br>
+        <img src="../img/adrien_legendre.jpg" alt="Caricatura auténtica de Adrien Legendre">
+        <br><i>Caricatura acuarelada de Adrien-Marie Legendre (izquierda) junto a Joseph Fourier (derecha), obra de J.-L. Boilly, c. 1820.</i>
+      </div>
+    </section>
+
+    <p><strong>Referencia (formato APA)</strong>:<br>
+      Wikipedia contribuidores. (2025, 19 mayo). <em>Adrien-Marie Legendre</em>. En <em>Wikipedia, La enciclopedia libre</em>. Recuperado el 19 de mayo
+      de 2025 de <a href="https://es.wikipedia.org/wiki/Adrien-Marie_Legendre">https://es.wikipedia.org/wiki/Adrien-Marie Legendre</a>.
+    </p>
+  </main>
+</div>
+
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+      <div class="row g-5">
+          <div class="col-lg-3 col-md-6">
+              <h4 class="text-white mb-3">Contact</h4>
+              <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+              <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+              <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+              <div class="d-flex pt-2">
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+              </div>
+          </div>
+      </div>
   </div>
-  <!-- Footer End -->
+  <div class="container">
+      <div class="copyright">
+          <div class="row">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                  &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+                  Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                  <div class="footer-menu">
+                      <a href="">Home</a>
+                      <a href="">Cookies</a>
+                      <a href="">Help</a>
+                      <a href="">FQAs</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Footer End -->
+
 </body>
 </html>

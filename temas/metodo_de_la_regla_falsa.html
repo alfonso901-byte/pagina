@@ -1,83 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>Método de la Regla Falsa</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <link href="../img/favicon.ico" rel="icon">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="../css/bootstrap.min.css" rel="stylesheet">
-  <link href="../css/style.css" rel="stylesheet">
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link href="../img/favicon.ico" rel="icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="../css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../css/style.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <style>
-    .container {
-      display: flex;
-      gap: 2rem;
-      margin-top: 1rem;
-      padding: 0 1rem;
-    }
-    aside {
-      position: sticky;
-      top: 80px;
-      flex: 0 0 220px;
-      background-color: #f8f9fa;
-      border-radius: 0.375rem;
-      padding: 1rem;
-      height: fit-content;
-      box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
-    }
-    main { flex: 1; }
-    aside ul { padding-left: 0; list-style: none; }
-    aside ul li { padding: 0.4rem 0; border-bottom: 1px solid #ddd; }
-    aside ul li:last-child { border-bottom: none; }
-    @media (max-width: 768px) {
-      .container { flex-direction: column; }
-      aside {
-        position: relative;
-        top: auto;
-        flex: none;
-        width: 100%;
-        margin-bottom: 1rem;
-        box-shadow: none;
-        background-color: transparent;
-        padding: 0;
-      }
-    }
-    .frase_importante {
-      background-color: rgba(128,128,128,0.2);
-      border-left: 5px solid rgba(0,0,0,0.2);
-      box-shadow: -5px 0 10px rgba(0,0,0,0.1);
-      padding: 15px 20px;
-      margin: 30px 0;
-      font-style: italic;
-      font-size: 1.2rem;
-    }
-    pre {
-      background-color: #f4f4f4;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      overflow-x: auto;
-    }
-    img { max-width: 100%; height: auto; margin: 1rem 0; }
+    .container{display:flex;gap:2rem;margin-top:1rem;padding:0 1rem;}
+    aside{position:sticky;top:80px;flex:0 0 220px;background:#f8f9fa;border-radius:.375rem;padding:1rem;height:fit-content;box-shadow:0 0 10px rgba(0,0,0,.1);}main{flex:1;}
+    aside ul{list-style:none;padding-left:0;}aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}aside ul li:last-child{border-bottom:none;}
+    @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;flex:none;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}}
+    .frase_importante{background:rgba(128,128,128,.15);border-left:5px solid var(--primary);box-shadow:-5px 0 10px rgba(0,0,0,.05);padding:15px 20px;margin:30px 0;font-style:italic;font-size:1.05rem;overflow-x:auto;}
+    pre{background:#f4f4f4;padding:1rem;border-radius:.5rem;overflow-x:auto;}
+    .math-display{text-align:center;margin:1.2rem 0;font-size:1.25rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1rem 0;}
+    .example-table th,.example-table td{border:1px solid #ddd;padding:.5rem;text-align:center;}
+    .example-table th{background:#f0f0f0;}
   </style>
 </head>
 <body>
-
-<!-- Navbar Start -->
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
-  </a>
-  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-  </button>
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5"><h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Métodos Numéricos</h2></a>
+  <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
           <a href="../index.html" class="nav-item nav-link">Inicio</a>
@@ -86,7 +41,6 @@
       </div>
   </div>
 </nav>
-<!-- Navbar End -->
 
 <div class="container">
   <aside>
@@ -99,165 +53,145 @@
       <li><a href="#ejemplo">5. Ejemplo resuelto</a></li>
       <li><a href="#codigo">6. Código en Python y gráfica</a></li>
       <li><a href="#animacion">7. Animación JS</a></li>
-      <li><a href="#video">8. Video Explicativo</a></li>
+      <li><a href="#video">8. Video explicativo</a></li>
       <li><a href="#referencias">9. Referencias</a></li>
       <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
     </ul>
   </aside>
 
   <main>
-    <div class="title-with-image">
-      <h1 id="nombre">1. Método de la Regla Falsa</h1>
-      <b>Conoce su origen <i><a href="../autores/bolzano.html">Regula Falsi / Método de la Falsa Posición</a></i></b>
-    </div>
+    <!-- 1 -->
+    <div class="title-with-image"><h1 id="nombre">1. Método de la Regla Falsa</h1>
 
+    <!-- 2 -->
     <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
-    <p>La regla falsa busca la raíz de una función continua f(x) en [a,b] donde f(a)·f(b)&lt;0, pero en lugar de dividir el intervalo en dos partes iguales, emplea la intersección de la secante que une (a,f(a)) y (b,f(b)) con el eje x. Esto acelera a veces la convergencia respecto a la bisección.</p>
-    <div class="frase_importante">
-      Punto de evaluación: c = b - f(b)*(b - a)/(f(b) - f(a)).
-    </div>
+    <p>Sea \(f\) continua en \([a,b]\) con \(f(a)f(b)<0\). La secante por \((a,f(a))\) y \((b,f(b))\) corta el eje \(x\) en</p>
+    <div class="math-display">$$c=b-\frac{f(b)(b-a)}{f(b)-f(a)}.$$</div>
+    <p>Si \(f(c)=0\) se halla la raíz; de lo contrario se sustituye el extremo cuyo signo coincide con \(f(c)\), manteniendo el cambio de signo.</p>
 
+    <!-- 3 -->
     <h2 id="error">3. Término de error y convergencia</h2>
-    <p>El error aproximado tras n iteraciones se acota por:</p>
-    <div class="frase_importante">
-      |x<sub>n</sub> - x*| ≤ ((b - a)/(f(b) - f(a)))·|f(x<sub>n</sub>)|.
-    </div>
-    <p>La convergencia es superlineal en casos favorables, pero no está garantizada como en bisección; puede estancarse si uno de los extremos no se mueve.</p>
+    <p>Bajo derivadas acotadas existe \(\xi\in(a,b)\) tal que</p>
+    <div class="math-display">$$|x_n-x_*|\le\frac{|f(x_n)|}{m},\quad m=\min_{\xi}|f'(\xi)|.$$</div>
+    <p>La convergencia es casi lineal pero mejora respecto a la bisección cuando \(|f(a)|\neq|f(b)|\). Para funciones muy convexas un extremo puede fijarse y degradar el orden.</p>
 
+    <!-- 4 -->
     <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
     <ol>
-      <li>Elegir [a,b] con f(a)·f(b)&lt;0.</li>
-      <li>Calcular c = b - f(b)*(b - a)/(f(b) - f(a)).</li>
-      <li>Evaluar f(c). Si f(a)·f(c)&lt;0 entonces b=c, sino a=c.</li>
-      <li>Verificar criterio de tolerancia: |f(c)|&lt;tol o |b-a|&lt;tol.</li>
-      <li>Repetir hasta cumplir tolerancia o iteraciones máximas.</li>
+      <li>Comprobar \(f(a)f(b)<0\).</li>
+      <li>\(c\leftarrow b-f(b)(b-a)/(f(b)-f(a))\).</li>
+      <li>Si \(|f(c)|<\varepsilon\) \(\to\) salir.</li>
+      <li>Si \(f(a)f(c)<0\) entonces \(b\leftarrow c\); <em>else</em> \(a\leftarrow c\).</li>
+      <li>Volver a 2 (máximo \(N_{max}\)).</li>
     </ol>
 
+    <!-- 5 -->
     <h2 id="ejemplo">5. Ejemplo resuelto</h2>
-    <p>Aplicar regla falsa a f(x)=x<sup>3</sup>-x-2 en [1,2], tol=0.001.</p>
-    <ul>
-      <li>Iteración 1: c=1.3333, f(c)=1.370 → a=1.3333</li>
-      <li>Iteración 2: c=1.2581, f(c)=0.242 → a=1.2581</li>
-      <li>Iteración 3: c=1.2378, f(c)=0.041 → a=1.2378</li>
-      <li>Iteración 4: c=1.2341, f(c)=0.006 → a=1.2341</li>
-      <li>Iteración 5: c=1.2336, f(c)=0.001 → a=1.2336</li>
-      <li>… hasta obtener x≈1.2335</li>
-    </ul>
+    <p>\(f(x)=x^3-x-2\) en \([1,2]\), \(\varepsilon=10^{-3}\).</p>
+    <table class="example-table"><thead><tr><th>n</th><th>a</th><th>b</th><th>c</th><th>|f(c)|</th></tr></thead><tbody>
+    <tr><td>1</td><td>1.0000</td><td>2.0000</td><td>1.3333</td><td>1.370</td></tr>
+    <tr><td>2</td><td>1.3333</td><td>2.0000</td><td>1.2581</td><td>0.242</td></tr>
+    <tr><td>3</td><td>1.2581</td><td>2.0000</td><td>1.2378</td><td>0.041</td></tr>
+    <tr><td>4</td><td>1.2378</td><td>2.0000</td><td>1.2341</td><td>0.006</td></tr>
+    </tbody></table>
 
+    <!-- 6 -->
     <h2 id="codigo">6. Código en Python y gráfica</h2>
-    <pre><code>import numpy as np
-import matplotlib.pyplot as plt
+    <pre><code>import numpy as np, matplotlib.pyplot as plt
 
-def regla_falsa(f, a, b, tol=1e-5, max_iter=50):
+def falsa_pos(f,a,b,tol=1e-5,max_iter=50):
     fa, fb = f(a), f(b)
-    if fa * fb >= 0:
-        raise ValueError("f(a) y f(b) deben tener signos opuestos")
-    errores = []
-    for i in range(max_iter):
-        c = b - fb*(b - a)/(fb - fa)
+    if fa*fb>=0: raise ValueError('Sin cambio de signo')
+    xs, errs = [], []
+    for _ in range(max_iter):
+        c = b - fb*(b-a)/(fb-fa)
         fc = f(c)
-        errores.append(abs(fc))
-        if abs(fc) < tol or abs(b - a) < tol:
-            return c, errores
-        if fa * fc < 0:
-            b, fb = c, fc
-        else:
-            a, fa = c, fc
-    return c, errores
+        xs.append(c); errs.append(abs(fc))
+        if abs(fc)<tol: break
+        if fa*fc<0: b, fb = c, fc
+        else: a, fa = c, fc
+    return xs, errs
 
-# Ejemplo f(x)=x^3-x-2
-def f(x): return x**3 - x - 2
-root, errs = regla_falsa(f, 1, 2, tol=1e-3)
-its = list(range(1, len(errs)+1))
+f=lambda x:x**3-x-2
+xs,errs=falsa_pos(f,1,2,1e-8)
+plt.semilogy(errs,'o-'); plt.xlabel('Iteración'); plt.ylabel('|f(c)|');
+plt.title('Regla Falsa'); plt.tight_layout()</code></pre>
 
-plt.figure()
-plt.plot(its, errs)
-plt.xlabel('Iteración')
-plt.ylabel('Error |f(c)|')
-plt.title('Convergencia de la Regla Falsa')
-plt.show()</code></pre>
-
+    <!-- 7 -->
     <h2 id="animacion">7. Animación JS</h2>
-    <p>Visualizar la disminución de |f(c)| con <code>Chart.js</code>:</p>
-    <canvas id="falsePositionChart" width="400" height="200"></canvas>
-    <script defer>
-      function falsePos(a,b,iter){
-        let fa=f(a), fb=f(b), errs=[];
-        for(let i=0;i<iter;i++){
-          let c=b - fb*(b-a)/(fb-fa), fc=f(c);
-          errs.push(Math.abs(fc));
-          if(fa*fc<0) b= c, fb=fc;
-          else a= c, fa=fc;
-        }
-        return errs;
-      }
-      function f(x){ return x*x*x - x - 2; }
-      const errsFP = falsePos(1,2,20);
-      const ctx = document.getElementById('falsePositionChart').getContext('2d');
-      new Chart(ctx, {
-        type:'line', data:{ labels: errsFP.map((_,i)=>i+1), datasets:[{ label:'|f(c)|', data:errsFP, fill:false, borderWidth:2 }] },
-        options:{ scales:{ x:{ title:{ display:true, text:'Iteración' }}, y:{ title:{ display:true, text:'Error' } } }}
+    <p>Error absoluto en escala log‑10:</p>
+    <canvas id="fpChart" width="420" height="220"></canvas>
+    <script>
+      window.addEventListener('DOMContentLoaded',()=>{
+        function f(x){return x**3-x-2;}
+        function falsaPos(a,b,its){let fa=f(a),fb=f(b),err=[];for(let i=0;i<its;i++){let c=b-fb*(b-a)/(fb-fa),fc=f(c);err.push(Math.abs(fc));if(fa*fc<0){b=c;fb=fc}else{a=c;fa=fc}}return err}
+        const err=falsaPos(1,2,20);
+        new Chart(fpChart,{type:'line',data:{labels:err.map((_,i)=>i+1),datasets:[{label:'|f(c)|',data:err,fill:false,borderWidth:2}]},options:{scales:{y:{type:'logarithmic',title:{display:true,text:'Error'}},x:{title:{display:true,text:'Iteración'}}}}});
       });
     </script>
 
-    <h2 id="video">8. Video Explicativo</h2>
-    <p><a href="https://www.youtube.com/watch?v=nRZsZ3liq4I" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+    <!-- 8 -->
+    <h2 id="video">8. Video explicativo</h2>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;"><iframe src="https://www.youtube.com/embed/nRZsZ3liq4I" title="Regla Falsa" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe></div>
 
+    <!-- 9 -->
     <h2 id="referencias">9. Referencias</h2>
     <ul>
-      <li>Burden, R. L., &amp; Faires, J. D. (2011). <em>Numerical Analysis</em> (9ª ed.). Brooks/Cole.</li>
+      <li>Burden, R. & Faires, J. (2011). <em>Numerical Analysis</em>. Brooks/Cole.</li>
       <li>Atkinson, K. (1989). <em>An Introduction to Numerical Analysis</em>. Wiley.</li>
-      <li>Wikipedia contributors. (2025, 5 de abril). Regula falsi. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Regula_falsi</li>
-      <li>Chapra, S. C., &amp; Canale, R. P. (2015). <em>Numerical Methods for Engineers</em> (7ª ed.). McGraw-Hill Education.</li>
+      <li>Wikipedia contributors. (2025). <em>Regula falsi</em>. Wikipedia.</li>
     </ul>
 
+    <!-- 10 -->
     <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
-    <p>La Regla Falsa combina la simplicidad de la bisección con la velocidad de la secante, ofreciendo a menudo una convergencia más rápida. Sin embargo, puede estancarse si uno de los extremos permanece fijo.</p>
-    <p>Se utiliza en problemas de ingeniería y ciencia cuando se desea velocidad sin renunciar a la robustez inicial.</p>
+    <p>La Regla Falsa es un híbrido práctico: arranca con la robustez de la bisección y aprovecha la pendiente para converger más rápido, útil en <em>circuitos no lineales</em>, balances de masa y raíces de ecuaciones de estado.</p>
   </main>
 </div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
 
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
+<!-- Footer -->
+<!-- Footer Start -->
+<footer class="bg-dark text-light pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+    <div class="row g-5">
+      <!-- Contacto -->
+      <div class="col-lg-4 col-md-6">
+        <h4 class="text-white mb-3">Contacto</h4>
+        <p class="mb-2"><i class="fa fa-map-marker-alt me-2"></i>FIME</p>
+        <p class="mb-2"><i class="fa fa-phone-alt me-2"></i>+012 345 67890</p>
+        <p class="mb-4"><i class="fa fa-envelope me-2"></i>info@example.com</p>
+        <div class="d-flex gap-2">
+          <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
+          <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
+          <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
+          <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
         </div>
+      </div>
+      <!-- Navegación extra -->
+      <div class="col-lg-8 col-md-6 d-flex align-items-center">
+        <div>
+          <h5 class="text-white mb-3">Navegación</h5>
+          <ul class="list-unstyled d-flex flex-wrap gap-3 mb-0">
+            <li><a class="text-light" href="#">Home</a></li>
+            <li><a class="text-light" href="#">Cookies</a></li>
+            <li><a class="text-light" href="#">Help</a></li>
+            <li><a class="text-light" href="#">FQAs</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
-  <!-- Footer End -->
+  <!-- Copyright -->
+  <div class="container border-top border-secondary pt-3">
+    <div class="row">
+      <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+        &copy; <a class="border-bottom text-light" href="#">Métodos Numéricos</a>, 2025.
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <small>Plantilla por <a class="border-bottom text-light" href="https://htmlcodex.com">HTML Codex</a></small>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Footer End -->
 </body>
 </html>

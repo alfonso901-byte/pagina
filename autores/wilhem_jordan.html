@@ -1,258 +1,165 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <title>Metodos Numericos</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
-
-    <!-- Favicon -->
-    <link href="../img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="../css/style.css" rel="stylesheet">
-
-    <style>
-      /* Contenedor flex para aside y main */
-      .container {
-        display: flex;
-        gap: 2rem; /* espacio entre aside y main */
-        margin-top: 1rem;
-        padding: 0 1rem;
-      }
-
-      /* Aside pequeño sticky */
-      aside {
-        position: sticky;
-        top: 80px; /* para que quede debajo del navbar (ajusta si tu navbar cambia de alto) */
-        flex: 0 0 220px; /* ancho fijo, no crece ni se encoge */
-        background-color: #f8f9fa;
-        border-radius: 0.375rem;
-        padding: 1rem;
-        height: fit-content; /* que tome el alto de su contenido */
-        box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
-      }
-
-      /* Main toma todo lo que queda */
-      main {
-        flex: 1;
-      }
-
-      /* Opcional: lista aside sin bullets */
-      aside ul {
-        padding-left: 0;
-        list-style: none;
-      }
-
-      aside ul li {
-        padding: 0.4rem 0;
-        border-bottom: 1px solid #ddd;
-      }
-
-      aside ul li:last-child {
-        border-bottom: none;
-      }
-
-      /* Responsive: en pantallas chicas, aside se pone arriba */
-      @media (max-width: 768px) {
-        .container {
-          flex-direction: column;
-        }
-
-        aside {
-          position: relative;
-          top: auto;
-          flex: none;
-          width: 100%;
-          margin-bottom: 1rem;
-          box-shadow: none;
-          background-color: transparent;
-          padding: 0;
-        }
-
-        aside ul li {
-          border: none;
-          padding: 0.25rem 0;
-        }
-      }
-      .title-with-image {
-  display: flex;
-  align-items: center;
-  gap: 1rem; /* espacio entre el título y la imagen */
-  margin-bottom: 1rem;
-}
-
-.autor-img {
-  width: 150px; /* tamaño de la imagen, puedes ajustar */
-  height: 200px;
-  object-fit: cover; /* para que la imagen mantenga proporción y no se distorsione */
-  border-radius: 30%; /* para hacerla circular */
-  border: 2px solid #007bff; /* borde azul, opcional */
-}
-.frase_importante{
-    background-color: rgba(128, 128, 128, 0.2); /* gris translúcido */
-    border-left: 5px solid rgba(0, 0, 0, 0.2);  /* borde izquierdo */
-    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1); /* sombra hacia la derecha */
-    padding: 15px 20px;
-    margin: 30px 0;
-    font-style: italic;
-    font-size: 1.2rem;
-}
-    </style>
+  <meta charset="utf-8">
+  <title>Metodos Numericos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../img/favicon.ico" rel="icon">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="lib/animate/animate.min.css" rel="stylesheet">
+  <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <style>
+    .container{display:flex;gap:2rem;margin-top:1rem;padding:0 1rem;}
+    aside{position:sticky;top:80px;flex:0 0 220px;background:#f8f9fa;border-radius:.375rem;padding:1rem;height:fit-content;box-shadow:0 0 10px rgba(0,0,0,.1);}    
+    main{flex:1;}
+    aside ul{padding-left:0;list-style:none;}
+    aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}
+    aside ul li:last-child{border-bottom:none;}
+    @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}aside ul li{border:none;padding:.25rem 0;}}
+    .title-with-image{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+    .autor-img{width:180px;height:220px;object-fit:cover;border-radius:30%;border:2px solid #007bff;}
+    .frase_importante{background:linear-gradient(135deg,#eaf3ff 0%,#f6faff 100%);border-left:6px solid #0d6efd;border-radius:.5rem;padding:25px 30px;margin:40px 0;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.08);}
+    .math-formula{display:inline-block;font-family:"Courier New",monospace;font-size:1.15rem;background:#fff;padding:6px 10px;border-radius:.35rem;box-shadow:inset 0 0 4px rgba(0,0,0,.06);}
+  </style>
 </head>
 <body>
-
-<!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
-  </a>
-  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-  </button>
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5"><h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2></a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
-      <div class="navbar-nav ms-auto p-4 p-lg-0">
-          <a href="../index.html" class="nav-item nav-link">Inicio</a>
-          <a href="../temas.html" class="nav-item nav-link">Temas</a>
-          <a href="../autores.html" class="nav-item nav-link active">Autores</a>
-      </div>
+    <div class="navbar-nav ms-auto p-4 p-lg-0">
+      <a href="../index.html" class="nav-item nav-link">Inicio</a>
+      <a href="../temas.html" class="nav-item nav-link">Temas</a>
+      <a href="../autores.html" class="nav-item nav-link active">Autores</a>
+    </div>
   </div>
 </nav>
-<!-- Navbar End -->
 
 <div class="container">
   <aside>
     <h3>Contenido</h3>
     <ul>
-      <li><a href="#biografia">Biografia</a></li>
-      <li><a href="#historia">Historia</a></li>
-      <li><a href="#trabajos_destacados">Trabajos Destacados</a></li>
+      <li><a href="#biografia">Biografía</a></li>
+      <li><a href="#historia">Trayectoria</a></li>
+      <li><a href="#gaussjordan">Eliminación de Gauss-Jordan</a></li>
+      <li><a href="#trabajos">Trabajos destacados</a></li>
+      <li><a href="#legado">Legado e influencia</a></li>
     </ul>
   </aside>
+
   <main>
     <div class="title-with-image">
-      <h1>Wilhem Jordan</h1>
-      <img src="../img/wilhem_jordan.png" alt="Autor del tema" class="autor-img" />
+      <h1>Wilhelm Jordan</h1>
+      <img src="../img/wilhem_jordan.png" alt="Retrato de Wilhelm Jordan" class="autor-img" />
     </div>
-    
-    <p id="biografia">
-        <h2>Biografia</h2>
-        Wilhelm Jordan (1842-1899) fue un geodesista alemán que hizo trabajos de topografía en Alemania y África. Es recordado entre los
-        matemáticos por su algoritmo de la eliminación de Gauss-Jordan que aplicó para resolver el problema de mínimos cuadrados. Esta 
-        técnica algebraica apareció en su Handbuch der Vermessungskunde (1873).
-    </p>
-    <hr>
-    <p id="historia">
-        <h2>Historia</h2>
-        Jordan nació en Ellwangen, un pequeño pueblo en el sur de Alemania. Estudió en el Instituto Politécnico de Stuttgart y después de 
-        trabajar durante dos años como asistente de ingeniería en las etapas preliminares de la construcción del ferrocarril, volvió allí 
-        como asistente en geodesia. En 1868, cuando tenía 26 años, fue nombrado profesor titular en Karlsruhe. En 1874, Jordan participó 
-        en la expedición de Friedrich Gerhard Rohlfs a Libia. Desde 1881 hasta su muerte fue profesor de geodesia y geometría práctica en
-        la Universidad Técnica de Hannover. Fue un prolífico escritor y su obra más conocida fue su Handbuch der Vermessungskunde 
-        (Libro de Texto de Geodesia).
-    </p>
-    <hr>
-    <p id="trabajos_destacados">
-        <h2>
-            Trabajos Destacados
-        </h2>
-        Wilhelm Jordan, en su trabajo sobre topografía, usó el método de mínimos cuadrados de forma habitual. Este método es especialmente 
-        útil en disciplinas como la topografía, la geodesia o la astronomía, caracterizadas porque cuando se realizan observaciones existe 
-        una redundancia en medidas de ángulos y longitudes. No obstante, existen relaciones que conectan las medidas, y se pueden escribir 
-        como un sistema lineal sobre-determinado (más ecuaciones que incógnitas) al cual se le aplica el método. El propio Jordan participó 
-        en trabajos de geodesia a gran escala en Alemania, así como en la primera topografía del desierto de Libia. En 1873 fundó la revista
-        alemana Journal of Geodesy y ese mismo año publicó la primera edición de su famoso Handbuch.
-        <br>
-        <br>
-        Como los métodos de mínimos cuadrados eran tan importantes en topografía, Jordan dedicó la primera sección de su Handbuch a este asunto.
-        Formando parte de la discusión, dio una detallada presentación del método de eliminación de Gauss para convertir el sistema dado en 
-        triangular. Entonces mostró cómo la técnica de sustitución hacia atrás permitía encontrar la solución cuando se conocían los coeficientes.
-        Sin embargo, anota que si se realiza esta sustitución, no numérica sino algebraicamente, se pueden obtener las soluciones de las incógnitas
-        con fórmulas que involucran los coeficientes del sistema. En la primera y segunda edición (1879) de su libro simplemente dio estas fórmulas
-        pero en la cuarta edición (1895) dio un algoritmo explícito para resolver un sistema de ecuaciones con matriz de coeficientes simétrica,
-        que son las que aparecen en los problemas de mínimos cuadrados. Este algoritmo es, en efecto, el método de "Gauss-Jordán".
-        <br>
-        <br>
-        Aunque Jordan no usó matrices como se hace actualmente, realizaba el trabajo sobre tablas de coeficientes y explicaba cómo pasar de 
-        una fila a la siguiente, como muchos textos hacen hoy en día. La mayor diferencia entre su método y el actual es que Jordan no hacía
-        el pivote de cada fila igual a 1 durante el proceso de solución. En el paso final, simplemente expresaba cada incógnita como un cociente
-        con el pivote como denominador.
-        <br>
-        <br>
-        El Handbuch se convirtió en un trabajo estándar en el campo de la geodesia, llegando hasta diez ediciones en alemán y traducciones a otras
-        lenguas. Incluso la octava edición de 1935 contenía la primera sección con la descripción del método de Gauss-Jordan. En la edición más 
-        reciente, publicada en 1961, ya no aparece. Por supuesto, en esa edición gran parte de lo que Jordan había escrito originalmente había 
-        sido modificado más allá de lo reconocible por los editores.
-        <br>
-        <br>
-        A mediados de la década de 1950 la mayoría de las referencias al método de Gauss-Jordan se encontraban en libros y artículos de métodos
-        numéricos. En las décadas más recientes ya aparece en los libros elementales de álgebra lineal. Sin embargo, en muchos de ellos, cuando
-        se menciona el método, no se referencia al inventor.
-    </p>
-    <hr>
-    
-  </main>
-  
-</div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
 
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <section id="biografia">
+      <h2>Biografía</h2>
+      <p>
+        Carl&nbsp;Friedrich Wilhelm Jordan (Ellwangen, 1&nbsp;de&nbsp;mayo&nbsp;de&nbsp;1842 – Hannover, 17&nbsp;de&nbsp;abril&nbsp;de&nbsp;1899)
+        fue un geodesista, topógrafo y profesor alemán. Conocido por formalizar el algoritmo hoy llamado <strong>eliminación de Gauss-Jordan</strong>,
+        contribuyó a la triangulación de Alemania y a la primera topografía científica del Sáhara central (expedición Rohlfs, 1874-1875).
+      </p>
+    </section>
+    <hr>
+
+    <section id="historia">
+      <h2>Trayectoria académica y profesional</h2>
+      <p>
+        • Estudió ingeniería en la <em>Gewerbeschule</em> de Stuttgart (1859-1862).<br>
+        • Ayudante de geodesia en la misma escuela; catedrático en Karlsruhe con 26&nbsp;años (1868).<br>
+        • Participó en la <strong>expedición de Gerhard Rohlfs</strong> a Fezzán y Kufra (Libia), realizando mediciones astronómicas y gravimétricas<br>
+        • Desde 1881 hasta su muerte fue profesor de Geodesia y Geometría práctica en la Technische Hochschule Hannover.<br>
+        • Fundador y editor (1873) del <em>Zeitschrift für Vermessungswesen</em> (hoy <em>Journal of Geodesy</em>).
+      </p>
+    </section>
+    <hr>
+
+    <section id="gaussjordan">
+      <h2>Eliminación de Gauss-Jordan</h2>
+      <p>
+        En la 4.ª edición de su <em>Handbuch der Vermessungskunde</em> (1895) describió un procedimiento matricial para transformar el sistema
+        normal <strong>Ax=b</strong> de mínimos cuadrados en <em>I</em> mediante operaciones elementales sobre filas:
+      </p>
+      <div class="frase_importante">
+        <span class="math-formula">[A&nbsp;|&nbsp;b] &xrArr; [I&nbsp;|&nbsp;x]</span>
+      </div>
+      <p>
+        El algoritmo aplica pivoteo sobre la diagonal de <em>A</em>, anulando sucesivamente los demás elementos de cada columna tanto arriba como
+        abajo del pivote (diferencia clave respecto a la eliminación de Gauss). El resultado proporciona simultáneamente la matriz inversa
+        <em>A<sup>&minus;1</sup></em> y la solución <em>x</em> sin paso de sustitución hacia atrás.
+      </p>
+    </section>
+    <hr>
+
+    <section id="trabajos">
+      <h2>Trabajos destacados</h2>
+      <p>
+        • <strong><em>Handbuch der Vermessungskunde</em></strong> (1872-1895): manual de referencia en geodesia, alcanzó 10 ediciones y fue
+        traducido a varios idiomas.<br>
+        • Contribuciones a la nivelación de precisión del Imperio Alemán y a la adopción de un <em>geodetic datum</em> unificado.<br>
+        • Estudios de <em>isostasia</em> y deflexión vertical derivados de la campaña del Sáhara.<br>
+        • Artículos sobre ajuste de observaciones y teoría de errores en el contexto de la cartografía militar.
+      </p>
+    </section>
+    <hr>
+
+    <section id="legado">
+      <h2>Legado e influencia</h2>
+      <p>
+        El método Gauss-Jordan se enseña hoy en álgebra lineal y computación científica; aparece en software como MATLAB, NumPy y
+        calculadoras programables. Su <em>Handbuch</em> sentó bases para la ingeniería geodésica alemana y su revista evolucionó al actual
+        <em>Journal of Geodesy</em> de la IAG.
+      </p>
+    </section>
+
+    <p><strong>Referencia (formato APA):</strong><br>
+      Wikipedia contribuidores. (2025, 19 mayo). <em>Wilhelm Jordan (geodesist)</em>. En <em>Wikipedia, The free encyclopedia</em>. Recuperado 19&nbsp;de&nbsp;mayo&nbsp;de&nbsp;2025, de
+      <a href="https://en.wikipedia.org/wiki/Wilhelm_Jordan_(geodesist)">https://en.wikipedia.org/wiki/Wilhelm_Jordan_(geodesist)</a>.
+    </p>
+  </main>
+</div>
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+      <div class="row g-5">
+          <div class="col-lg-3 col-md-6">
+              <h4 class="text-white mb-3">Contact</h4>
+              <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+              <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+              <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+              <div class="d-flex pt-2">
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+              </div>
+          </div>
+      </div>
   </div>
-  <!-- Footer End -->
+  <div class="container">
+      <div class="copyright">
+          <div class="row">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                  &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+                  Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                  <div class="footer-menu">
+                      <a href="">Home</a>
+                      <a href="">Cookies</a>
+                      <a href="">Help</a>
+                      <a href="">FQAs</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Footer End -->
 </body>
 </html>

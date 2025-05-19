@@ -15,40 +15,40 @@
   <link href="../css/style.css" rel="stylesheet">
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <!-- MathJax -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
-    .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
-    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgb(0 0 0 / .1); }
-    main { flex: 1; }
-    aside ul { padding-left: 0; list-style: none; }
-    aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
-    aside ul li:last-child { border-bottom: none; }
-    @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
-    .frase_importante { background-color: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); box-shadow: -5px 0 10px rgba(0,0,0,.1); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.2rem; }
-    pre { background-color: #f4f4f4; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
-    img { max-width: 100%; height: auto; margin: 1rem 0; }
+    .container{display:flex;gap:2rem;margin-top:1rem;padding:0 1rem;}
+    aside{position:sticky;top:80px;flex:0 0 220px;background:#f8f9fa;border-radius:.375rem;padding:1rem;height:fit-content;box-shadow:0 0 10px rgba(0,0,0,.1);}
+    main{flex:1;}
+    aside ul{list-style:none;padding-left:0;}
+    aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}
+    aside ul li:last-child{border-bottom:none;}
+    @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;flex:none;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}}
+    .frase_importante{background:rgba(128,128,128,.15);border-left:5px solid var(--primary);box-shadow:-5px 0 10px rgba(0,0,0,.05);padding:15px 20px;margin:30px 0;font-style:italic;font-size:1.1rem;}
+    pre{background:#f4f4f4;padding:1rem;border-radius:.5rem;overflow-x:auto;}
+    .math-display{text-align:center;margin:1.2rem 0;font-size:1.25rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1rem 0;}
+    .example-table th,.example-table td{border:1px solid #ddd;padding:.5rem;text-align:center;}
+    .example-table th{background:#f0f0f0;}
   </style>
 </head>
 <body>
-
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
-  </a>
-  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-  </button>
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5"><h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2></a>
+  <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
-      <div class="navbar-nav ms-auto p-4 p-lg-0">
-          <a href="../index.html" class="nav-item nav-link">Inicio</a>
-          <a href="../temas.html" class="nav-item nav-link active">Temas</a>
-          <a href="../autores.html" class="nav-item nav-link">Autores</a>
-      </div>
+    <div class="navbar-nav ms-auto p-4 p-lg-0">
+      <a href="../index.html" class="nav-item nav-link">Inicio</a>
+      <a href="../temas.html" class="nav-item nav-link active">Temas</a>
+      <a href="../autores.html" class="nav-item nav-link">Autores</a>
+    </div>
   </div>
 </nav>
 <!-- Navbar End -->
-
 <div class="container">
   <aside>
     <h3>Índice de contenido</h3>
@@ -65,148 +65,156 @@
       <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
     </ul>
   </aside>
-
   <main>
+    <!-- 1 -->
     <div class="title-with-image">
       <h1 id="nombre">1. Método de la Inversa</h1>
-      <b>Conoce su origen <i><a href="../autores/matrix.html">Desarrollo en Álgebra Lineal Moderna</a></i></b>
+      <p class="mt-2">Consiste en obtener \(\mathbf A^{-1}\) y luego \(\mathbf x=\mathbf A^{-1}\mathbf b\). Utiliza Gauss-Jordan, LU o adjunta.</p>
     </div>
 
+    <!-- 2 -->
     <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
-    <p>El método de la inversa consiste en hallar A<sup>-1</sup> de una matriz no singular A y resolver A·x=b como x = A<sup>-1</sup>·b. Se basa en llevar [A|I] a [I|A<sup>-1</sup>] mediante Gauss-Jordan.</p>
-    <div class="frase_importante">
-      Definición: A<sup>-1</sup>A = AA<sup>-1</sup> = I.
-    </div>
-
-    <h2 id="error">3. Término de error y estabilidad</h2>
-    <p>Calcular la inversa aumenta la sensibilidad a errores numéricos (condicionamiento). El error relativo |ΔA|/|A| se amplifica por el número de condición cond(A) = ||A||·||A<sup>-1</sup>||.</p>
-    <div class="frase_importante">
-      Error estimado: ||Δx||/||x|| ≤ cond(A)·(||ΔA||/||A||).
-    </div>
-
-    <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
-    <ol>
-      <li>Formar matriz aumentada [A|I].</li>
-      <li>Aplicar Gauss-Jordan hasta obtener [I|A<sup>-1</sup>].</li>
-      <li>Multiplicar A<sup>-1</sup>·b para obtener x.</li>
-      <li>Verificar solidez: cond(A) baja para estabilidad.</li>
-    </ol>
-
-    <h2 id="ejemplo">5. Ejemplo resuelto</h2>
-    <p>Sea A = [[4,7],[2,6]], b=[-1,3]. Hallar A<sup>-1</sup> y x.</p>
+    <p>Sea \(\mathbf A\in\mathbb R^{n\times n}\) no singular.  Por definición:</p>
+    <div class="math-display">$$\mathbf A^{-1}\mathbf A=\mathbf I=\mathbf A\mathbf A^{-1}. $$</div>
+    <p>Al resolver \(\mathbf A\mathbf x=\mathbf b\) con \(m\) vectores \(\mathbf b\), la inversa permite calcular todas las soluciones mediante una única factorización.</p>
     <ul>
-      <li>Determinante det = 4·6 - 7·2 = 10.</li>
-      <li>Inv(A) = (1/10)[ [6,-7],[-2,4] ] = [[0.6,-0.7],[-0.2,0.4]].</li>
-      <li>x = A<sup>-1</sup>·b = [[0.6,-0.7],[-0.2,0.4]]·[-1,3] = [-2.7,1.4].</li>
+      <li><strong>Gauss-Jordan:</strong> aplicar OEF sobre \([\mathbf A|\mathbf I]\rightarrow[\mathbf I|\mathbf A^{-1}]\).</li>
+      <li><strong>LU:</strong> si \(\mathbf A=\mathbf L\mathbf U\), entonces \(\mathbf A^{-1}=\mathbf U^{-1}\mathbf L^{-1}\) (inversión triangular).</li>
+      <li><strong>Cofactores:</strong> \(\mathbf A^{-1}=\frac{1}{\det\mathbf A}\operatorname{adj}(\mathbf A)\) — poco práctico numéricamente.</li>
     </ul>
 
+    <!-- 3 -->
+    <h2 id="error">3. Término de error y estabilidad</h2>
+    <p>El proceso amplifica los errores de redondeo según el <strong>número de condición</strong>:</p>
+    <div class="math-display">$$\kappa(\mathbf A)=\|\mathbf A\|\;\|\mathbf A^{-1}\|.$$</div>
+    <p>Para perturbaciones pequeñas de datos: \(\displaystyle \frac{\|\Delta\mathbf x\|}{\|\mathbf x\|}\lesssim \kappa(\mathbf A)\,\frac{\|\Delta\mathbf b\|}{\|\mathbf b\|}.\)</p>
+    <div class="frase_importante">Mientras mayor sea \(\kappa(\mathbf A)\), peor es la estabilidad del método de la inversa.</div>
+
+    <!-- 4 -->
+    <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
+    <ol>
+      <li>Construir \([\mathbf A\,|\,\mathbf I]\).</li>
+      <li>Aplicar Gauss-Jordan → \([\mathbf I\,|\,\mathbf A^{-1}]\).</li>
+      <li>Calcular \(\mathbf x=\mathbf A^{-1}\mathbf b\).</li>
+      <li>Si se resolverán muchos \(\mathbf b\), almacenar \(\mathbf A^{-1}\); de lo contrario, prefiera factorizaciones.</li>
+    </ol>
+
+    <!-- 5 -->
+    <h2 id="ejemplo">5. Ejemplo resuelto</h2>
+    <p>Matriz</p>
+    <div class="math-display">$$\mathbf A=\begin{pmatrix}4&7\\2&6\end{pmatrix},\;\mathbf b=\begin{pmatrix}-1\\3\end{pmatrix}. $$</div>
+
+    <table class="example-table">
+      <thead><tr><th>Paso</th><th>Operación</th><th>\([\mathbf A|\mathbf I]\)</th></tr></thead>
+      <tbody>
+        <tr><td>Inicial</td><td>—</td><td>\(\bigl[\begin{smallmatrix}4&7&|&1&0\\2&6&|&0&1\end{smallmatrix}\bigr]\)</td></tr>
+        <tr><td>F1←F1/4</td><td>Normalizar</td><td>\(\bigl[\begin{smallmatrix}1&1.75&|&0.25&0\\2&6&|&0&1\end{smallmatrix}\bigr]\)</td></tr>
+        <tr><td>F2←F2-2·F1</td><td>Eliminar</td><td>\(\bigl[\begin{smallmatrix}1&1.75&|&0.25&0\\0&2.5&|&-0.5&1\end{smallmatrix}\bigr]\)</td></tr>
+        <tr><td>F2←F2/2.5</td><td>Normalizar</td><td>\(\bigl[\begin{smallmatrix}1&1.75&|&0.25&0\\0&1&|&-0.2&0.4\end{smallmatrix}\bigr]\)</td></tr>
+        <tr><td>F1←F1-1.75·F2</td><td>Eliminar col&nbsp;2</td><td>\(\bigl[\begin{smallmatrix}1&0&|&0.6&-0.7\\0&1&|&-0.2&0.4\end{smallmatrix}\bigr]\)</td></tr>
+      </tbody>
+    </table>
+    <p>Así \(\mathbf A^{-1}=\bigl[\begin{smallmatrix}0.6&-0.7\\-0.2&0.4\end{smallmatrix}\bigr]\) y \(\mathbf x=\mathbf A^{-1}\mathbf b=(-2.7,1.4)^\mathsf T\).</p>
+
+    <!-- 6 -->
     <h2 id="codigo">6. Código en Python y gráfica</h2>
-    <pre><code>import numpy as np
-import time
-import matplotlib.pyplot as plt
+    <pre><code>import numpy as np, matplotlib.pyplot as plt, time
 
-def inversa(A):
-    return np.linalg.inv(A)
+def solve_inv(A, b):
+    return np.linalg.inv(A) @ b
 
-def solve_inversa(A, b):
-    Ainv = inversa(A)
-    return Ainv.dot(b)
-
-# medir tiempo inversa vs Gauss-Jordan
-sizes = [50,100,200,400]
-t_inv, t_gj = [], []
-for n in sizes:
-    A = np.random.rand(n,n)
+n_vals, t_inv, t_solve = [], [], []
+for n in range(50, 501, 50):
+    A = np.random.rand(n, n)
     b = np.random.rand(n)
-    t0 = time.time(); np.linalg.inv(A); t_inv.append(time.time()-t0)
-    t0 = time.time(); solve_inversa(A, b); t_gj.append(time.time()-t0)
+    t0 = time.perf_counter(); solve_inv(A, b); t_inv.append(time.perf_counter()-t0)
+    t0 = time.perf_counter(); np.linalg.solve(A, b); t_solve.append(time.perf_counter()-t0)
+    n_vals.append(n)
 
 plt.figure()
-plt.plot(sizes, t_inv, label='np.inv')
-plt.plot(sizes, t_gj, label='Inversa+Multiplicación')
-plt.xlabel('Tamaño n')
-plt.ylabel('Tiempo (s)')
-plt.title('Costo computacional Método de la Inversa')
-plt.legend()
-plt.show()</code></pre>
+plt.semilogy(n_vals, t_inv, label='via inversa')
+plt.semilogy(n_vals, t_solve, label='solve()', linestyle='--')
+plt.xlabel('n'); plt.ylabel('Tiempo (s, log)'); plt.title('Costo resolver por inversa vs solve')
+plt.legend(); plt.grid(True, which='both'); plt.tight_layout()</code></pre>
 
+    <!-- 7 -->
     <h2 id="animacion">7. Animación JS</h2>
-    <p>Comparación de tiempos para distintos n:</p>
-    <canvas id="invChart" width="400" height="200"></canvas>
+    <p>Tiempos sintéticos (log):</p>
+    <canvas id="invChart" width="420" height="220"></canvas>
     <script>
-      window.addEventListener('DOMContentLoaded', function() {
-        const sizes=[50,100,200,400];
-        const tInv=[0.001,0.008,0.06,0.5];
-        const tGJ=[0.002,0.015,0.1,0.8];
-        const ctx = document.getElementById('invChart').getContext('2d');
-        new Chart(ctx, {
-          type:'line', data:{ labels: sizes,
-            datasets:[
-              { label:'Inv NumPy', data:tInv, fill:false, borderWidth:2 },
-              { label:'Gauss-Jordan', data:tGJ, fill:false, borderWidth:2 }
-            ]
-          }, options:{ scales:{ x:{ title:{ display:true, text:'Tamaño n' }}, y:{ title:{ display:true, text:'Tiempo (s)' } } }}
+      window.addEventListener('DOMContentLoaded',()=>{
+        const n=[50,100,200,400];
+        const inv=[0.002,0.01,0.08,0.6];
+        const solve=[0.0008,0.004,0.03,0.25];
+        new Chart(document.getElementById('invChart'),{
+          type:'line',
+          data:{labels:n,datasets:[
+            {label:'Inversa',data:inv,borderWidth:2,fill:false},
+            {label:'solve()',data:solve,borderDash:[5,5],borderWidth:2,fill:false}
+          ]},
+          options:{scales:{y:{type:'logarithmic',title:{display:true,text:'Tiempo (s)'}},x:{title:{display:true,text:'Tamaño n'}}}}
         });
       });
     </script>
 
+    <!-- 8 -->
     <h2 id="video">8. Video Explicativo</h2>
-    <p><a href="https://www.youtube.com/watch?v=9rf71XOmUpY" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+      <iframe src="https://www.youtube.com/embed/9rf71XOmUpY" title="Método de la Inversa" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe>
+    </div>
 
+    <!-- 9 -->
     <h2 id="referencias">9. Referencias</h2>
     <ul>
-      <li>Strang, G. (2006). <em>Linear Algebra and Its Applications</em> (4ª ed.). Brooks Cole.</li>
-      <li>Golub, G. H., & Van Loan, C. F. (2013). <em>Matrix Computations</em> (4ª ed.). Johns Hopkins University Press.</li>
-      <li>Wikipedia contributors. (2025, 8 de mayo). Matrix inversion. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Matrix_inversion</li>
+      <li>Golub, G. H., & Van Loan, C. F. (2013). <em>Matrix Computations</em> (4.ª ed.). JHU Press.</li>
+      <li>Higham, N. J. (2002). <em>Accuracy and Stability of Numerical Algorithms</em>. SIAM.</li>
+      <li>Strang, G. (2016). <em>Introduction to Linear Algebra</em> (5.ª ed.). Wellesley–Cambridge.</li>
+      <li>Wikipedia contributors. (2025, mayo). <em>Matrix inversion</em>. Wikipedia.</li>
     </ul>
 
+    <!-- 10 -->
     <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
-    <p>El método de la inversa proporciona solución directa por multiplicación pero es costoso y sensible a errores (condicionamiento). Es útil para múltiples sistemas con misma A.</p>
-    <p>Se emplea en control, optimización y simulaciones donde se reutiliza A<sup>-1</sup> para distintas b.</p>
+    <p>Resolver por la inversa es pedagógicamente claro y útil cuando se requiere \(\mathbf A^{-1}\) para múltiples lados derechos o análisis posteriores.  No obstante, <strong>para una sola \(\mathbf b\)</strong>, el costo y la inestabilidad lo hacen menos atractivo que métodos directos (LU, QR) o iterativos.</p>
+    <p>Aplicaciones típicas: algoritmos de control (ganancia \(K=A^{-1}B\)), estimación bayesiana, métodos explícitos en gráficos por computadora y precálculos en optimización.</p>
   </main>
 </div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-lg-3 col-md-6">
+          <h4 class="text-white mb-3">Contacto</h4>
+          <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+          <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+          <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+          <div class="d-flex pt-2">
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+          </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
-
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      </div>
   </div>
-  <!-- Footer End -->
+  <div class="container">
+      <div class="copyright">
+          <div class="row">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                  &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Rights Reserved.
+                  Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                  <div class="footer-menu">
+                      <a href="">Home</a>
+                      <a href="">Cookies</a>
+                      <a href="">Help</a>
+                      <a href="">FQAs</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Footer End -->
 </body>
 </html>

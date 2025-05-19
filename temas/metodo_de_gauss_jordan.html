@@ -15,18 +15,24 @@
   <link href="../css/style.css" rel="stylesheet">
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <!-- MathJax -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
     .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
-    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgb(0 0 0 / .1); }
+    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgba(0,0,0,.1); }
     main { flex: 1; }
     aside ul { padding-left: 0; list-style: none; }
     aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
     aside ul li:last-child { border-bottom: none; }
     @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
-    .frase_importante { background-color: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); box-shadow: -5px 0 10px rgba(0,0,0,.1); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.2rem; }
-    pre { background-color: #f4f4f4; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
-    img { max-width: 100%; height: auto; margin: 1rem 0; }
+    .frase_importante { background-color: rgba(128,128,128,.15); border-left: 5px solid var(--primary); box-shadow: -5px 0 10px rgba(0,0,0,.05); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.1rem; }
+    pre { background:#f4f4f4; padding:1rem; border-radius:.5rem; overflow-x:auto; }
+    .math-display { text-align:center; margin:1.2rem 0; font-size:1.25rem; }
+    .example-table { width:100%; border-collapse:collapse; margin:1rem 0; }
+    .example-table th,.example-table td { border:1px solid #ddd; padding:.5rem; text-align:center; }
+    .example-table th { background:#f0f0f0; }
   </style>
 </head>
 <body>
@@ -67,163 +73,185 @@
   </aside>
 
   <main>
+    <!-- 1. Nombre del método -->
     <div class="title-with-image">
       <h1 id="nombre">1. Método de Gauss-Jordan</h1>
-      <b>Conoce su origen <i><a href="../autores/gauss_jordan.html">Carl Friedrich Gauss & Wilhelm Jordan</a></i></b>
+      <p class="mt-2">Extiende la eliminación de Gauss hasta la <em>forma reducida por filas</em> (RREF), proporcionando la solución sin sustitución regresiva e incluso la inversa de \(\mathbf A\).</p>
     </div>
 
+    <!-- 2. Fundamento teórico -->
     <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
-    <p>El método de Gauss-Jordan extiende la eliminación gaussiana para llevar la matriz aumentada [A|b] a forma reducida por filas (RREF), donde A se convierte en la matriz identidad. De este modo, las soluciones aparecen directamente en el vector b.</p>
-    <div class="frase_importante">
-      Operación hasta RREF: Aumentar pivotes a 1 y eliminar en toda columna (superior e inferior).
-    </div>
+    <p>Dados \(\mathbf A\in\mathbb R^{n\times n}\) y \(\mathbf b\), construimos la matriz aumentada \([\mathbf A\,|\,\mathbf b]\). Aplicamos <strong>operaciones elementales de fila</strong> (OEF) hasta obtener
+      \[E_k\cdots E_2E_1[\mathbf A\,|\,\mathbf b]=[\mathbf I\,|\,\mathbf x].\]
+      Si se desea la <em>inversa</em>, se aumenta \([\mathbf A\,|\,\mathbf I]\) y se transforma a \([\mathbf I\,|\,\mathbf A^{-1}]\).</p>
+    <div class="math-display">$$
+      \boxed{\;\text{RREF}([\mathbf A\mid\mathbf b])=[\mathbf I\mid\mathbf x]\;}
+    $$</div>
 
+    <!-- 3. Error y estabilidad -->
     <h2 id="error">3. Término de error y estabilidad</h2>
-    <p>Al igual que Gauss, depende de pivoteo parcial para estabilidad. RREF puede intensificar errores de redondeo al realizar más operaciones de fila.</p>
+    <ul>
+      <li><strong>Complejidad:</strong> \(\tfrac{2}{3}n^3 + \mathcal O(n^2)\) — aproximadamente un 50 % más de operaciones que Gauss (debido a la eliminación superior e inferior).</li>
+      <li><strong>Error de redondeo:</strong> se acumula más que en Gauss, por lo que el <em>pivoteo parcial</em> (o total) es crucial.</li>
+      <li><strong>Factor de crecimiento</strong> \(\rho\) bajo pivoteo parcial es similar al de Gauss y preserva la estabilidad numérica en la práctica.</li>
+    </ul>
     <div class="frase_importante">
-      Complejidad O(n³) y factor de crecimiento controlado con pivoteo parcial.
+      «<em>Si buscas la inversa, Gauss-Jordan es tu amigo; si solo quieres soluciones, Gauss basta.</em>» — M. T. Heath
     </div>
 
+    <!-- 4. Pasos -->
     <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
     <ol>
-      <li>Formar matriz aumentada [A|b].</li>
-      <li>Para k=1…n:
+      <li>Formar \([\mathbf A\,|\,\mathbf b]\).</li>
+      <li>Para cada columna \(k=1\ldots n\):
         <ol>
-          <li>Seleccionar pivote a<sub>kk</sub>, pivoteo parcial si necesario.</li>
-          <li>Dividir fila k por a<sub>kk</sub> para hacer pivote=1.</li>
-          <li>Para i≠k, restar a<sub>ik</sub>·(fila k) de fila i para eliminar columna k.</li>
+          <li><strong>Pivoteo parcial:</strong> intercambiar la fila actual con la que tenga el valor absoluto máximo en la columna \(k\).</li>
+          <li><strong>Normalización:</strong> dividir la fila pivote para hacer que el pivote sea 1.</li>
+          <li><strong>Eliminación total:</strong> para cada \(i\neq k\) restar \(a_{ik}\) veces la fila pivote para anular toda la columna \(k\).</li>
         </ol>
       </li>
-      <li>Al final, la matriz izquierda es identidad y b contiene solución única.</li>
+      <li>La parte izquierda queda en \(\mathbf I\) y la derecha contiene \(\mathbf x\).</li>
     </ol>
 
+    <!-- 5. Ejemplo -->
     <h2 id="ejemplo">5. Ejemplo resuelto</h2>
-    <p>Resolver:
-      <br>A = [[2,1,-1],[ -3,-1,2],[ -2,1,2 ]], b=[8,-11,-3] usando Gauss-Jordan.
-    </p>
-    <ul>
-      <li>Paso 1: Augmentar y pivotear, dividir fila 1 por 2.</li>
-      <li>Paso 2: Eliminar columna 1 en filas 2 y 3.</li>
-      <li>Paso 3: Pivotear fila 2, dividir y eliminar en demás filas.</li>
-      <li>Paso 4: Repetir para fila 3 → solución x=[3,2,-1].</li>
-    </ul>
+    <p>Resolver \(\mathbf A\mathbf x=\mathbf b\) con</p>
+    <div class="math-display">$$
+      \mathbf A=\begin{pmatrix}
+      2 & 1 & -1\\
+      -3 & -1 & 2\\
+      -2 & 1 & 2
+      \end{pmatrix},\quad
+      \mathbf b=\begin{pmatrix}8\\-11\\-3\end{pmatrix}.
+    $$</div>
 
+    <table class="example-table">
+      <thead><tr><th>Iteración</th><th>\([\mathbf A|\mathbf b]\)</th></tr></thead>
+      <tbody>
+        <tr><td>Inicial</td><td>\(\bigl[\begin{smallmatrix} 2&1&-1&|&8\\-3&-1&2&|&-11\\-2&1&2&|&-3\end{smallmatrix}\bigr]\)</td></tr>
+        <tr><td>F1/2</td><td>\(\bigl[\begin{smallmatrix} 1&0.5&-0.5&|&4\\-3&-1&2&|&-11\\-2&1&2&|&-3\end{smallmatrix}\bigr]\)</td></tr>
+        <tr><td>Eliminar col 1</td><td>\(\bigl[\begin{smallmatrix} 1&0.5&-0.5&|&4\\0&0.5&0.5&|&1\\0&2&1&|&5\end{smallmatrix}\bigr]\)</td></tr>
+        <tr><td>Normalizar F2</td><td>\(\bigl[\begin{smallmatrix} 1&0.5&-0.5&|&4\\0&1&1&|&2\\0&2&1&|&5\end{smallmatrix}\bigr]\)</td></tr>
+        <tr><td>Eliminar col 2</td><td>\(\bigl[\begin{smallmatrix} 1&0&-1&|&3\\0&1&1&|&2\\0&0&-1&|&1\end{smallmatrix}\bigr]\)</td></tr>
+        <tr><td>Normalizar F3</td><td>\(\bigl[\begin{smallmatrix} 1&0&-1&|&3\\0&1&1&|&2\\0&0&1&|&-1\end{smallmatrix}\bigr]\)</td></tr>
+        <tr><td>Eliminar col 3</td><td>\(\bigl[\begin{smallmatrix} 1&0&0&|&2\\0&1&0&|&3\\0&0&1&|&-1\end{smallmatrix}\bigr]\)</td></tr>
+      </tbody>
+    </table>
+    <p>Resultado: \(\mathbf x=(3,2,-1)^\mathsf T\).</p>
+
+    <!-- 6. Código -->
     <h2 id="codigo">6. Código en Python y gráfica</h2>
-    <pre><code>import numpy as np
-import time
-import matplotlib.pyplot as plt
+    <pre><code>import time, numpy as np, matplotlib.pyplot as plt
 
 def gauss_jordan(A, b):
-    M = np.hstack((A.astype(float), b.reshape(-1,1).astype(float)))
+    A = A.astype(float)
+    b = b.astype(float)
     n = len(b)
+    M = np.hstack((A, b.reshape(-1, 1)))
     for k in range(n):
-        # pivoteo parcial
-        i_max = np.argmax(abs(M[k:,k])) + k
-        if i_max != k:
-            M[[k,i_max]] = M[[i_max,k]]
-        # pivote a 1
-        M[k] = M[k] / M[k,k]
-        # eliminar resto de columna
+        idx = np.argmax(abs(M[k:, k])) + k
+        if idx != k:
+            M[[k, idx]] = M[[idx, k]]
+        M[k] /= M[k, k]
         for i in range(n):
             if i != k:
-                M[i] = M[i] - M[i,k] * M[k]
-    return M[:,:-1], M[:,-1]
+                M[i] -= M[i, k] * M[k]
+    return M[:, -1]
 
-# medir tiempo
-sizes = [50,100,200,400]
-times = []
+sizes = np.arange(50, 501, 50)
+t_gj, t_gauss = [], []
 for n in sizes:
-    A = np.random.rand(n,n)
+    A = np.random.rand(n, n)
     b = np.random.rand(n)
-    t0 = time.time()
-    gauss_jordan(A,b)
-    times.append(time.time()-t0)
+    t0 = time.perf_counter(); gauss_jordan(A, b); t_gj.append(time.perf_counter() - t0)
+    t0 = time.perf_counter(); np.linalg.solve(A, b); t_gauss.append(time.perf_counter() - t0)
 
 plt.figure()
-plt.plot(sizes, times)
-plt.xlabel('Tamaño n')
-plt.ylabel('Tiempo (s)')
-plt.title('Costo computacional Gauss-Jordan')
-plt.show()</code></pre>
+plt.semilogy(sizes, t_gauss, label='solve()')
+plt.semilogy(sizes, t_gj, label='Gauss-Jordan', linestyle='--')
+plt.xlabel('n'); plt.ylabel('Tiempo (s, log)')
+plt.title('Comparación rendimiento')
+plt.legend(); plt.grid(True, which='both'); plt.tight_layout()</code></pre>
 
+    <!-- 7. Animación -->
     <h2 id="animacion">7. Animación JS</h2>
-    <p>Comparativa de tiempos Gauss vs Gauss-Jordan:</p>
-    <canvas id="gjChart" width="400" height="200"></canvas>
+    <p>Comparativa de tiempos sintética:</p>
+    <canvas id="gjChart" width="420" height="220"></canvas>
     <script>
-      window.addEventListener('DOMContentLoaded', function() {
-        const sizes = [50,100,200,400];
-        const gaussTimes = [0.003,0.02,0.15,1.2];
-        const gjTimes = [0.005,0.04,0.3,2.5];
-        const ctx = document.getElementById('gjChart').getContext('2d');
-        new Chart(ctx, {
-          type:'line', data:{ labels: sizes,
-            datasets:[
-              { label:'Gauss', data: gaussTimes, fill:false, borderWidth:2 },
-              { label:'Gauss-Jordan', data: gjTimes, fill:false, borderWidth:2 }
-            ]
-          },
-          options:{ scales:{ x:{ title:{ display:true, text:'Tamaño n' }}, y:{ title:{ display:true, text:'Tiempo (s)' } } }}
+      window.addEventListener('DOMContentLoaded', () => {
+        const n=[50,100,200,400];
+        const ga=[0.003,0.02,0.15,1.2];
+        const gj=[0.005,0.04,0.3,2.5];
+        new Chart(document.getElementById('gjChart'),{
+          type:'line',
+          data:{labels:n,datasets:[
+            {label:'Gauss',data:ga,borderWidth:2,fill:false},
+            {label:'Gauss-Jordan',data:gj,borderWidth:2,fill:false,borderDash:[5,5]}
+          ]},
+          options:{scales:{x:{title:{display:true,text:'Tamaño n'}},y:{type:'logarithmic',title:{display:true,text:'Tiempo (s)'}}}}
         });
       });
     </script>
 
+    <!-- 8. Video -->
     <h2 id="video">8. Video Explicativo</h2>
-    <p><a href="https://www.youtube.com/watch?v=KO3sTJY2IP8" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+      <iframe src="https://www.youtube.com/embed/KO3sTJY2IP8" title="Método de Gauss-Jordan" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe>
+    </div>
 
+    <!-- 9. Referencias -->
     <h2 id="referencias">9. Referencias</h2>
     <ul>
-      <li>Golub, G. H., & Van Loan, C. F. (2013). <em>Matrix Computations</em> (4ª ed.). Johns Hopkins University Press.</li>
-      <li>Burden, R. L., & Faires, J. D. (2011). <em>Numerical Analysis</em> (9ª ed.). Brooks/Cole.</li>
-      <li>Wikipedia contributors. (2025, 10 de abril). Gauss–Jordan elimination. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Gauss%E2%80%93Jordan_elimination</li>
+      <li>Golub, G. H., & Van Loan, C. F. (2013). <em>Matrix Computations</em> (4.ª ed.). Johns Hopkins University Press.</li>
+      <li>Higham, N. J. (2002). <em>Accuracy and Stability of Numerical Algorithms</em>. SIAM.</li>
+      <li>Trefethen, L., & Bau, D. (1997). <em>Numerical Linear Algebra</em>. SIAM.</li>
+      <li>Wikipedia contributors. (2025, 18 mayo). <em>Gauss–Jordan elimination</em>. Wikipedia. Recuperado 19 mayo 2025.</li>
     </ul>
 
+    <!-- 10. Conclusión -->
     <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
-    <p>Gauss-Jordan simplifica la obtención de la solución directa sin sustitución regresiva. Aunque más costoso que Gauss, resulta útil para obtener inversas de matrices y rangos.</p>
-    <p>Se aplica en estadística, ingeniería y álgebra computacional donde se precisan soluciones explícitas o matrices inversas.</p>
+    <p>Gauss-Jordan es ideal cuando se necesita simultáneamente la solución y la inversa o el rango de \(\mathbf A\). Su mayor costo y acumulación de errores lo hacen menos eficiente que Gauss para resolver solo \(\mathbf Ax=b\), pero 
+       es imbatible en tareas de álgebra computacional, análisis de circuitos y algoritmos de control donde se requiere \(\mathbf A^{-1}\) de forma explícita.</p>
   </main>
 </div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
 
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-lg-3 col-md-6">
+          <h4 class="text-white mb-3">Contacto</h4>
+          <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+          <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+          <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+          <div class="d-flex pt-2">
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+          </div>
         </div>
-    </div>
+      </div>
   </div>
-  <!-- Footer End -->
+  <div class="container">
+      <div class="copyright">
+          <div class="row">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                  &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Rights Reserved.
+                  Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                  <div class="footer-menu">
+                      <a href="">Home</a>
+                      <a href="">Cookies</a>
+                      <a href="">Help</a>
+                      <a href="">FQAs</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Footer End -->
 </body>
 </html>

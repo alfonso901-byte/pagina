@@ -13,6 +13,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
   <link href="../css/bootstrap.min.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
+  <!-- MathJax for beautiful formulas -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 
@@ -24,9 +27,13 @@
     aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
     aside ul li:last-child { border-bottom: none; }
     @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
-    .frase_importante { background-color: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); box-shadow: -5px 0 10px rgba(0,0,0,.1); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.2rem; }
+    .frase_importante { background-color: rgba(128,128,128,.1); border-left: 5px solid var(--primary); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.05rem; }
     pre { background-color: #f4f4f4; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
     img { max-width: 100%; height: auto; margin: 1rem 0; }
+    .math-block { text-align: center; margin: 1rem 0; font-size: 1.25rem; }
+    .example-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .example-table th, .example-table td { border: 1px solid #ddd; padding: .5rem; text-align: center; }
+    .example-table th { background: #f0f0f0; }
   </style>
 </head>
 <body>
@@ -67,144 +74,208 @@
   </aside>
 
   <main>
+    <!-- 1. Nombre del método -->
     <div class="title-with-image">
       <h1 id="nombre">1. Regla de Cramer</h1>
-      <b>Conoce su origen <i><a href="../autores/cramer.html">Gabriel Cramer</a></i></b>
     </div>
 
+    <!-- 2. Fundamento teórico ampliado -->
     <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
-    <p>Para un sistema lineal A·x = b con A ∈ ℝ<sup>n×n</sup> invertible, la Regla de Cramer expresa cada incógnita x<sub>i</sub> como el cociente de determinantes:
-      <br><strong>x<sub>i</sub> = det(A<sub>i</sub>) / det(A)</strong>,
-      donde A<sub>i</sub> es A con su i-ésima columna reemplazada por b.</p>
-    <div class="frase_importante">
-      x<sub>i</sub> = \frac{\det(A_i)}{\det(A)}, para i = 1,…,n.
-    </div>
+    <p>Consideremos el sistema lineal \(A\mathbf{x}=\mathbf{b}\), donde <span class="math">\(A\in\mathbb{R}^{n \times n}\)</span> es <strong>invertible</strong>. Sea <span class="math">\(A_i\)</span> la matriz obtenida al reemplazar la <em>i‑ésima</em> columna de <span class="math">\(A\)</span> por el vector \(\mathbf{b}\). Entonces:</p>
+    <div class="math-block">$$x_i = \frac{\det(A_i)}{\det(A)},\qquad i=1,\dots,n.$$</div>
 
-    <h2 id="error">3. Término de error y estabilidad</h2>
-    <p>Computar determinantes para sistemas grandes es costoso y numéricamente inestable: los errores de redondeo pueden amplificarse en el cálculo de det(A) y det(A<sub>i</sub>).</p>
-    <div class="frase_importante">
-      Coste O(n!) o O(n³) con LU; condición similar a inv(A), sensible a cond(A).
-    </div>
-
-    <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
-    <ol>
-      <li>Calcular det(A).</li>
-      <li>Para cada i de 1 a n:
-        <ol>
-          <li>Formar matriz A<sub>i</sub> sustituyendo columna i por b.</li>
-          <li>Calcular det(A<sub>i</sub>).</li>
-          <li>Obtener x<sub>i</sub> = det(A<sub>i</sub>) / det(A).</li>
-        </ol>
-      </li>
-      <li>Armar vector x = (x<sub>1</sub>,…,x<sub>n</sub>)<sup>T</sup>.</li>
-    </ol>
-
-    <h2 id="ejemplo">5. Ejemplo resuelto</h2>
-    <p>Resolver:
-      <br>A = [[2, -1, 3], [1, 0, -2], [3, 1, 4]], b = [5, -1, 10].
-    </p>
+    <p>El resultado se deduce del <strong>teorema de Laplace</strong> y de la unicidad de la solución cuando \(\det(A)\neq 0\). Algunas propiedades notables:</p>
     <ul>
-      <li>det(A) = 2·det([[0,-2],[1,4]]) - (-1)·det([[1,-2],[3,4]]) + 3·det([[1,0],[3,1]]) = 2·(0·4 - (-2)·1) +1·(1·4 - (-2)·3) + 3·(1·1 - 0·3) = 2·2 +1·10 +3·1 = 4 +10 +3 = 17.</li>
-      <li>Formar A₁, A₂, A₃ y calcular determinantes:
-        <ul>
-          <li>det(A₁)=det([[5,-1,3],[-1,0,-2],[10,1,4]]) = ... = 23 → x₁=23/17≈1.3529</li>
-          <li>det(A₂)=det([[2,5,3],[1,-1,-2],[3,10,4]]) = ... = 1 → x₂=1/17≈0.0588</li>
-          <li>det(A₃)=det([[2,-1,5],[1,0,-1],[3,1,10]]) = ... = 68 → x₃=68/17=4</li>
-        </ul>
+      <li>\(\det(A)\neq 0\) &xrArr; solución única.</li>
+      <li>La fórmula es <em>lineal</em> en \(\mathbf{b}\): cambios en la columna modifican solo el determinante del numerador.</li>
+      <li>Para \(n=2\), se reduce a la conocida expresión
+        <div class="math-block">$$x_1 = \frac{\begin{vmatrix} b_1 & a_{12}\\ b_2 & a_{22}\end{vmatrix}}{\begin{vmatrix} a_{11} & a_{12}\\ a_{21} & a_{22}\end{vmatrix}},\;\; x_2 = \frac{\begin{vmatrix} a_{11} & b_1\\ a_{21} & b_2\end{vmatrix}}{\begin{vmatrix} a_{11} & a_{12}\\ a_{21} & a_{22}\end{vmatrix}}.$$</div>
       </li>
     </ul>
 
+    <!-- 3. Término de error y estabilidad -->
+    <h2 id="error">3. Término de error y estabilidad</h2>
+    <p>El cálculo de determinantes con aritmética finita introduce errores de redondeo que pueden amplificarse si el <strong>número de condición</strong> \(\kappa(A)=\|A\|\,\|A^{-1}\|\) es grande.</p>
+    <div class="math-block">$$\frac{\|\delta \mathbf{x}\|}{\|\mathbf{x}\|}\;\lesssim\; \kappa(A)\;\frac{\|\delta \mathbf{b}\|}{\|\mathbf{b}\|}.$$</div>
+
+    <p>En términos de complejidad:</p>
+    <ul>
+      <li>Calcular cada determinante vía eliminación gaussiana cuesta \(\tfrac{1}{3}n^3\) operaciones ⇒ <strong>\(\mathcal{O}(n^4)\)</strong> para resolver todo el sistema (\(n+1\) determinantes).</li>
+      <li>Los métodos más usados en la práctica (LU, QR, factorización de Cholesky) requieren solo <strong>\(\mathcal{O}(n^3)\)</strong> y controlan mejor la estabilidad.</li>
+    </ul>
+    <div class="frase_importante">
+      <strong>Idea clave:</strong> La Regla de Cramer es pedagógica y útil para <em>pequeños</em> sistemas o deducciones simbólicas, pero pierde eficiencia numérica a gran escala.
+    </div>
+
+    <!-- 4. Pasos detallados del algoritmo -->
+    <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
+    <ol>
+      <li><strong>Determinante principal:</strong> calcular \(D = \det(A)\). Si \(D = 0\) ⇒ el sistema no tiene solución única.</li>
+      <li><strong>Bucle por columnas:</strong> para cada \(i = 1,\dots,n\):
+        <ol type="a">
+          <li>Crear la matriz \(A_i\) sustituyendo la columna \(i\) de \(A\) por \(\mathbf{b}\).</li>
+          <li>Obtener \(D_i = \det(A_i)\).</li>
+          <li>Asignar \(x_i = D_i / D\).</li>
+        </ol>
+      </li>
+      <li><strong>Vector solución:</strong> \(\mathbf{x} = (x_1,\dots,x_n)^{\!T}\).</li>
+    </ol>
+
+    <!-- 5. Ejemplo resuelto -->
+    <h2 id="ejemplo">5. Ejemplo resuelto</h2>
+    <p>Sea el sistema</p>
+    <div class="math-block">$$\begin{cases}
+    2x_1 - x_2 + 3x_3 = 5\\
+    x_1 \phantom{-} + 0x_2 - 2x_3 = -1\\
+    3x_1 + x_2 + 4x_3 = 10
+    \end{cases}$$</div>
+
+    <table class="example-table">
+      <thead><tr><th></th><th>\(A\)</th><th>\(A_1\)</th><th>\(A_2\)</th><th>\(A_3\)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1ª fila</td>
+          <td>2  −1  3</td><td>5  −1  3</td><td>2  5  3</td><td>2  −1  5</td>
+        </tr>
+        <tr>
+          <td>2ª fila</td>
+          <td>1   0  −2</td><td>−1  0  −2</td><td>1  −1  −2</td><td>1   0  −1</td>
+        </tr>
+        <tr>
+          <td>3ª fila</td>
+          <td>3   1   4</td><td>10  1  4</td><td>3  10  4</td><td>3   1  10</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Usando cofactores o <code>numpy.linalg.det</code> obtenemos:</p>
+    <ul>
+      <li>\(D = \det(A) = 17\)</li>
+      <li>\(D_1 = 23, \; D_2 = 1, \; D_3 = 68\)</li>
+      <li>\(\displaystyle \mathbf{x}=\left(\frac{23}{17},\;\frac{1}{17},\;\frac{68}{17}\right)^{T}\approx (1.353,\;0.059,\;4)^{T}\)</li>
+    </ul>
+
+    <!-- 6. Código en Python y gráfica -->
     <h2 id="codigo">6. Código en Python y gráfica</h2>
     <pre><code>import numpy as np
 import time
 import matplotlib.pyplot as plt
 
+np.random.seed(0)
+
 def cramer(A, b):
+    """Resuelve A·x=b mediante la Regla de Cramer."""
     n = A.shape[0]
     detA = np.linalg.det(A)
-    x = np.zeros(n)
+    x = np.empty(n)
     for i in range(n):
         Ai = A.copy()
-        Ai[:,i] = b
+        Ai[:, i] = b
         x[i] = np.linalg.det(Ai) / detA
     return x
 
-# medir tiempo para distintos n usando matrices aleatorias
-sizes = [2,5,10,20]
-times = []
+sizes = range(2, 13)  # n = 2 … 12
+elapsed = []
 for n in sizes:
-    A = np.random.rand(n,n)
+    A = np.random.rand(n, n)
     b = np.random.rand(n)
-    t0 = time.time()
+    t0 = time.perf_counter()
     cramer(A, b)
-    times.append(time.time()-t0)
+    elapsed.append(time.perf_counter() - t0)
 
 plt.figure()
-plt.plot(sizes, times)
-plt.xlabel('Tamaño n')
-plt.ylabel('Tiempo (s)')
-plt.title('Costo computacional Regla de Cramer')
+plt.plot(list(sizes), elapsed, marker="o")
+plt.xlabel("Tamaño n")
+plt.ylabel("Tiempo (s)")
+plt.title("Escalabilidad de la Regla de Cramer")
+plt.grid(True)
+plt.tight_layout()
 plt.show()</code></pre>
 
+    <!-- 7. Animación JS -->
     <h2 id="animacion">7. Animación JS</h2>
-    <p>Representación de tiempo de ejecución en función de n:</p>
-    <canvas id="cramerChart" width="400" height="200"></canvas>
+    <p>A continuación se muestra una animación simplificada (valores precargados) comparando el tiempo de ejecución a medida que crece \(n\).</p>
+    <canvas id="cramerChart" width="400" height="220"></canvas>
     <script>
       window.addEventListener('DOMContentLoaded', function() {
-        const sizes = [2,5,10,20];
-        const times = [0.0001,0.0005,0.005,0.05];
+        const sizes = [2,3,4,5,6,7,8,9,10,11,12];
+        const times = [0.00002,0.00005,0.0001,0.00025,0.0006,0.0012,0.0024,0.0048,0.01,0.02,0.04];
         const ctx = document.getElementById('cramerChart').getContext('2d');
         new Chart(ctx, {
-          type:'line', data:{ labels: sizes, datasets:[{ label:'Tiempo (s)', data: times, fill:false, borderWidth:2 }] },
-          options:{ scales:{ x:{ title:{ display:true, text:'Tamaño n' }}, y:{ title:{ display:true, text:'Tiempo (s)' } } }}
+          type: 'line',
+          data: {
+            labels: sizes,
+            datasets: [{
+              label: 'Tiempo estimado (s)',
+              data: times,
+              borderWidth: 2,
+              tension: 0.3
+            }]
+          },
+          options: {
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { title: { display: true, text: 'Tamaño n' } },
+              y: { title: { display: true, text: 'Tiempo (s)' }, beginAtZero: true }
+            }
+          }
         });
       });
     </script>
 
+    <!-- 8. Video Explicativo -->
     <h2 id="video">8. Video Explicativo</h2>
-    <p><a href="https://www.youtube.com/watch?v=3Z4_crBxdEk" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+      <iframe src="https://www.youtube.com/embed/3Z4_crBxdEk" title="Regla de Cramer explicada" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe>
+    </div>
 
+    <!-- 9. Referencias -->
     <h2 id="referencias">9. Referencias</h2>
     <ul>
       <li>Cramer, G. (1750). <em>Introduction à l’analyse des lignes courbes algébriques</em>. Geneva.</li>
-      <li>Strang, G. (2006). <em>Linear Algebra and Its Applications</em> (4ª ed.). Brooks Cole.</li>
-      <li>Wikipedia contributors. (2025, 1 de mayo). Cramer's rule. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Cramer's_rule</li>
+      <li>Strang, G. (2016). <em>Introduction to Linear Algebra</em> (5.ª ed.). Wellesley–Cambridge Press.</li>
+      <li>Burden, R., &amp; Faires, D. (2010). <em>Numerical Analysis</em> (9.ª ed.). Brooks/Cole.</li>
+      <li>Trefethen, L. N., &amp; Bau, D. (1997). <em>Numerical Linear Algebra</em>. SIAM.</li>
+      <li>Wikipedia contributors. (2025, 1 mayo). <em>Cramer's rule</em>. Wikipedia. Recuperado 18 mayo 2025.</li>
     </ul>
 
+    <!-- 10. Conclusión y aplicaciones -->
     <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
-    <p>La Regla de Cramer es sencilla conceptualmente pero no práctica para grandes sistemas debido a su coste y estabilidad. Es útil en sistemas pequeños o al obtener fórmulas simbólicas.</p>
-    <p>Se aplica en teoría de sistemas, análisis simbólico y demostraciones de unicidad de soluciones.</p>
+    <p>La Regla de Cramer ilustra con claridad la relación entre determinantes y soluciones de sistemas lineales, convirtiéndola en una herramienta didáctica invaluable. No obstante, su <strong>costo computacional</strong> \(\mathcal{O}(n^4)\) y su <strong>sensibilidad numérica</strong> la relegan frente a factorizaciones como <em>LU</em> o <em>QR</em> cuando \(n\) es grande.</p>
+    <p>Se emplea en:</p>
+    <ul>
+      <li>Derivaciones teóricas en álgebra lineal y geometría analítica.</li>
+      <li>Análisis simbólico dentro de software de álgebra computacional.</li>
+      <li>Deducción de expresiones cerradas en circuitos eléctricos (ley de Kirchhoff) o mecanismos (métodos de rigidez en ingeniería).</li>
+      <li>Demostraciones de unicidad en ecuaciones diferenciales lineales.</li>
+    </ul>
+    <p>En definitiva, entender Cramer potencia la intuición algebraica, aun cuando la práctica profesional recurra a algoritmos más robustos.</p>
   </main>
 </div>
   <!-- Footer Start -->
   <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
     <div class="container py-5">
         <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
+          <div class="col-lg-3 col-md-6">
+            <h4 class="text-white mb-3">Contacto</h4>
+            <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+            <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+            <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+            <div class="d-flex pt-2">
+              <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+              <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+              <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+              <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
             </div>
-            
-            
+          </div>
         </div>
     </div>
     <div class="container">
         <div class="copyright">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
-
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Rights Reserved.
+                    Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <div class="footer-menu">

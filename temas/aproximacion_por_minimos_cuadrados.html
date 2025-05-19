@@ -1,54 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   <title>Aproximación por Mínimos Cuadrados</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <link href="../img/favicon.ico" rel="icon">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="../css/bootstrap.min.css" rel="stylesheet">
-  <link href="../css/style.css" rel="stylesheet">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link href="../img/favicon.ico" rel="icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="../css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../css/style.css" rel="stylesheet" />
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-
+  <!-- MathJax -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <style>
-    .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
-    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgb(0 0 0 / .1); }
-    main { flex: 1; }
-    aside ul { padding-left: 0; list-style: none; }
-    aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
-    aside ul li:last-child { border-bottom: none; }
-    @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
-    .frase_importante { background-color: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); box-shadow: -5px 0 10px rgba(0,0,0,.1); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.2rem; }
-    pre { background-color: #f4f4f4; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
-    img { max-width: 100%; height: auto; margin: 1rem 0; }
+    .container{display:flex;gap:2rem;margin-top:1rem;padding:0 1rem;}
+    aside{position:sticky;top:80px;flex:0 0 220px;background:#f8f9fa;border-radius:.375rem;padding:1rem;height:fit-content;box-shadow:0 0 10px rgba(0,0,0,.1);}
+    main{flex:1;}
+    aside ul{list-style:none;padding-left:0;}
+    aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}
+    aside ul li:last-child{border-bottom:none;}
+    @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;flex:none;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}}
+    .frase_importante{background:rgba(128,128,128,.15);border-left:5px solid var(--primary);box-shadow:-5px 0 10px rgba(0,0,0,.05);padding:15px 20px;margin:30px 0;font-style:italic;font-size:1.05rem;overflow-x:auto;}
+    pre{background:#f4f4f4;padding:1rem;border-radius:.5rem;overflow-x:auto;}
+    .math-display{text-align:center;margin:1.2rem 0;font-size:1.25rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1rem 0;}
+    .example-table th,.example-table td{border:1px solid #ddd;padding:.5rem;text-align:center;}
+    .example-table th{background:#f0f0f0;}
   </style>
 </head>
 <body>
-
-<!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
-  </a>
-  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-  </button>
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5"><h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2></a>
+  <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
-      <div class="navbar-nav ms-auto p-4 p-lg-0">
-          <a href="../index.html" class="nav-item nav-link">Inicio</a>
-          <a href="../temas.html" class="nav-item nav-link active">Temas</a>
-          <a href="../autores.html" class="nav-item nav-link">Autores</a>
-      </div>
+    <div class="navbar-nav ms-auto p-4 p-lg-0">
+      <a href="../index.html" class="nav-item nav-link">Inicio</a>
+      <a href="../temas.html" class="nav-item nav-link active">Temas</a>
+      <a href="../autores.html" class="nav-item nav-link">Autores</a>
+    </div>
   </div>
 </nav>
-<!-- Navbar End -->
-
 <div class="container">
   <aside>
     <h3>Índice de contenido</h3>
@@ -65,145 +61,138 @@
       <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
     </ul>
   </aside>
-
   <main>
+    <!-- 1 -->
     <div class="title-with-image">
       <h1 id="nombre">1. Aproximación por Mínimos Cuadrados</h1>
-      <b>Conoce su origen <i><a href="../autores/gauss.html">Carl Friedrich Gauss</a></i></b>
+      <p class="mt-2">Encuentra parámetros \(\mathbf c\) que minimizan la suma de residuos al cuadrado entre datos y modelo.</p>
     </div>
 
+    <!-- 2 -->
     <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
-    <p>El método de mínimos cuadrados ajusta una función (p. ej. línea recta) a datos (x<sub>i</sub>,y<sub>i</sub>) minimizando la suma de cuadrados de residuos r<sub>i</sub>=y<sub>i</sub>-f(x<sub>i</sub>).</p>
-    <div class="frase_importante">
-      Min S = Σ_{i=1}^m [y_i - Σ_{j=0}^n c_j φ_j(x_i)]^2
+    <p>Sea un conjunto de puntos \((x_i,y_i)_{i=1}^m\) y un modelo lineal en parámetros</p>
+    <div class="math-display">$$f(x;\mathbf c)=\sum_{j=0}^n c_j\,\varphi_j(x).$$</div>
+    <p>Definimos la <em>suma de cuadrados</em></p>
+    <div class="math-display">$$S(\mathbf c)=\sum_{i=1}^m\bigl(y_i-f(x_i;\mathbf c)\bigr)^2=\|\boldsymbol y-\Phi\mathbf c\|_2^2,\quad \Phi_{ij}=\varphi_j(x_i).$$</div>
+    <p><strong>Condición de óptimo:</strong> gradiente cero → <em>ecuaciones normales</em></p>
+    <div class="math-display">$$\Phi^T\Phi\,\mathbf c=\Phi^T\boldsymbol y.$$
     </div>
-    <p>Para ajuste lineal φ<sub>0</sub>=1, φ<sub>1</sub>=x creamos sistema normal A·c=b.</p>
+    <p>Si \(\Phi\) tiene rango completo, la solución única es</p>
+    <div class="math-display">$$\boxed{\;\mathbf c=(\Phi^T\Phi)^{-1}\Phi^T\boldsymbol y\;}.$$</div>
 
+    <!-- 3 -->
     <h2 id="error">3. Término de error</h2>
-    <p>El valor mínimo S<sub>min</sub> refleja calidad de ajuste. Su raíz cuadrada normalizada RMS = sqrt(S<sub>min</sub>/m).</p>
+    <p>El <em>residuo</em> \(\mathbf r=\boldsymbol y-\Phi\mathbf c\) y su norma \(\|\mathbf r\|_2\) miden la calidad.   El <strong>RMS</strong> se define como</p>
+    <div class="math-display">$$\operatorname{RMS}=\sqrt{\frac1m\sum r_i^2}. $$</div>
 
+    <!-- 4 -->
     <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
     <ol>
-      <li>Elegir base φ<sub>j</sub>(x) (poli, polinomial).
-      </li>
-      <li>Formar matriz de diseño Φ (m×(n+1)): Φ_{ij}=φ_j(x_i).
-      </li>
-      <li>Armar sistema normal: Φ^TΦ·c = Φ^T y.
-      </li>
-      <li>Resolver coeficientes c por Gauss o inversa.
-      </li>
-      <li>Calcular ajuste f(x)=Σ c_j φ_j(x) y residuos.
-      </li>
+      <li>Elegir la base \(\{\varphi_j\}\) (polinomial, trigonométrica, etc.).</li>
+      <li>Construir la matriz de diseño \(\Phi\).</li>
+      <li>Formar y resolver \(\Phi^T\Phi\,\mathbf c=\Phi^T\boldsymbol y\) (LU o QR para estabilidad).</li>
+      <li>Calcular residuos \(\mathbf r\) y métricas (RMS, R²).</li>
+      <li>Validar suposiciones (independencia, homocedasticidad) si es modelo estadístico.</li>
     </ol>
 
+    <!-- 5 -->
     <h2 id="ejemplo">5. Ejemplo resuelto</h2>
-    <p>Ajustar línea y=ax+b a datos: (0,1),(1,2),(2,2.9),(3,4.1).</p>
-    <ul>
-      <li>Φ = [[1,0],[1,1],[1,2],[1,3]], y=[1,2,2.9,4.1].
-      </li>
-      <li>Sistema normal:
-        <br>[4 Σx; Σx Σx^2]·[b;a] = [Σy; Σ(xy)].
-      </li>
-      <li>Σx=6, Σx^2=14, Σy=10, Σxy=24.1 → [[4,6],[6,14]]·[b;a]=[10,24.1].
-      </li>
-      <li>Solución: a≈1.03, b≈0.98 → f(x)=0.98+1.03x.
-      </li>
-    </ul>
+    <p>Datos</p>
+    <div class="math-display">$$(0,1),\,(1,2),\,(2,2.9),\,(3,4.1).$$</div>
+    <p>Ajuste lineal \(y=a x+b\) (\(n=1\)).  Resumen:</p>
+    <table class="example-table">
+      <thead><tr><th>Σx</th><th>Σx²</th><th>Σy</th><th>Σxy</th><th>a</th><th>b</th><th>RMS</th></tr></thead>
+      <tbody><tr><td>6</td><td>14</td><td>10</td><td>24.1</td><td>1.03</td><td>0.98</td><td>0.126</td></tr></tbody>
+    </table>
+    <p>Modelo final: \(\widehat y=0.98+1.03x\).</p>
 
+    <!-- 6 -->
     <h2 id="codigo">6. Código en Python y gráfica</h2>
-    <pre><code>import numpy as np
-import matplotlib.pyplot as plt
+    <pre><code>import numpy as np, matplotlib.pyplot as plt
+x = np.array([0,1,2,3]); y = np.array([1,2,2.9,4.1])
+Phi = np.vstack([np.ones_like(x), x]).T
+c, *_ = np.linalg.lstsq(Phi, y, rcond=None)
+xf = np.linspace(0,3,100); yf = c[0]+c[1]*xf
+res = y - (c[0]+c[1]*x); rms = np.sqrt((res**2).mean())
+plt.figure(); plt.scatter(x,y,label='Datos'); plt.plot(xf,yf,'r',label=f'y={c[1]:.2f}x+{c[0]:.2f}')
+plt.title(f'Mínimos cuadrados lineal (RMS={rms:.3f})'); plt.legend(); plt.grid(True); plt.tight_layout()</code></pre>
 
-# datos\xx = np.array([0,1,2,3])
-y = np.array([1,2,2.9,4.1])
-# diseño
-A = np.vstack([np.ones_like(xx), xx]).T
-# coeficientes mínimos cuadrados
-c, *_ = np.linalg.lstsq(A, y, rcond=None)
-# ajuste\xx_fit = np.linspace(0,3,100)
-y_fit = c[0] + c[1]*xx_fit
-# residuos
-res = y - (c[0] + c[1]*xx)
-rms = np.sqrt(np.mean(res**2))
-
-plt.figure()
-plt.scatter(xx, y, label='Datos')
-plt.plot(xx_fit, y_fit, 'r-', label=f'y={c[1]:.2f}x+{c[0]:.2f}')
-plt.title(f'Ajuste por mínimos cuadrados (RMS={rms:.3f})')
-plt.legend()
-plt.show()</code></pre>
-
+    <!-- 7 -->
     <h2 id="animacion">7. Animación JS</h2>
-    <p>Ver ajuste y datos:</p>
-    <canvas id="mcChart" width="400" height="200"></canvas>
+    <p>Línea de ajuste vs puntos:</p>
+    <canvas id="mcChart" width="420" height="220"></canvas>
     <script>
-      window.addEventListener('DOMContentLoaded', function(){
-        const xx=[0,1,2,3], y=[1,2,2.9,4.1];
-        const a=1.03, b=0.98; const xx_fit = Array.from({length:100},(_,i)=>3*i/99);
-        const y_fit = xx_fit.map(x=>b+a*x);
-        const ctx = document.getElementById('mcChart').getContext('2d');
-        new Chart(ctx,{type:'line',data:{labels:xx_fit,datasets:[{label:'Datos',data:xx.map((x,i)=>({x,y:y[i]})),showLine:false,pointStyle:'circle'},{label:'Ajuste',data:y_fit,fill:false,borderWidth:2}]},"options":{scales:{x:{type:'linear',position:'bottom',title:{display:true,text:'x'}},y:{title:{display:true,text:'y'}}}}});
+      window.addEventListener('DOMContentLoaded',()=>{
+        const x=[0,1,2,3], y=[1,2,2.9,4.1];
+        const a=1.03, b=0.98;
+        const xs=Array.from({length:100},(_,i)=>3*i/99);
+        const ys=xs.map(v=>b+a*v);
+        new Chart(document.getElementById('mcChart'),{
+          type:'scatter',
+          data:{datasets:[
+            {label:'Datos',data:x.map((v,i)=>({x:v,y:y[i]})),showLine:false,pointRadius:4},
+            {label:'Ajuste',data:xs.map((v,i)=>({x:v,y:ys[i]})),type:'line',fill:false,borderWidth:2}
+          ]},
+          options:{scales:{x:{type:'linear',title:{display:true,text:'x'}},y:{title:{display:true,text:'y'}}}}
+        });
       });
     </script>
 
+    <!-- 8 -->
     <h2 id="video">8. Video Explicativo</h2>
-    <p><a href="https://www.youtube.com/watch?v=G3en2rHzsrg" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;"><iframe src="https://www.youtube.com/embed/G3en2rHzsrg" title="Mínimos Cuadrados" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe></div>
 
+    <!-- 9 -->
     <h2 id="referencias">9. Referencias</h2>
     <ul>
-      <li>Seber, G. A. F., &amp; Lee, A. J. (2003). <em>Linear Regression Analysis</em>. Wiley.</li>
-      <li>Draper, N. R., &amp; Smith, H. (1998). <em>Applied Regression Analysis</em>. Wiley.</li>
-      <li>Wikipedia contributors. (2025, 5 de mayo). Least squares. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Least_squares</li>
+      <li>Seber, G. & Lee, A. (2003). <em>Linear Regression Analysis</em>. Wiley.</li>
+      <li>Hastie, T., Tibshirani, R., & Friedman, J. (2009). <em>The Elements of Statistical Learning</em>. Springer.</li>
+      <li>Draper, N. & Smith, H. (1998). <em>Applied Regression Analysis</em>. Wiley.</li>
+      <li>Wikipedia contributors. (2025, mayo). <em>Least squares</em>. Wikipedia.</li>
     </ul>
 
+    <!-- 10 -->
     <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
-    <p>La aproximación por mínimos cuadrados es fundamental en análisis de datos y modelado estadístico. Permite estimaciones robustas cuando hay ruido.
-    </p>
-    <p>Se aplica en regresión, calibración de instrumentos y machine learning.</p>
+    <p>Los mínimos cuadrados son la columna vertebral de la regresión lineal, filtrado digital, calibración de sensores y aprendizaje automático.  Extensiones incluyen splines, regresión Ridge/Lasso y métodos no lineales (Gauss–Newton).</p>
   </main>
 </div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-lg-3 col-md-6">
+          <h4 class="text-white mb-3">Contacto</h4>
+          <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+          <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+          <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+          <div class="d-flex pt-2">
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+          </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
-
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      </div>
   </div>
-  <!-- Footer End -->
+  <div class="container">
+      <div class="copyright">
+          <div class="row">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                  &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Rights Reserved.
+                  Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                  <div class="footer-menu">
+                      <a href="">Home</a>
+                      <a href="">Cookies</a>
+                      <a href="">Help</a>
+                      <a href="">FQAs</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Footer End -->
 </body>
 </html>

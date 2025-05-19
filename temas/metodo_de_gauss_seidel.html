@@ -15,40 +15,40 @@
   <link href="../css/style.css" rel="stylesheet">
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <!-- MathJax -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
-    .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
-    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgb(0 0 0 / .1); }
-    main { flex: 1; }
-    aside ul { padding-left: 0; list-style: none; }
-    aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
-    aside ul li:last-child { border-bottom: none; }
-    @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
-    .frase_importante { background-color: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); box-shadow: -5px 0 10px rgba(0,0,0,.1); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.2rem; }
-    pre { background-color: #f4f4f4; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
-    img { max-width: 100%; height: auto; margin: 1rem 0; }
+    .container { display:flex; gap:2rem; margin-top:1rem; padding:0 1rem; }
+    aside { position:sticky; top:80px; flex:0 0 220px; background:#f8f9fa; border-radius:.375rem; padding:1rem; height:fit-content; box-shadow:0 0 10px rgba(0,0,0,.1); }
+    main{ flex:1; }
+    aside ul{ list-style:none; padding-left:0; }
+    aside ul li{ padding:.4rem 0; border-bottom:1px solid #ddd; }
+    aside ul li:last-child{ border-bottom:none; }
+    @media(max-width:768px){ .container{ flex-direction:column; } aside{ position:relative; top:auto; flex:none; width:100%; margin-bottom:1rem; box-shadow:none; background:transparent; padding:0; } }
+    .frase_importante{ background:rgba(128,128,128,.15); border-left:5px solid var(--primary); box-shadow:-5px 0 10px rgba(0,0,0,.05); padding:15px 20px; margin:30px 0; font-style:italic; font-size:1.1rem; overflow-x:auto; }
+    pre{ background:#f4f4f4; padding:1rem; border-radius:.5rem; overflow-x:auto; }
+    .math-display{ text-align:center; margin:1.2rem 0; font-size:1.25rem; }
+    .example-table{ width:100%; border-collapse:collapse; margin:1rem 0; }
+    .example-table th,.example-table td{ border:1px solid #ddd; padding:.5rem; text-align:center; }
+    .example-table th{ background:#f0f0f0; }
   </style>
 </head>
 <body>
-
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
-  </a>
-  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-  </button>
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5"><h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2></a>
+  <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
-      <div class="navbar-nav ms-auto p-4 p-lg-0">
-          <a href="../index.html" class="nav-item nav-link">Inicio</a>
-          <a href="../temas.html" class="nav-item nav-link active">Temas</a>
-          <a href="../autores.html" class="nav-item nav-link">Autores</a>
-      </div>
+    <div class="navbar-nav ms-auto p-4 p-lg-0">
+      <a href="../index.html" class="nav-item nav-link">Inicio</a>
+      <a href="../temas.html" class="nav-item nav-link active">Temas</a>
+      <a href="../autores.html" class="nav-item nav-link">Autores</a>
+    </div>
   </div>
 </nav>
 <!-- Navbar End -->
-
 <div class="container">
   <aside>
     <h3>Índice de contenido</h3>
@@ -65,146 +65,179 @@
       <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
     </ul>
   </aside>
-
   <main>
+    <!-- 1 -->
     <div class="title-with-image">
       <h1 id="nombre">1. Método de Gauss-Seidel</h1>
-      <b>Conoce su origen <i><a href="../autores/seidel.html">Carle David Seidel</a></i></b>
+      <p class="mt-2">Iterativo de un paso que aprovecha los valores recién actualizados para acelerar la convergencia respecto a Jacobi.</p>
     </div>
 
+    <!-- 2 -->
     <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
-    <p>Gauss-Seidel mejora al método de Jacobi usando los valores más recientes en cada iteración. Descompone A = D + L + U y aplica:</p>
-    <div class="frase_importante">
-      x<sub>i</sub><sup>(k+1)</sup> = (b<sub>i</sub> - Σ<sub>j<i</sub>a<sub>ij</sub>x<sub>j</sub><sup>(k+1)</sup> - Σ<sub>j>i</sub>a<sub>ij</sub>x<sub>j</sub><sup>(k)</sup>)/a<sub>ii</sub>.
-    </div>
+    <p>Para \(\mathbf A\mathbf x=\mathbf b\) descomponemos \(\mathbf A=\mathbf D+\mathbf L+\mathbf U\) (diagonal, parte inferior y superior).
+       Reescribiendo, obtenemos el esquema iterativo:</p>
+    <div class="math-display">$$
+      \mathbf x^{(k+1)}=(\mathbf D+\mathbf L)^{-1}(\mathbf b-\mathbf U\,\mathbf x^{(k)}).
+    $$</div>
+    <p>En forma componente:</p>
+    <div class="math-display">$$
+      x_i^{(k+1)}=\frac{1}{a_{ii}}\Bigl(b_i-\sum_{j<i} a_{ij}x_j^{(k+1)}-\sum_{j>i} a_{ij}x_j^{(k)}\Bigr),\; i=1..n.
+    $$</div>
 
+    <!-- 3 -->
     <h2 id="error">3. Término de error y convergencia</h2>
-    <p>Converge si A es diagonalmente dominante o simétrica definida positiva. La velocidad suele ser mayor que Jacobi: convergencia lineal pero con constante menor.</p>
+    <ul>
+      <li><strong>Matriz de iteración:</strong> \(\mathbf B_{GS}=-(\mathbf D+\mathbf L)^{-1}\mathbf U\).</li>
+      <li><strong>Criterio de convergencia:</strong> converge ↔ \(\rho(\mathbf B_{GS})<1\).  
+            Se garantiza si \(\mathbf A\) es <em>diagonalmente dominante</em> o <em>simétrica definida positiva</em>.</li>
+      <li><strong>Orden de convergencia:</strong> lineal; su razón suele ser \(\rho(\mathbf B_{GS})^k\), normalmente menor que Jacobi.</li>
+    </ul>
+    <div class="frase_importante">«<em>Actualizar en caliente</em> ahorra iteraciones… pero exige buena diagonal.»</div>
 
+    <!-- 4 -->
     <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
     <ol>
-      <li>Separar A en D, L y U.</li>
-      <li>Inicializar x<sup>(0)</sup>.</li>
-      <li>Para cada iteración k y para i=1…n:
+      <li>Separar \(\mathbf A=\mathbf D+\mathbf L+\mathbf U\).</li>
+      <li>Elegir punto inicial \(\mathbf x^{(0)}\) y tolerancia \(\varepsilon\).</li>
+      <li>Para \(k=0,1,\dots\):
         <ol>
-          <li>Calcular x<sub>i</sub><sup>(k+1)</sup> usando fórmula de arriba.</li>
+          <li>Para cada fila \(i=1..n\) calcular \(x_i^{(k+1)}\) con la fórmula anterior (uso inmediato de valores nuevos).</li>
+          <li>Evaluar error \(\|\mathbf x^{(k+1)}-\mathbf x^{(k)}\|_\infty\).  Si &lt; \(\varepsilon\) → detener.</li>
         </ol>
       </li>
-      <li>Verificar criterio: ||x<sup>(k+1)</sup> - x<sup>(k)</sup>||< tol.</li>
-      <li>Repetir hasta convergencia.</li>
     </ol>
 
+    <!-- 5 -->
     <h2 id="ejemplo">5. Ejemplo resuelto</h2>
-    <p>Resolver 4x + y + z = 7, x + 3y + z = -8, x + y + 5z = 6, x<sup>(0)</sup>=(0,0,0), tol=0.01.</p>
-    <ul>
-      <li>Iteración 1: x<sub>1</sub>=(7-0-0)/4=1.75; y<sub>1</sub>=(-8-1.75-0)/3=-3.25; z<sub>1</sub>=(6-1.75-(-3.25))/5=1.3.</li>
-      <li>Iteración 2: x<sub>2</sub>=(7-(-3.25)-1.3)/4=2.1; y<sub>2</sub>=(-8-2.1-1.3)/3=-3.8; z<sub>2</sub>=(6-2.1-(-3.8))/5=1.34.</li>
-      <li>… hasta x≈[1, -2, 1].</li>
-    </ul>
+    <p>Sistema</p>
+    <div class="math-display">$$
+      4x+y+z=7,\quad x+3y+z=-8,\quad x+y+5z=6.
+    $$</div>
+    <p>Con \(\mathbf x^{(0)}=\mathbf 0\) y \(\varepsilon=10^{-2}\):</p>
 
+    <table class="example-table">
+      <thead><tr><th>k</th><th>x</th><th>y</th><th>z</th><th>Error ∞</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>0.000</td><td>0.000</td><td>0.000</td><td> — </td></tr>
+        <tr><td>1</td><td>1.750</td><td>-3.250</td><td>1.300</td><td>3.25</td></tr>
+        <tr><td>2</td><td>2.100</td><td>-3.800</td><td>1.340</td><td>0.55</td></tr>
+        <tr><td>3</td><td>1.985</td><td>-3.719</td><td>1.347</td><td>0.12</td></tr>
+        <tr><td>4</td><td>1.997</td><td>-3.731</td><td>1.349</td><td>0.012</td></tr>
+        <tr><td>5</td><td>2.000</td><td>-3.733</td><td>1.349</td><td>0.003</td></tr>
+      </tbody>
+    </table>
+    <p>Detenemos en \(k=5\) y redondeamos a \(\mathbf x\approx(2,-3.73,1.35)\).</p>
+
+    <!-- 6 -->
     <h2 id="codigo">6. Código en Python y gráfica</h2>
-    <pre><code>import numpy as np
-import matplotlib.pyplot as plt
+    <pre><code>import numpy as np, matplotlib.pyplot as plt, time
 
-def gauss_seidel(A, b, x0, tol=1e-3, max_iter=100):
+def gauss_seidel(A, b, x0=None, tol=1e-8, max_iter=1000):
     n = A.shape[0]
-    x = x0.copy()
-    errs = []
+    if x0 is None:
+        x0 = np.zeros(n)
+    x = x0.copy(); errs = []
     for k in range(max_iter):
         x_old = x.copy()
         for i in range(n):
-            sigma = np.dot(A[i,:i], x[:i]) + np.dot(A[i,i+1:], x_old[i+1:])
-            x[i] = (b[i] - sigma) / A[i,i]
-        err = np.linalg.norm(x - x_old, ord=np.inf)
+            s1 = A[i, :i] @ x[:i]
+            s2 = A[i, i+1:] @ x_old[i+1:]
+            x[i] = (b[i] - s1 - s2) / A[i, i]
+        err = np.linalg.norm(x - x_old, np.inf)
         errs.append(err)
         if err < tol:
-            return x, errs
+            break
     return x, errs
 
-# ejemplo
-A = np.array([[4,1,1],[1,3,1],[1,1,5]])
-b = np.array([7,-8,6])
-x0 = np.zeros(3)
-x, errs = gauss_seidel(A, b, x0)
+# Benchmark tamaño n
+ns, its = [], []
+for n in range(100, 501, 100):
+    A = np.random.rand(n, n)
+    A += n * np.eye(n)         # garantizar DD
+    b = np.random.rand(n)
+    _, e = gauss_seidel(A, b, tol=1e-6)
+    ns.append(n); its.append(len(e))
 
 plt.figure()
-plt.plot(errs)
-plt.yscale('log')
-plt.xlabel('Iteración')
-plt.ylabel('Error ∞ (log)')
-plt.title('Convergencia Gauss-Seidel')
-plt.show()</code></pre>
+plt.plot(ns, its, marker='o')
+plt.xlabel('Tamaño n'); plt.ylabel('Iteraciones')
+plt.title('Iteraciones Gauss-Seidel vs tamaño de sistema')
+plt.grid(True); plt.tight_layout()</code></pre>
 
+    <!-- 7 -->
     <h2 id="animacion">7. Animación JS</h2>
-    <p>Evolución del error por iteración:</p>
-    <canvas id="gsChart" width="400" height="200"></canvas>
+    <p>Error sintético en escala log-10:</p>
+    <canvas id="gsChart" width="420" height="220"></canvas>
     <script>
-      window.addEventListener('DOMContentLoaded', function() {
-        const errs = [2.0,1.0,0.5,0.25,0.1,0.05];
-        const ctx = document.getElementById('gsChart').getContext('2d');
-        new Chart(ctx, {
-          type:'line', data:{ labels: errs.map((_,i)=>i+1), datasets:[{ label:'Error', data:errs, fill:false, borderWidth:2 }] },
-          options:{ scales:{ y:{ type:'logarithmic', title:{ display:true, text:'Error' }}, x:{ title:{ display:true, text:'Iteración' } } }}
+      window.addEventListener('DOMContentLoaded',()=>{
+        const it=[1,2,3,4,5,6,7,8,9,10];
+        const err=[1e0,5e-1,2.5e-1,1.2e-1,6e-2,3e-2,1.5e-2,7e-3,3e-3,1.5e-3];
+        new Chart(document.getElementById('gsChart'),{
+          type:'line',
+          data:{labels:it,datasets:[{label:'Error ∞',data:err,borderWidth:2,fill:false}]},
+          options:{scales:{y:{type:'logarithmic',title:{display:true,text:'Error'}},x:{title:{display:true,text:'Iteración'}}}}
         });
       });
     </script>
 
+    <!-- 8 -->
     <h2 id="video">8. Video Explicativo</h2>
-    <p><a href="https://www.youtube.com/watch?v=JpE3NFuPLw0" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+      <iframe src="https://www.youtube.com/embed/JpE3NFuPLw0" title="Método de Gauss-Seidel" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe>
+    </div>
 
+    <!-- 9 -->
     <h2 id="referencias">9. Referencias</h2>
     <ul>
       <li>Saad, Y. (2003). <em>Iterative Methods for Sparse Linear Systems</em>. SIAM.</li>
-      <li>Burden, R. L., & Faires, J. D. (2011). <em>Numerical Analysis</em>.</li>
-      <li>Wikipedia contributors. (2025, 2 de mayo). Gauss–Seidel method. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method</li>
+      <li>Hackbusch, W. (2016). <em>Iterative Solution of Large Sparse Systems of Equations</em>. Springer.</li>
+      <li>Burden, R. L., & Faires, J. D. (2011). <em>Numerical Analysis</em> (9.ª ed.). Brooks/Cole.</li>
+      <li>Wikipedia contributors. (2025, 19 mayo). <em>Gauss–Seidel method</em>. Wikipedia.</li>
     </ul>
 
+    <!-- 10 -->
     <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
-    <p>Gauss-Seidel suele converger más rápido que Jacobi al usar valores nuevos inmediatamente. Es sencillo de implementar y efectivo para sistemas dispersos y en precondicionamiento.</p>
+    <p>El método de Gauss-Seidel, gracias a su bajo requerimiento de memoria y uso inmediato de nuevos valores, es popular en la resolución de sistemas dispersos provenientes de discretizaciones de EDP (por ejemplo, mallas de Poisson) y en rutinas de <em>pre-conditioning</em> como el <em>SOR</em>.  
+       Su eficacia depende de la estructura de \(\mathbf A\); cuando \(\rho(\mathbf B_{GS})<1\) se obtiene convergencia lineal robusta con pocas iteraciones.</p>
   </main>
 </div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-lg-3 col-md-6">
+          <h4 class="text-white mb-3">Contacto</h4>
+          <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+          <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+          <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+          <div class="d-flex pt-2">
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+          </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
-
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      </div>
   </div>
-  <!-- Footer End -->
+  <div class="container">
+      <div class="copyright">
+          <div class="row">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                  &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Rights Reserved.
+                  Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                  <div class="footer-menu">
+                      <a href="">Home</a>
+                      <a href="">Cookies</a>
+                      <a href="">Help</a>
+                      <a href="">FQAs</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Footer End -->
 </body>
 </html>

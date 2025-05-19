@@ -1,227 +1,171 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <title>Metodos Numericos</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
-
-    <!-- Favicon -->
-    <link href="../img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="../css/style.css" rel="stylesheet">
-
-    <style>
-      /* Contenedor flex para aside y main */
-      .container {
-        display: flex;
-        gap: 2rem; /* espacio entre aside y main */
-        margin-top: 1rem;
-        padding: 0 1rem;
-      }
-
-      /* Aside pequeño sticky */
-      aside {
-        position: sticky;
-        top: 80px; /* para que quede debajo del navbar (ajusta si tu navbar cambia de alto) */
-        flex: 0 0 220px; /* ancho fijo, no crece ni se encoge */
-        background-color: #f8f9fa;
-        border-radius: 0.375rem;
-        padding: 1rem;
-        height: fit-content; /* que tome el alto de su contenido */
-        box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
-      }
-
-      /* Main toma todo lo que queda */
-      main {
-        flex: 1;
-      }
-
-      /* Opcional: lista aside sin bullets */
-      aside ul {
-        padding-left: 0;
-        list-style: none;
-      }
-
-      aside ul li {
-        padding: 0.4rem 0;
-        border-bottom: 1px solid #ddd;
-      }
-
-      aside ul li:last-child {
-        border-bottom: none;
-      }
-
-      /* Responsive: en pantallas chicas, aside se pone arriba */
-      @media (max-width: 768px) {
-        .container {
-          flex-direction: column;
-        }
-
-        aside {
-          position: relative;
-          top: auto;
-          flex: none;
-          width: 100%;
-          margin-bottom: 1rem;
-          box-shadow: none;
-          background-color: transparent;
-          padding: 0;
-        }
-
-        aside ul li {
-          border: none;
-          padding: 0.25rem 0;
-        }
-      }
-      .title-with-image {
-  display: flex;
-  align-items: center;
-  gap: 1rem; /* espacio entre el título y la imagen */
-  margin-bottom: 1rem;
-}
-
-.autor-img {
-  width: 150px; /* tamaño de la imagen, puedes ajustar */
-  height: 200px;
-  object-fit: cover; /* para que la imagen mantenga proporción y no se distorsione */
-  border-radius: 30%; /* para hacerla circular */
-  border: 2px solid #007bff; /* borde azul, opcional */
-}
-.frase_importante{
-    background-color: rgba(128, 128, 128, 0.2); /* gris translúcido */
-    border-left: 5px solid rgba(0, 0, 0, 0.2);  /* borde izquierdo */
-    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1); /* sombra hacia la derecha */
-    padding: 15px 20px;
-    margin: 30px 0;
-    font-style: italic;
-    font-size: 1.2rem;
-}
-    </style>
+  <meta charset="utf-8">
+  <title>Metodos Numericos</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="../img/favicon.ico" rel="icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="lib/animate/animate.min.css" rel="stylesheet">
+  <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <style>
+    .container{display:flex;gap:2rem;margin-top:1rem;padding:0 1rem;}
+    aside{position:sticky;top:80px;flex:0 0 220px;background:#f8f9fa;border-radius:.375rem;padding:1rem;height:fit-content;box-shadow:0 0 10px rgba(0,0,0,.1);}    
+    main{flex:1;}
+    aside ul{padding-left:0;list-style:none;}
+    aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}
+    aside ul li:last-child{border-bottom:none;}
+    @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}aside ul li{border:none;padding:.25rem 0;}}
+    .title-with-image{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+    .autor-img{width:150px;height:200px;object-fit:cover;border-radius:30%;border:2px solid #007bff;}
+    .frase_importante{background:rgba(128,128,128,.2);border-left:5px solid rgba(0,0,0,.2);box-shadow:-5px 0 10px rgba(0,0,0,.1);padding:15px 20px;margin:30px 0;font-style:italic;font-size:1.1rem;}
+  </style>
 </head>
 <body>
-
-<!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
-  </a>
-  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-  </button>
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5"><h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2></a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
-      <div class="navbar-nav ms-auto p-4 p-lg-0">
-          <a href="../index.html" class="nav-item nav-link">Inicio</a>
-          <a href="../temas.html" class="nav-item nav-link">Temas</a>
-          <a href="../autores.html" class="nav-item nav-link active">Autores</a>
-      </div>
+    <div class="navbar-nav ms-auto p-4 p-lg-0">
+      <a href="../index.html" class="nav-item nav-link">Inicio</a>
+      <a href="../temas.html" class="nav-item nav-link">Temas</a>
+      <a href="../autores.html" class="nav-item nav-link active">Autores</a>
+    </div>
   </div>
 </nav>
-<!-- Navbar End -->
 
 <div class="container">
   <aside>
     <h3>Contenido</h3>
     <ul>
-      <li><a href="#biografia">Biografia</a></li>
-      <li><a href="#historia" >Historia</a></li>
+      <li><a href="#biografia">Biografía</a></li>
+      <li><a href="#historia">Carrera y viajes</a></li>
+      <li><a href="#obras">Obras principales</a></li>
+      <li><a href="#regla">Regla de Cramer</a></li>
+      <li><a href="#paradoja">Paradoja de Cramer</a></li>
+      <li><a href="#legado">Legado y honores</a></li>
     </ul>
   </aside>
+
   <main>
     <div class="title-with-image">
       <h1>Gabriel Cramer</h1>
-      <img src="../img/Gabriel_Cramer.jpg" alt="Autor del tema" class="autor-img" />
+      <img src="../img/Gabriel_Cramer.jpg" alt="Retrato de Gabriel Cramer" class="autor-img" />
     </div>
-    
-    <p id="biografia">
-        <h2>Biografia</h2>
-        Gabriel Cramer (31 de julio de 1704-4 de enero de 1752) fue un matemático suizo nacido en Ginebra.
-        <br>
-        <br>
-        Mostró gran precocidad en matemática y ya a los 18 recibe su doctorado y a los 20 era profesor adjunto de matemática. 
-        Profesor de matemática de la Universidad de Ginebra durante el periodo 1724-27. En 1750 ocupó la cátedra de filosofía 
-        en dicha universidad. En 1731 presentó ante la Academia de las Ciencias de París, una memoria sobre las múltiples causas
-        de la inclinación de las órbitas de los planetas.Tuvo un hijo llamado Felipe Cramer Montilla.
-    </p>
-    <hr>
-    <p id="Historia">
-        <h2>Historia</h2>
-        Editó las obras de Johann Bernoulli (1742) y de Jacques Bernoulli (1744) y el Comercium epistolarum de Leibniz. Su obra fundamental 
-        fue la Introduction à l'analyse des courbes algébriques (1750), en la que se desarrolla la teoría de las curvas algebraicas según 
-        los principios newtonianos, demostrando que una curva de grado n viene dada por N puntos situados sobre ella, donde N viene dado
-        por la expresión:
-        <div class="frase_importante">
-          <img src="../img/formula.png">
-        </div>
-        La Regla de Cramer es un teorema en álgebra lineal, que da la solución de un sistema lineal de ecuaciones en términos de determinantes. 
-        Recibe este nombre en honor a Gabriel Cramer (1704 - 1752), quien publicó la regla en su Introduction à l'analyse des lignes courbes 
-        algébriques de 1750, aunque Colin Maclaurin también publicó el método en su Treatise of Geometry de 1748 (y probablemente sabía del 
-        método desde 1729).
-    </p>
-    
-  </main>
-  
-</div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
 
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <section id="biografia">
+      <h2>Biografía</h2>
+      <p>
+        Gabriel Cramer (Ginebra, 31&nbsp;de&nbsp;julio&nbsp;de&nbsp;1704 – Bagnols‑sur‑Cèze, 4&nbsp;de&nbsp;enero&nbsp;de&nbsp;1752) fue un matemático
+        y filósofo suizo. Niño prodigio, obtuvo el doctorado con 18&nbsp;años y a los 20 era profesor adjunto de matemáticas en la Academia de
+        Ginebra, institución donde enseñó matemáticas (1724‑1727) y, desde&nbsp;1750, filosofía. Sus aportaciones abarcan el <strong>álgebra
+        lineal</strong>, la <strong>geometría algebraica</strong>, la <strong>mecánica celeste</strong> y la <strong>teoría de probabilidades</strong>.
+      </p>
+    </section>
+    <hr>
+
+    <section id="historia">
+      <h2>Carrera y viajes</h2>
+      <p>
+        • <strong>Formación y primeros años.</strong> Hijo de Jean Cramer, médico hugonote, ingresó con 14&nbsp;años en la Academia de Ginebra, donde
+        estudió bajo la tutela de Jean‑Louis&nbsp;Calandrini. A los 20 sucedió a Louis Bertrand como profesor adjunto.<br>
+        • <strong>Viajes científicos (1727‑1731).</strong> Recorrió Europa para contactar con los Bernoulli en Basilea, Maupertuis y Clairaut en París y
+        Newtonianos en Londres. Elaboró para la Académie des Sciences de París un <em>mémoire</em> sobre la inclinación de las órbitas planetarias.
+        • <strong>Editor de clásicos.</strong> Publicó las <em>Opera Omnia</em> de Johann&nbsp;Bernoulli&nbsp;(1742), Jacques&nbsp;Bernoulli&nbsp;(1744)
+        y el <em>Commercium epistolicum</em> de Leibniz, fijando textos fundamentales para la historia del cálculo.
+      </p>
+    </section>
+    <hr>
+
+    <section id="obras">
+      <h2>Obras principales</h2>
+      <ul>
+        <li><em>Introduction à l'analyse des courbes algébriques</em> (1750): desarrolla la geometría de curvas de grado&nbsp;<em>n</em> y prueba que
+          quedan determinadas por N&nbsp;=&nbsp;<em>n</em>(<em>n</em>+3)/2 puntos en posición general.</li>
+        <li><em>Dissertatio de corporis regularis methodo</em> (1730, inéd.): sobre poliedros regulares.</li>
+        <li><em>Lettres à M. Euler sur la théorie des probabilités</em> (corr. 1742‑1745).</li>
+      </ul>
+    </section>
+    <hr>
+
+    <section id="regla">
+      <h2>Regla de Cramer</h2>
+      <p>
+        En su <em>Introduction…</em> Cramer enunció el método para resolver sistemas lineales <em>Ax&nbsp;=&nbsp;b</em> mediante determinantes,
+        antecediendo a la notación matricial moderna. Para un sistema de <em>n</em> ecuaciones con matriz de coeficientes de determinante no nulo,
+        cada incógnita x<sub>i</sub> se expresa como el cociente entre el determinante donde la <em>i</em>‑ésima columna se reemplaza por <em>b</em>
+        y el determinante de&nbsp;A. Esta regla —publicada también por Colin&nbsp;Maclaurin (1748)— es hoy un resultado básico en álgebra lineal.
+      </p>
+    </section>
+    <hr>
+
+    <section id="paradoja">
+      <h2>Paradoja de Cramer</h2>
+      <p>
+        Cramer observó que dos curvas cúbicas quedan determinadas por nueve puntos, pero en general se cortan en nueve puntos: ¿cómo pueden coexistir
+        ambos hechos sin contradicción? Esta aparente inconsistencia, bautizada <em>paradoja de Cramer</em>, estimuló el desarrollo de la geometría
+        proyectiva y fue resuelta por Plücker y Cayley al distinguir entre puntos en posición general y multiplicidades de intersección.
+      </p>
+    </section>
+    <hr>
+
+    <section id="legado">
+      <h2>Legado y honores</h2>
+      <p>
+        Elegido miembro correspondiente de la Royal Society (1748) y de la Académie de París. Su correspondencia con Euler y&nbsp;d'Alembert
+        enriqueció la teoría de probabilidades. El cráter lunar <em>Cramer</em> conmemora su nombre, así como la calle Cramer en su Ginebra natal.
+      </p>
+    </section>
+
+    <p><strong>Referencia (formato APA):</strong><br>
+      Wikipedia contribuidores. (2025, 19 mayo). <em>Gabriel Cramer</em>. En <em>Wikipedia, La enciclopedia libre</em>. Recuperado 19 de mayo de 2025
+      de <a href="https://es.wikipedia.org/wiki/Gabriel_Cramer">https://es.wikipedia.org/wiki/Gabriel_Cramer</a>.
+    </p>
+  </main>
+</div>
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+      <div class="row g-5">
+          <div class="col-lg-3 col-md-6">
+              <h4 class="text-white mb-3">Contact</h4>
+              <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+              <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+              <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+              <div class="d-flex pt-2">
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+              </div>
+          </div>
+      </div>
   </div>
-  <!-- Footer End -->
+  <div class="container">
+      <div class="copyright">
+          <div class="row">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                  &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+                  Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                  <div class="footer-menu">
+                      <a href="">Home</a>
+                      <a href="">Cookies</a>
+                      <a href="">Help</a>
+                      <a href="">FQAs</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Footer End -->
 </body>
 </html>

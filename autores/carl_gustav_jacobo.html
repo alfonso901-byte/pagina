@@ -6,127 +6,34 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-
-    <!-- Favicon -->
     <link href="../img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
-
     <style>
-      /* Contenedor flex para aside y main */
-      .container {
-        display: flex;
-        gap: 2rem; /* espacio entre aside y main */
-        margin-top: 1rem;
-        padding: 0 1rem;
-      }
-
-      /* Aside pequeño sticky */
-      aside {
-        position: sticky;
-        top: 80px; /* para que quede debajo del navbar (ajusta si tu navbar cambia de alto) */
-        flex: 0 0 220px; /* ancho fijo, no crece ni se encoge */
-        background-color: #f8f9fa;
-        border-radius: 0.375rem;
-        padding: 1rem;
-        height: fit-content; /* que tome el alto de su contenido */
-        box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
-      }
-
-      /* Main toma todo lo que queda */
-      main {
-        flex: 1;
-      }
-
-      /* Opcional: lista aside sin bullets */
-      aside ul {
-        padding-left: 0;
-        list-style: none;
-      }
-
-      aside ul li {
-        padding: 0.4rem 0;
-        border-bottom: 1px solid #ddd;
-      }
-
-      aside ul li:last-child {
-        border-bottom: none;
-      }
-
-      /* Responsive: en pantallas chicas, aside se pone arriba */
-      @media (max-width: 768px) {
-        .container {
-          flex-direction: column;
-        }
-
-        aside {
-          position: relative;
-          top: auto;
-          flex: none;
-          width: 100%;
-          margin-bottom: 1rem;
-          box-shadow: none;
-          background-color: transparent;
-          padding: 0;
-        }
-
-        aside ul li {
-          border: none;
-          padding: 0.25rem 0;
-        }
-      }
-      .title-with-image {
-  display: flex;
-  align-items: center;
-  gap: 1rem; /* espacio entre el título y la imagen */
-  margin-bottom: 1rem;
-}
-
-.autor-img {
-  width: 150px; /* tamaño de la imagen, puedes ajustar */
-  height: 200px;
-  object-fit: cover; /* para que la imagen mantenga proporción y no se distorsione */
-  border-radius: 30%; /* para hacerla circular */
-  border: 2px solid #007bff; /* borde azul, opcional */
-}
-.frase_importante{
-    background-color: rgba(128, 128, 128, 0.2); /* gris translúcido */
-    border-left: 5px solid rgba(0, 0, 0, 0.2);  /* borde izquierdo */
-    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1); /* sombra hacia la derecha */
-    padding: 15px 20px;
-    margin: 30px 0;
-    font-style: italic;
-    font-size: 1.2rem;
-}
+      .container{display:flex;gap:2rem;margin-top:1rem;padding:0 1rem;}
+      aside{position:sticky;top:80px;flex:0 0 220px;background:#f8f9fa;border-radius:.375rem;padding:1rem;height:fit-content;box-shadow:0 0 10px rgba(0,0,0,.1);}      
+      main{flex:1;}
+      aside ul{padding-left:0;list-style:none;}
+      aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}
+      aside ul li:last-child{border-bottom:none;}
+      @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}aside ul li{border:none;padding:.25rem 0;}}
+      .title-with-image{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+      .autor-img{width:150px;height:200px;object-fit:cover;border-radius:30%;border:2px solid #007bff;}
+      .frase_importante{background:rgba(128,128,128,.2);border-left:5px solid rgba(0,0,0,.2);box-shadow:-5px 0 10px rgba(0,0,0,.1);padding:15px 20px;margin:30px 0;font-style:italic;font-size:1.1rem;}
     </style>
 </head>
 <body>
 
-<!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
-  </a>
-  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-  </button>
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5"><h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2></a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
           <a href="../index.html" class="nav-item nav-link">Inicio</a>
@@ -135,191 +42,169 @@
       </div>
   </div>
 </nav>
-<!-- Navbar End -->
 
 <div class="container">
   <aside>
     <h3>Contenido</h3>
     <ul>
-      <li><a href="#biografia">Biografia</a></li>
-      <li><a href="#nacimiento" >Nacimiento</a></li>
-      <li><a href="#historia" >Historia</a></li>
-      <li><a href="#muerte" >Muerte</a></li>
-      <li><a href="#nombre" >Su nombre</a></li>
-      <li><a href="#contribuciones" >Contribuciones Cientificas</a></li>
-
-
+      <li><a href="#biografia">Biografía</a></li>
+      <li><a href="#nacimiento">Nacimiento</a></li>
+      <li><a href="#historia">Carrera académica</a></li>
+      <li><a href="#muerte">Muerte</a></li>
+      <li><a href="#nombre">Su nombre</a></li>
+      <li><a href="#contribuciones">Contribuciones científicas</a></li>
+      <li><a href="#honores">Honores y legado</a></li>
+      <li><a href="#obras">Obras seleccionadas</a></li>
     </ul>
   </aside>
+
   <main>
     <div class="title-with-image">
       <h1>Carl Gustav Jacob Jacobi</h1>
-      <img src="../img/jacobi.jpg" alt="Autor del tema" class="autor-img" />
+      <img src="../img/jacobi.jpg" alt="Retrato de Carl Gustav Jacobi" class="autor-img" />
     </div>
-    
-    <p id="biografia">
-        <h2>Biografia</h2>
-        Carl Gustav Jacob Jacobi; 10 de diciembre de 1804 - 18 de febrero de 1851) fue un matemático alemán que realizó aportaciones fundamentales
-        a las funciones elípticas, la dinámica, las ecuaciones diferenciales, los determinantes y la teoría de números.
-    </p>
+
+    <section id="biografia">
+      <h2>Biografía</h2>
+      <p>
+        Carl Gustav Jacob Jacobi (Potsdam, 10&nbsp;de&nbsp;diciembre&nbsp;de&nbsp;1804 – Berlín, 18&nbsp;de&nbsp;febrero&nbsp;de&nbsp;1851) fue uno de
+        los matemáticos más influyentes del siglo&nbsp;XIX. Sus trabajos sobre <strong>funciones elípticas y theta</strong>, la <strong>dinámica de
+        Hamilton‑Jacobi</strong>, los <strong>determinantes jacobianos</strong> y las <strong>leyes de reciprocidad superiores</strong> marcaron el
+        desarrollo posterior del análisis, la física matemática y la teoría de números.
+      </p>
+    </section>
     <hr>
-    <p id="nacimiento">
-        <h2>Nacimiento</h2>
-        Jacobi nació en Potsdam el 10 de diciembre de 1804, de padres judíos asquenazíes. Era el segundo de los cuatro hijos de un banquero,
-        Simon Jacobi. Su hermano mayor, Moritz, también sería conocido más tarde como ingeniero y físico. Fue educado en casa por su tío Lehman, 
-        que le enseñó las lenguas clásicas y las matemáticas. En 1816, Jacobi, de doce años, ingresó en el Gymnasium de Potsdam, donde se 
-        impartían todas las asignaturas habituales: lenguas clásicas, historia, filología, matemáticas, ciencias, etc. Como resultado de la 
-        buena educación que había recibido de su tío, así como de sus propias y notables aptitudes, al cabo de menos de medio año Jacobi pasó 
-        al último curso a pesar de su corta edad. Sin embargo, como la Universidad no aceptaba estudiantes menores de 16 años, tuvo que permanecer 
-        en el último curso hasta 1821. Aprovechó este tiempo para avanzar en sus conocimientos, mostrando interés por todas las materias, incluido
-        el latín, el griego, la filología, la historia y las matemáticas. Durante este periodo también hizo sus primeros intentos de investigación,
-        tratando de resolver la ecuación quíntica por radicales.
-    </p>
+
+    <section id="nacimiento">
+      <h2>Nacimiento</h2>
+      <p>
+        Jacobi nació en el seno de una familia judía acomodada; fue el segundo de cuatro hijos del banquero Simon Jacobi y de Rachel&nbsp;Levy. Su
+        tío Lehman le enseñó latín, griego y matemáticas antes de ingresar (1816) en el Gymnasium de Potsdam, donde saltó rápidamente a los cursos
+        superiores. Con quince años intentó sin éxito resolver la ecuación quíntica por radicales.
+      </p>
+    </section>
     <hr>
-    <p id="historia">
-      <h2>Historia</h2>
-      En 1821 Jacobi fue a estudiar a la Universidad de Berlín, donde inicialmente dividió su atención entre sus pasiones por la filología y 
-      las matemáticas. En filología, participó en los seminarios de Böckh, llamando la atención del profesor por su talento. En aquella época, 
-      Jacobi no seguía muchas clases de matemáticas, ya que el nivel de las que se impartían en la Universidad de Berlín le parecía demasiado 
-      elemental. Continuó, en cambio, con su estudio privado de las obras más avanzadas de Euler, Lagrange y Laplace. Hacia 1823 comprendió que 
-      debía tomar una decisión entre sus intereses contrapuestos y optó por dedicar toda su atención a las matemáticas Ese mismo año obtuvo 
-      el título de profesor de enseñanza secundaria y le ofrecieron un puesto en el Joachimsthal Gymnasium de Berlín. Sin embargo, Jacobi decidió 
-      seguir trabajando para conseguir un puesto en la universidad. En 1825 obtuvo el grado de Doctor en Filosofía con una disertación sobre la 
-      descomposición parcial de fracciones racionales defendida ante una comisión dirigida por Enno Dirksen. Siguió inmediatamente con su 
-      habilitación y al mismo tiempo se convirtió al cristianismo. Habilitado ya para impartir clases universitarias, Jacobi, de 21 años, 
-      dio clases en 1825/26 sobre teoría de curvas y superficies en la Universidad de Berlín.
-      <br>
-      <br>
-      En 1826, Jacobi fue nombrado profesor privado, al año siguiente profesor extraordinario y, finalmente, en 1829, catedrático de matemáticas 
-      en la Universidad de Königsberg, cátedra que ocupó hasta 1842. En 1843 sufrió una crisis por exceso de trabajo. Visitó Italia durante unos 
-      meses para recuperar la salud. A su regreso se trasladó a Berlín, donde vivió como pensionista real, salvo un brevísimo interinato, hasta 
-      su muerte Durante la Revolución de 1848, Jacobi se implicó políticamente y presentó sin éxito su candidatura parlamentaria en nombre de 
-      un club liberal. Tras la supresión de la revolución, se le retiró la subvención real, pero su fama y reputación eran tales que pronto se 
-      reanudó, gracias a la intervención personal de Alexander von Humboldt.
-    </p>
+
+    <section id="historia">
+      <h2>Carrera académica</h2>
+      <p>
+        • <strong>Universidad de Berlín (1821‑1825).</strong> Estudió filología y matemáticas, doctorándose&nbsp;(1825) con una tesis sobre
+        fracciones racionales. Ese mismo año se <em>habilitó</em> como <em>Privatdozent</em>, tras convertirse al luteranismo por razones
+        profesionales.
+      </p>
+      <p>
+        • <strong>Universidad de Königsberg (1826‑1842).</strong> A los 22 años obtuvo una cátedra extraordinaria y en 1829 la ordinaria. Allí trabó
+        amistad con Bessel y Neumann y produjo sus obras maestras: <em>Fundamenta nova theoriae functionum ellipticarum</em> (1829) y los ensayos
+        sobre dinámica canónica (1834‑1837).
+      </p>
+      <p>
+        • <strong>Berlín (1844‑1851).</strong> Tras una crisis de salud por exceso de trabajo, se instaló en Berlín como pensionado real. Participó en
+        la Revolución de 1848 defendiendo posiciones liberales; recuperó la asignación gracias a Alexander&nbsp;von&nbsp;Humboldt y continuó
+        investigando hasta su muerte por viruela.
+      </p>
+    </section>
     <hr>
-    <p id="muerte">
+
+    <section id="muerte">
       <h2>Muerte</h2>
-      Jacobi murió en 1851 de una infección de viruela. Su tumba se conserva en un cementerio del barrio berlinés de Kreuzberg, el 
-      Friedhof I der Dreifaltigkeits-Kirchengemeinde (calle Baruther, 61). Su tumba está cerca de la del astrónomo Johann Encke. 
-      El cráter Jacobi de la Luna lleva su nombre.
-    </p>
+      <p>
+        Falleció a los 46 años en Berlín. Está enterrado en el cementerio Dreifaltigkeit&nbsp;I (Kreuzberg), cercano a la tumba del astrónomo Johann
+        Encke. El cráter lunar <em>Jacobi</em> y el asteroide (12040) Jacobi honran su memoria.
+      </p>
+    </section>
     <hr>
-    <p id="nombre">
-      <h2>Su Nombre</h2>
-      El nombre de nacimiento de Jacobi era Jacques Simon, un nombre de estilo francés (su padre era Simon Jacobi)[8] Más tarde, su nombre 
-      se germanizó a Carl Gustav Jacob Jacobi y se publicó en su forma latinizada como Carolus Gustavus Jacobus Jacobi. A veces se le conoce 
-      como C. G. J. Jacobi.
-    </p>
+
+    <section id="nombre">
+      <h2>Su nombre</h2>
+      <p>
+        Su nombre de bautismo fue <em>Jacques Simon Jacobi</em>. Más tarde lo germanizó a <em>Carl Gustav Jacob</em> y lo firmó en latín como
+        <em>Carolus Gustavus Jacobus</em>. Las obras modernas lo citan habitualmente como <strong>C.&nbsp;G.&nbsp;J. Jacobi</strong>.
+      </p>
+    </section>
     <hr>
-    <p id="contribuciones">
-      <h2>Contribuciones Cientificas</h2>
-      Uno de los mayores logros de Jacobi fue su teoría de las funciones elípticas y su relación con la función theta elíptica. Esta teoría se 
-      desarrolló en su gran tratado Fundamenta nova theoriae functionum ellipticarum (1829) y en artículos posteriores en la Revista de Crelle. 
-      Las funciones theta son de gran importancia en la física matemática por su papel en el problema inverso de los flujos periódicos y 
-      cuasiperiódicos. Las ecuaciones de movimiento son integrables en términos de las funciones elípticas de Jacobi en los conocidos casos del 
-      péndulo, el tope de Euler, el tope simétrico de Lagrange en un campo gravitatorio y el problema de Kepler (movimiento planetario en un campo 
-      gravitatorio central).
-      <br>
-      <br>
-      También hizo aportaciones fundamentales al estudio de las ecuaciones diferenciales y a la mecánica clásica, en particular la teoría de 
-      Hamilton-Jacobi.
-      <br>
-      <br>
-      Jacobi destacó sobre todo en el desarrollo algebraico, y realizó importantes contribuciones de este tipo en muchos campos de las matemáticas, 
-      como demuestra la larga lista de artículos que publicó en la revista de Crelle y en otras publicaciones a partir de 1826. 
-      [Se dice que decía a sus alumnos que, al buscar un tema de investigación, uno debería «Invertir, siempre invertir» (original 
-      alemán: «man muss immer umkehren»), reflejando su creencia de que invertir resultados conocidos puede abrir nuevos campos de investigación, 
-      por ejemplo invirtiendo integrales elípticas y centrándose en la naturaleza de las funciones elípticas y theta.
-      <br>
-      <br>
-      En su artículo de 1835, Jacobi demostró el siguiente resultado básico que clasifica las funciones periódicas (incluidas las elípticas):
-      <div class="frase_importante">      
-        Si una función univariante de un solo valor es multiperiódica, entonces dicha función no puede tener más de dos periodos, y el cociente de
-        los periodos no puede ser un número real.
-      </div>
-      Descubrió muchas de las propiedades fundamentales de las funciones theta, incluida la ecuación funcional y la fórmula del triple producto 
-      de Jacobi, así como otros muchos resultados sobre series q y series hipergeométricas.
-      <br>
-      <br>
-      Jacobi fue el primero en aplicar las funciones elípticas a la teoría numérica, demostrando, por ejemplo, el teorema de los dos cuadrados 
-      de Fermat y el teorema de los cuatro cuadrados de Lagrange, así como resultados similares para 6 y 8 cuadrados.
-      <br>
-      <br>
-      Sus otros trabajos en teoría numérica continuaron la labor de Gauss: nuevas demostraciones de la reciprocidad cuadrática y la introducción 
-      del símbolo de Jacobi; contribuciones a leyes de reciprocidad superiores, investigaciones sobre fracciones continuas y la invención de las 
-      sumas de Jacobi.
-      <br>
-      <br>
-      También fue uno de los primeros fundadores de la teoría de los determinantes En particular, inventó el determinante jacobiano formado 
-      a partir de las n2 derivadas parciales de n funciones dadas de n variables independientes, que desempeña un papel importante en los cambios
-      de variables en integrales múltiples y en muchas investigaciones analíticas En 1841 reintrodujo la notación de derivada parcial ∂ de 
-      Legendre, que se convertiría en estándar.
-      <br>
-      <br>
-      Fue uno de los primeros en introducir y estudiar los polinomios simétricos que ahora se conocen como polinomios de Schur, dando la llamada 
-      fórmula bialternante para ellos, que es un caso especial de la fórmula del carácter de Weyl, y derivando las identidades de Jacobi-Trudi. 
-      También descubrió la fórmula de Desnanot-Jacobi para los determinantes, que subyace a las relaciones de Plücker para los grassmannianos.
-      <br>
-      <br>
-      Los estudiantes de campos vectoriales, teoría de Lie, mecánica hamiltoniana y álgebras de operadores se encuentran a menudo con la identidad 
-      de Jacobi, el análogo de la asociatividad para la operación del soporte de Lie.
-      <br>
-      <br>
-      La teoría planetaria y otros problemas dinámicos particulares también ocuparon su atención de vez en cuando. Mientras contribuía a la mecánica 
-      celeste, introdujo la integral de Jacobi (1836) para un sistema de coordenadas siderales. Su teoría del último multiplicador se trata en
-      Vorlesungen über Dynamik, editado por Alfred Clebsch (1866).
-      <br>
-      <br>
-      Dejó numerosos manuscritos, parte de los cuales se han publicado a intervalos en la Revista de Crelle. Otras obras suyas son Commentatio de 
-      transformatione integralis duplicis indefiniti in formam simpliciorem (1832), Canon arithmeticus (1839) y Opuscula mathematica (1846-1857).
-      Sus Gesammelte Werke (1881-1891) fueron publicadas por la Academia de Berlín.
+
+    <section id="contribuciones">
+      <h2>Contribuciones científicas</h2>
+      <p>
+        • <strong>Funciones elípticas y theta:</strong> desarrolló la teoría inversa de las integrales elípticas e introdujo las funciones&nbsp;sn,
+        cn, dn y las identidades modulares; su fórmula del triple producto es básica en teoría de particiones.<br>
+        • <strong>Mecánica analítica:</strong> ecuación de Hamilton‑Jacobi, sistema canónico y transformaciones completas; base de la mecánica
+        cuántica de Schrödinger.<br>
+        • <strong>Determinante jacobiano:</strong> generalizó la regla de cambio de variables a n dimensiones, herramienta clave en análisis y
+        geometría diferencial.<br>
+        • <strong>Teoría de números:</strong> símbolo de Jacobi, reciprocidad cúbica y cuártica, sumas de Jacobi, pruebas de los teoremas de Fermat
+        (2 cuadrados) y Lagrange (4 cuadrados).<br>
+        • <strong>Álgebra y polinomios simétricos:</strong> identidad de Jacobi, fórmula bialternante de los polinomios de Schur, relaciones de
+        Desnanot‑Jacobi.
+      </p>
+    </section>
+    <hr>
+
+    <section id="honores">
+      <h2>Honores y legado</h2>
+      <p>
+        Miembro de las academias de Berlín (1836), San Petersburgo (1841) y Royal Society (1846). Recibió la medalla de la Academia de París (1840)
+        por su trabajo en dinámica. El método «invertir siempre» (<em>man muss immer umkehren</em>) que inculcaba a sus alumnos inspiró a Riemann y
+        Weierstrass. Su nombre pervive en conceptos como las <em>sumas de Jacobi</em>, el <em>método de Jacobi</em> para sistemas lineales y la
+        <em>identidad de Jacobi</em> en álgebras de Lie.
+      </p>
+    </section>
+    <hr>
+
+    <section id="obras">
+      <h2>Obras seleccionadas</h2>
+      <ul>
+        <li><em>Fundamenta nova theoriae functionum ellipticarum</em> (1829).</li>
+        <li><em>Vorlesungen über Dynamik</em> (public. póst., 1866).</li>
+        <li><em>Canon arithmeticus</em> (1839).</li>
+        <li><em>Commentatio de transformatione integralis duplicis indefiniti</em> (1832).</li>
+        <li><em>Gesammelte Werke</em>, 3 vols. (1881‑1891).</li>
+      </ul>
+    </section>
+
+    <p><strong>Referencia (formato APA):</strong><br>
+      Wikipedia contribuidores. (2025, 19 mayo). <em>Carl Gustav Jacob Jacobi</em>. En <em>Wikipedia, La enciclopedia libre</em>. Recuperado
+      19 de mayo de 2025, de <a href="https://es.wikipedia.org/wiki/Carl_Gustav_Jacob_Jacobi">https://es.wikipedia.org/wiki/Carl_Gustav_Jacob_Jacobi</a>.
     </p>
   </main>
-  
 </div>
-   <!-- Footer Start -->
-   <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
-
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+      <div class="row g-5">
+          <div class="col-lg-3 col-md-6">
+              <h4 class="text-white mb-3">Contact</h4>
+              <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+              <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+              <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+              <div class="d-flex pt-2">
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                  <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+              </div>
+          </div>
+      </div>
   </div>
+  <div class="container">
+      <div class="copyright">
+          <div class="row">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                  &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
+                  Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                  <div class="footer-menu">
+                      <a href="">Home</a>
+                      <a href="">Cookies</a>
+                      <a href="">Help</a>
+                      <a href="">FQAs</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
 <!-- Footer End -->
 </body>
 </html>

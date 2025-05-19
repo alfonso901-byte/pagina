@@ -12,6 +12,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
   <link href="../css/bootstrap.min.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
+  <!-- MathJax para fórmulas pulidas -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
   <style>
     .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
@@ -20,8 +24,13 @@
     aside ul { list-style: none; padding-left: 0; }
     aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
     aside ul li:last-child { border-bottom: none; }
-    .frase_importante { background: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); padding: 15px 20px; margin:30px 0; font-style:italic; font-size:1.2rem; }
+    @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
+    .frase_importante { background: rgba(128,128,128,.1); border-left: 5px solid var(--primary); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.05rem; }
     pre { background:#f4f4f4; padding:1rem; border-radius:.5rem; overflow-x:auto; }
+    .math-block { text-align:center; margin:1rem 0; font-size:1.25rem; }
+    .example-table { width:100%; border-collapse:collapse; margin:1rem 0; }
+    .example-table th,.example-table td { border:1px solid #ddd; padding:.5rem; text-align:center; }
+    .example-table th { background:#f0f0f0; }
   </style>
 </head>
 <body>
@@ -59,90 +68,158 @@
     </ul>
   </aside>
   <main>
-    <h1 id="nombre">1. Método de Euler</h1>
+    <!-- 1. Nombre del método -->
+    <h1 id="nombre">1. Método de Euler (Explícito)</h1>
+    <p>Este esquema de <em>un paso</em> aproxima soluciones de ecuaciones diferenciales ordinarias (EDO) usando la pendiente en el punto actual. Sienta las bases de métodos más sofisticados (Runge-Kutta, multistep, etc.).</p>
+
+    <!-- 2. Fundamento teórico -->
     <h2 id="fundamento">2. Fundamento teórico</h2>
-    <p>Euler aproxima la solución de una EDO y' = f(t,y), y(t_0)=y_0, usando la derivada en el punto actual:</p>
-    <div class="frase_importante">
-      y_{n+1} = y_n + h·f(t_n,y_n)
-    </div>
+    <p>Sea la EDO de primer orden</p>
+    <div class="math-block">$$\frac{dy}{dt}=f(t,y),\qquad y(t_0)=y_0.$$</div>
+    <p>Usando la fórmula de Taylor hasta el primer término:</p>
+    <div class="math-block">$$y(t_0+h)=y_0+h f(t_0,y_0)+\mathcal{O}(h^2).$$</div>
+    <p>Definiendo \(t_n=t_0+nh\) y \(y_n\approx y(t_n)\), obtenemos la fórmula recursiva del <em>Euler explícito</em>:</p>
+    <div class="math-block">$$\boxed{\;y_{n+1}=y_n+h\,f(t_n,y_n)\;}$$</div>
+    <p>Donde \(h\) es el <strong>paso de integración</strong>. El método es de <em>orden 1</em>.</p>
 
+    <!-- 3. Error y estabilidad -->
     <h2 id="error">3. Término de error y estabilidad</h2>
-    <p>Es método de orden 1: error local O(h^2), global O(h). Condición de estabilidad depende de paso y región de estabilidad.</p>
+    <ul>
+      <li><strong>Error local de truncamiento:</strong> \(\tau_{n}=\mathcal{O}(h^2)\).</li>
+      <li><strong>Error global:</strong> \(E_N=\mathcal{O}(h)\).</li>
+    </ul>
+    <p>Para el problema de prueba \(y'=\lambda y\) con \(\Re(\lambda)<0\), la iteración se vuelve</p>
+    <div class="math-block">$$y_{n+1}=(1+h\lambda)\,y_n.$$</div>
+    <p>El método es <em>estable</em> si</p>
+    <div class="math-block">$$|1+h\lambda|<1\;\;\;\Longrightarrow\;\; h<\frac{2}{|\lambda|} \text{ para } \lambda<0.$$
+    </div>
+    <div class="frase_importante">La región de estabilidad del Euler explícito es un círculo de radio 1 centrado en −1 en el plano complejo \(h\lambda\).</div>
 
+    <!-- 4. Pasos detallados -->
     <h2 id="pasos">4. Pasos detallados</h2>
     <ol>
-      <li>Dividir [t_0,T] en pasos de tamaño h.</li>
-      <li>Para n=0…N-1 calcular y_{n+1}=y_n + h f(t_n,y_n).</li>
-      <li>Actualizar t_{n+1}=t_n + h.</li>
-      <li>Repetir hasta T.</li>
+      <li>Elegir <strong>paso</strong> \(h\) y número de pasos \(N=(T-t_0)/h\).</li>
+      <li>Inicializar \(t_0,\;y_0\).</li>
+      <li>Para <code>n = 0…N−1</code> calcular
+        <div class="math-block">$$\begin{aligned}
+          t_{n+1}&=t_n+h,\\[2pt]
+          y_{n+1}&=y_n+h\,f(t_n,y_n).
+        \end{aligned}$$</div></li>
+      <li>Retornar \((t_n,y_n)\).</li>
     </ol>
 
+    <!-- 5. Ejemplo resuelto -->
     <h2 id="ejemplo">5. Ejemplo resuelto</h2>
-    <p>EDO: y' = -2y, y(0)=1, h=0.1 hasta t=0.5.</p>
-    <ul>
-      <li>Tabla:
-        <br>y_1=1+0.1*(-2*1)=0.8,
-        y_2=0.8+0.1*(-2*0.8)=0.64, …
-      </li>
-      <li>Valor exacto y(0.5)=e^{-1}=0.3679, Euler da y_5≈0.3277 (error≈0.04).
-      </li>
-    </ul>
+    <p>Resolvámos \(y'=-2y,\;y(0)=1\) con \(h=0.1\) hasta \(t=0.5\). La solución exacta es \(y(t)=e^{-2t}\).</p>
+    <table class="example-table">
+      <thead><tr><th>n</th><th>t<sub>n</sub></th><th>y<sub>n</sub> (Euler)</th><th>y(t<sub>n</sub>) exacto</th><th>Error</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>0.0</td><td>1.0000</td><td>1.0000</td><td>0</td></tr>
+        <tr><td>1</td><td>0.1</td><td>0.8000</td><td>0.8187</td><td>−0.0187</td></tr>
+        <tr><td>2</td><td>0.2</td><td>0.6400</td><td>0.6703</td><td>−0.0303</td></tr>
+        <tr><td>3</td><td>0.3</td><td>0.5120</td><td>0.5488</td><td>−0.0368</td></tr>
+        <tr><td>4</td><td>0.4</td><td>0.4096</td><td>0.4493</td><td>−0.0397</td></tr>
+        <tr><td>5</td><td>0.5</td><td>0.3277</td><td>0.3679</td><td>−0.0402</td></tr>
+      </tbody>
+    </table>
 
+    <!-- 6. Código en Python y gráfica -->
     <h2 id="codigo">6. Código en Python y gráfica</h2>
     <pre><code>import numpy as np
 import matplotlib.pyplot as plt
 
+np.random.seed(0)
+
 def euler(f, t0, y0, h, N):
-    t = np.linspace(t0, t0+N*h, N+1)
-    y = np.zeros(N+1)
+    """Implementación del esquema de Euler explícito"""
+    t = np.linspace(t0, t0 + N*h, N+1)
+    y = np.empty(N+1)
     y[0] = y0
     for n in range(N):
         y[n+1] = y[n] + h * f(t[n], y[n])
     return t, y
 
-f = lambda t,y: -2*y
-t,y = euler(f,0,1,0.1,5)
+f = lambda t, y: -2*y
+h = 0.1
+N = 50
+T, Y = euler(f, 0, 1, h, N)
+
+t_exact = np.linspace(0, N*h, 200)
+y_exact = np.exp(-2*t_exact)
+
 plt.figure()
-plt.plot(t, y, 'o-', label='Euler')
-plt.plot(t, np.exp(-2*t), label='Exacta')
+plt.plot(T, Y, 'o-', label='Euler h=0.1')
+plt.plot(t_exact, y_exact, label='Exacta')
+plt.xlabel('t'); plt.ylabel('y(t)')
+plt.title('Comparación Método de Euler vs solución exacta')
+plt.grid(True)
 plt.legend()
-plt.title('Método de Euler')
+plt.tight_layout()
 plt.show()</code></pre>
 
+    <!-- 7. Animación JS -->
     <h2 id="animacion">7. Animación JS</h2>
-    <p>Comparar puntos Euler vs exacta:</p>
-    <canvas id="eulerChart" width="400" height="200"></canvas>
+    <p>Visualización animada del acercamiento de la solución de Euler a la exacta:</p>
+    <canvas id="eulerChart" width="420" height="220"></canvas>
     <script>
-      window.addEventListener('DOMContentLoaded', function(){
+      window.addEventListener('DOMContentLoaded', () => {
         const t=[0,0.1,0.2,0.3,0.4,0.5];
-        const yE=[1,0.8,0.64,0.512,0.4096,0.32768];
-        const yEx=t.map(v=>Math.exp(-2*v));
+        const yEuler=[1,0.8,0.64,0.512,0.4096,0.32768];
+        const yExact=t.map(v=>Math.exp(-2*v));
         const ctx=document.getElementById('eulerChart').getContext('2d');
-        new Chart(ctx,{type:'line',data:{labels:t,datasets:[{label:'Euler',data:yE,fill:false,borderWidth:2},{label:'Exacta',data:yEx,fill:false,borderWidth:2,borderDash:[5,5]}]},options:{scales:{x:{title:{display:true,text:'t'}},y:{title:{display:true,text:'y'}}}}});
+        new Chart(ctx, {
+          type:'line',
+          data:{
+            labels:t,
+            datasets:[
+              {label:'Euler',data:yEuler,borderWidth:2,pointStyle:'circle'},
+              {label:'Exacta',data:yExact,borderDash:[5,5],borderWidth:2}
+            ]
+          },
+          options:{
+            animation:{duration:800},
+            scales:{
+              x:{title:{display:true,text:'t'}},
+              y:{title:{display:true,text:'y'}}
+            }
+          }
+        });
       });
     </script>
 
+    <!-- 8. Video Explicativo -->
     <h2 id="video">8. Video Explicativo</h2>
-    <p><a href="https://www.youtube.com/watch?v=ki4E8wsHVcA" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+      <iframe src="https://www.youtube.com/embed/ki4E8wsHVcA" title="Método de Euler explicado" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe>
+    </div>
 
+    <!-- 9. Referencias -->
     <h2 id="referencias">9. Referencias</h2>
     <ul>
-      <li>Burden, R. L., &amp; Faires, J. D. (2011). <em>Numerical Analysis</em>.</li>
+      <li>Burden, R. L., &amp; Faires, J. D. (2011). <em>Numerical Analysis</em> (9.ª ed.). Brooks/Cole.</li>
+      <li>Butcher, J. C. (2016). <em>Numerical Methods for Ordinary Differential Equations</em> (3.ª ed.). Wiley.</li>
       <li>Atkinson, K. (1989). <em>An Introduction to Numerical Analysis</em>. Wiley.</li>
-      <li>Wikipedia contributors. (2025, 2 de mayo). Euler method. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Euler_method</li>
+      <li>Hairer, E., Nørsett, S. P., &amp; Wanner, G. (1993). <em>Solving Ordinary Differential Equations I</em>. Springer.</li>
+      <li>Wikipedia contributors. (2025, 2 mayo). <em>Euler method</em>. Wikipedia. Recuperado 18 mayo 2025.</li>
     </ul>
 
+    <!-- 10. Conclusión y aplicaciones -->
     <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
-    <p>El método de Euler es simple pero de bajo orden; a menudo se usa como base para métodos de orden superior o para visualización rápida de soluciones de EDO.</p>
+    <p>El método de Euler destaca por su <em>simplicidad</em> y valor didáctico. Aunque su precisión \(\mathcal{O}(h)\) y región de estabilidad limitada lo relegan frente a métodos de orden superior, sigue siendo útil para:</p>
+    <ul>
+      <li>Demostraciones conceptuales en cursos introductorios.</li>
+      <li>Simulaciones rápidas donde la exactitud no es crítica.</li>
+      <li>Generar estimaciones iniciales para esquemas implícitos o de Newton.</li>
+      <li>Integrar sistemas <em>stiff</em> combinando versiones explícita e implícita (Euler hacia adelante ↔ hacia atrás).</li>
+    </ul>
   </main>
 </div>
   <!-- Footer Start -->
   <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
     <div class="container py-5">
         <div class="row g-5">
-            
             <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
+                <h4 class="text-white mb-3">Contacto</h4> 
                 <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
                 <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
                 <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
@@ -153,18 +230,14 @@ plt.show()</code></pre>
                     <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
-            
-            
         </div>
     </div>
     <div class="container">
         <div class="copyright">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
-
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Rights Reserved.
+                    Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <div class="footer-menu">

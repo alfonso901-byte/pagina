@@ -15,18 +15,25 @@
   <link href="../css/style.css" rel="stylesheet">
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <!-- MathJax para fórmulas -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
     .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
-    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgb(0 0 0 / .1); }
+    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgba(0,0,0,.1); }
     main { flex: 1; }
     aside ul { padding-left: 0; list-style: none; }
     aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
     aside ul li:last-child { border-bottom: none; }
     @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
-    .frase_importante { background-color: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); box-shadow: -5px 0 10px rgba(0,0,0,.1); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.2rem; }
+    .frase_importante { background-color: rgba(128,128,128,.15); border-left: 5px solid var(--primary); box-shadow: -5px 0 10px rgba(0,0,0,.05); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.1rem; }
     pre { background-color: #f4f4f4; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
     img { max-width: 100%; height: auto; margin: 1rem 0; }
+    .math-display { text-align:center; margin:1.2rem 0; font-size:1.25rem; }
+    .example-table { width:100%; border-collapse:collapse; margin:1rem 0; }
+    .example-table th,.example-table td { border:1px solid #ddd; padding:.5rem; text-align:center; }
+    .example-table th { background:#f0f0f0; }
   </style>
 </head>
 <body>
@@ -67,119 +74,176 @@
   </aside>
 
   <main>
+    <!-- 1. Nombre -->
     <div class="title-with-image">
       <h1 id="nombre">1. Eliminación Gaussiana</h1>
-      <b>Conoce su origen <i><a href="../autores/gauss.html">Carl Friedrich Gauss</a></i></b>
+      <p class="mt-2">Técnica fundamental para resolver sistemas lineales y base de la descomposición <em>LU</em>.</p>
     </div>
 
+    <!-- 2. Fundamento -->
     <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
-    <p>La eliminación gaussiana transforma un sistema lineal A·x = b en uno equivalente triangular superior por operaciones elementales de fila (suma, intercambio y multiplicación). Después se resuelve por sustitución regresiva.</p>
-    <div class="frase_importante">
-      Operaciones de fila: F<sub>i</sub>→F<sub>i</sub> - (a<sub>ij</sub>/a<sub>jj</sub>)·F<sub>j</sub>,  para j<i></i>.
-    </div>
+    <p>Sea el sistema lineal \(\mathbf A\mathbf x=\mathbf b\) con \(\mathbf A\in\mathbb R^{n\times n}\). El objetivo es construir matrices 
+      \(\mathbf L\) (triangular inferior con unos en la diagonal) y \(\mathbf U\) (triangular superior) tales que \(\mathbf A=\mathbf L\mathbf U\). 
+      Las <strong>operaciones elementales de fila</strong> (OEF) preservan el espacio de soluciones y se representan algebraicamente por la multiplicación
+      \(\mathbf E_k\mathbf A\), donde \(\mathbf E_k\) es una matriz elemental.</p>
+    <div class="math-display">$$
+      \mathbf E_k = \mathbf I - m_{ik}\, \mathbf e_i\mathbf e_k^T, \qquad
+      m_{ik}=\frac{a_{ik}^{(k)}}{a_{kk}^{(k)}}, \quad i>k.
+    $$</div>
+    <p>Tras \(n-1\) etapas llegamos a \(\mathbf U\). Las constantes \(m_{ik}\) se almacenan en las posiciones subdiagonales, formando \(\mathbf L\).</p>
 
+    <!-- 3. Error -->
     <h2 id="error">3. Término de error y estabilidad</h2>
-    <p>La estabilidad numérica depende del pivoteo. Sin pivoteo, errores por cancelación pueden crecer; con pivoteo parcial se controla el factor de crecimiento.</p>
+    <ul>
+      <li><strong>Complejidad:</strong> \(\tfrac{2}{3}n^3+\mathcal O(n^2)\) operaciones aritméticas.</li>
+      <li><strong>Estabilidad:</strong> depende del <em>pivoteo</em>. Sin pivoteo, el <em>factor de crecimiento</em> \(\rho\) puede ser tan grande como \(2^{n-1}\),
+          amplificando los errores de redondeo.</li>
+      <li><strong>Pivoteo parcial</strong> (intercambiar con la fila de mayor valor absoluto en la columna) 
+          garantiza \(\rho\le 2^{n-1}\) en el peor caso, pero suele ser mucho menor en práctica.</li>
+    </ul>
     <div class="frase_importante">
-      Factor de crecimiento ρ ≤ 2<sup>n-1</sup> sin pivoteo; con pivoteo parcial, ρ suele ≪ 2<sup>n-1</sup>.
-
+      «<em>Un buen pivote hoy vale más que cien dígitos mañana</em>.» — Folklore numérico
     </div>
 
+    <!-- 4. Pasos -->
     <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
     <ol>
-      <li>Para k=1…n-1, seleccionar pivote a<sub>kk</sub> (con pivoteo parcial intercambiar filas).</li>
-      <li>Para i=k+1…n, calcular m = a<sub>ik</sub>/a<sub>kk</sub> y restar m·(fila k) de fila i.</li>
-      <li>Repetir hasta triangular superior U.</li>
-      <li>Resolver U·x = c por sustitución regresiva.</li>
+      <li>Para \(k=1\) hasta \(n-1\):
+        <ol>
+          <li><strong>Pivoteo parcial:</strong> encontrar \(i_{\max}\ge k\) que maximice \(|a_{ik}^{(k)}|\) y permutar filas \(k\)↔\(i_{\max}\).</li>
+          <li>Para cada fila \(i=k+1…n\):
+            <ul>
+              <li>Calcular multiplicador \(m_{ik}=a_{ik}^{(k)}/a_{kk}^{(k)}\).</li>
+              <li>Actualizar fila: \(\mathbf a_i^{(k+1)}\leftarrow\mathbf a_i^{(k)}-m_{ik}\mathbf a_k^{(k)}\).</li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+      <li>Obtenida \(\mathbf U\), resolver \(\mathbf U\mathbf x=\mathbf c\) mediante <em>sustitución regresiva</em>.</li>
     </ol>
 
+    <!-- 5. Ejemplo -->
     <h2 id="ejemplo">5. Ejemplo resuelto</h2>
-    <p>Resolver:
-      <br>A = [[2,1,-1],[ -3,-1,2],[ -2,1,2 ]], b=[8,-11,-3].
-    </p>
-    <ul>
-      <li>Paso 1: sin pivoteo, m21=-3/2, m31=-2/2 → filas 2 y 3 actualizadas.</li>
-      <li>Paso 2: k=2, pivote a22=0.5, m32=updated/0.5 → fila 3.
-      <li>Resultado U y c: U·x=c → x3= -1, x2=2, x1=3.</li>
-    </ul>
+    <p>Resolver \(\mathbf A\mathbf x=\mathbf b\) con</p>
+    <div class="math-display">$$
+      \mathbf A=\begin{pmatrix}
+      2 & 1 & -1\\
+      -3 & -1 & 2\\
+      -2 & 1 & 2
+      \end{pmatrix},\quad
+      \mathbf b=\begin{pmatrix}8\\-11\\-3\end{pmatrix}.
+    $$</div>
 
+    <table class="example-table">
+      <thead><tr><th>Etapa</th><th>Pivote</th><th>\(m_{21}\)</th><th>\(m_{31}\)</th><th>\(U\) parcial</th></tr></thead>
+      <tbody>
+        <tr><td>k=1</td><td>2</td><td>-1.5</td><td>-1</td><td>\(\begin{smallmatrix}2 & 1 & -1\\0 & -0.5 & 0.5\\0 & 2 & 1\end{smallmatrix}\)</td></tr>
+        <tr><td>k=2</td><td>-0.5</td><td colspan="2">\(m_{32}=-4\)</td><td>\(\begin{smallmatrix}2 & 1 & -1\\0 & -0.5 & 0.5\\0 & 0 & -1\end{smallmatrix}\)</td></tr>
+      </tbody>
+    </table>
+    <p>Sustitución regresiva:</p>
+    <div class="math-display">$$x_3=-1,\; x_2=2,\; x_1=3.$$
+    </div>
+
+    <!-- 6. Código -->
     <h2 id="codigo">6. Código en Python y gráfica</h2>
     <pre><code>import time
 import numpy as np
 import matplotlib.pyplot as plt
 
-def gauss(A, b):
-    A = A.astype(float).copy(); b = b.astype(float).copy()
-    n = len(b)
+
+def gauss_partial(A, b):
+    """Eliminación gaussiana con pivoteo parcial."""
+    A = A.copy().astype(float)
+    b = b.copy().astype(float)
+    n = b.size
+    # Fase de eliminación
     for k in range(n-1):
-        # pivoteo parcial
-        i_max = np.argmax(abs(A[k:,k])) + k
-        if i_max != k:
-            A[[k,i_max]] = A[[i_max,k]]; b[[k,i_max]] = b[[i_max,k]]
-        for i in range(k+1,n):
-            m = A[i,k]/A[k,k]
-            A[i,k:] -= m*A[k,k:]
-            b[i] -= m*b[k]
-    # sustitución regresiva
+        idx = np.argmax(np.abs(A[k:, k])) + k
+        if idx != k:
+            A[[k, idx]] = A[[idx, k]]
+            b[[k, idx]] = b[[idx, k]]
+        for i in range(k+1, n):
+            m = A[i, k] / A[k, k]
+            A[i, k:] -= m * A[k, k:]
+            b[i] -= m * b[k]
+    # Sustitución regresiva
     x = np.zeros(n)
-    for i in range(n-1,-1,-1):
-        x[i] = (b[i] - A[i,i+1:]@x[i+1:]) / A[i,i]
+    for i in range(n-1, -1, -1):
+        x[i] = (b[i] - A[i, i+1:] @ x[i+1:]) / A[i, i]
     return x
 
-# medir tiempo para diferentes tamaños
-sizes = [50,100,200,400]
-times = []
+# Benchmark vs np.linalg.solve
+sizes = np.arange(50, 501, 50)
+our, builtin = [], []
 for n in sizes:
-    A = np.random.rand(n,n)
+    A = np.random.rand(n, n)
     b = np.random.rand(n)
-    t0 = time.time()
-    gauss(A,b)
-    times.append(time.time()-t0)
+    t0 = time.perf_counter()
+    gauss_partial(A, b)
+    our.append(time.perf_counter() - t0)
+    t0 = time.perf_counter()
+    np.linalg.solve(A, b)
+    builtin.append(time.perf_counter() - t0)
 
 plt.figure()
-plt.plot(sizes, times)
+plt.semilogy(sizes, our, label='Gauss parcial')
+plt.semilogy(sizes, builtin, label='solve()', linestyle='--')
 plt.xlabel('Tamaño n')
-plt.ylabel('Tiempo (s)')
-plt.title('Costo computacional Eliminación Gaussiana')
-plt.show()</code></pre>
+plt.ylabel('Tiempo (s, log)')
+plt.title('Rendimiento eliminación gaussiana vs solve')
+plt.legend()
+plt.grid(True, which='both')
+plt.tight_layout()</code></pre>
 
+    <!-- 7. Animación -->
     <h2 id="animacion">7. Animación JS</h2>
-    <p>Visualizar crecimiento del tiempo de cómputo:</p>
-    <canvas id="gaussChart" width="400" height="200"></canvas>
+    <p>Evolución de tiempo (datos sintéticos):</p>
+    <canvas id="gaussChart" width="420" height="220"></canvas>
     <script>
-      window.addEventListener('DOMContentLoaded', function() {
-        const sizes = [50,100,200,400];
-        const times = [0.003,0.02,0.15,1.2]; // ejemplo
-        const ctx = document.getElementById('gaussChart').getContext('2d');
-        new Chart(ctx, {
-          type:'line', data:{ labels: sizes, datasets:[{ label:'Tiempo (s)', data: times, fill:false, borderWidth:2 }] },
-          options:{ scales:{ x:{ title:{ display:true, text:'Tamaño n' }}, y:{ title:{ display:true, text:'Tiempo (s)' } } }}
+      window.addEventListener('DOMContentLoaded', () => {
+        const n=[50,100,200,400];
+        const t=[0.004,0.02,0.16,1.25];
+        new Chart(document.getElementById('gaussChart'),{
+          type:'line',
+          data:{labels:n,datasets:[{label:'Tiempo (s)',data:t,borderWidth:2,fill:false}]},
+          options:{scales:{x:{title:{display:true,text:'Tamaño n'}},y:{type:'logarithmic',title:{display:true,text:'Tiempo (s)'}}}}
         });
       });
     </script>
 
+    <!-- 8. Video -->
     <h2 id="video">8. Video Explicativo</h2>
-    <p><a href="https://www.youtube.com/watch?v=GZwb5eZJvsc" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+      <iframe src="https://www.youtube.com/embed/GZwb5eZJvsc" title="Eliminación gaussiana explicada" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe>
+    </div>
 
+    <!-- 9. Referencias -->
     <h2 id="referencias">9. Referencias</h2>
     <ul>
-      <li>Golub, G. H., & Van Loan, C. F. (2013). <em>Matrix Computations</em> (4ª ed.). Johns Hopkins University Press.</li>
-      <li>Burden, R. L., & Faires, J. D. (2011). <em>Numerical Analysis</em> (9ª ed.). Brooks/Cole.</li>
-      <li>Wikipedia contributors. (2025, 15 de mayo). Gaussian elimination. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Gaussian_elimination</li>
+      <li>Golub, G. H., & Van Loan, C. F. (2013). <em>Matrix Computations</em> (4.ª ed.). Johns Hopkins University Press.</li>
+      <li>Higham, N. J. (2002). <em>Accuracy and Stability of Numerical Algorithms</em>. SIAM.</li>
+      <li>Trefethen, L., & Bau, D. (1997). <em>Numerical Linear Algebra</em>. SIAM.</li>
+      <li>Wikipedia contributors. (2025, 18 mayo). <em>Gaussian elimination</em>. Wikipedia. Recuperado 19 mayo 2025.</li>
     </ul>
 
+    <!-- 10. Conclusión -->
     <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
-    <p>La eliminación gaussiana es el método fundamental para resolver sistemas lineales directos. Con pivoteo parcial es estable y de complejidad O(n³). Se emplea en ingeniería, ciencia de datos y simulaciones numéricas.</p>
-    <p>Sus variantes (LU, Cholesky) aprovechan estructuras y ofrecen eficiencia adicional.</p>
+    <p>La eliminación gaussiana con pivoteo parcial es el pilar de la resolución directa de sistemas lineales. Su coste \(\mathcal O(n^3)\) es asumible para tamaños moderados y su estabilidad, adecuada para la mayoría de problemas de ingeniería y ciencia.
+       En matrices estructuradas (simétricas, banda, dispersas) se derivan variantes (Cholesky, métodos de banda, factorizaciones incrustadas) que explotan la estructura para reducir memoria y tiempo.</p>
+    <p>Más allá de resolver \(\mathbf A\mathbf x=\mathbf b\), la factor
+      LU se usa para calcular determinantes, invertir matrices, y como bloque interno de algoritmos de mínimos cuadrados y ecuaciones diferenciales parciales.</p>
   </main>
 </div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5">
+   <!-- Footer Start -->
+   <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
     <div class="container py-5">
         <div class="row g-5">
-            
             <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
+                <h4 class="text-white mb-3">Contacto</h4> 
                 <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
                 <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
                 <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
@@ -190,18 +254,14 @@ plt.show()</code></pre>
                     <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
-            
-            
         </div>
     </div>
     <div class="container">
         <div class="copyright">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
-
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Rights Reserved.
+                    Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <div class="footer-menu">

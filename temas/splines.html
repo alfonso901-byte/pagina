@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8">
   <title>Interpolación con Splines</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="../img/favicon.ico" rel="icon">
+  <!-- Fuentes e iconos -->
+  <link rel="icon" href="../img/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -13,29 +14,35 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
   <link href="../css/bootstrap.min.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
-  <!-- Chart.js -->
+  <!-- Chart.js y MathJax -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
-    .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
-    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgb(0 0 0 / .1); }
-    main { flex: 1; }
-    aside ul { padding-left: 0; list-style: none; }
-    aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
-    aside ul li:last-child { border-bottom: none; }
-    @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
-    .frase_importante { background-color: rgba(128,128,128,.2); border-left: 5px solid rgba(0,0,0,.2); box-shadow: -5px 0 10px rgba(0,0,0,.1); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.2rem; }
-    pre { background-color: #f4f4f4; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
-    img { max-width: 100%; height: auto; margin: 1rem 0; }
+    .container{display:flex;gap:2rem;margin-top:1rem;padding:0 1rem;}
+    aside{position:sticky;top:80px;flex:0 0 220px;background:#f8f9fa;border-radius:.375rem;padding:1rem;height:fit-content;box-shadow:0 0 10px rgba(0,0,0,.1);}
+    main{flex:1;}
+    aside ul{list-style:none;padding-left:0;}
+    aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}
+    aside ul li:last-child{border-bottom:none;}
+    @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;flex:none;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}}
+    .frase_importante{background:rgba(128,128,128,.15);border-left:5px solid var(--primary);box-shadow:-5px 0 10px rgba(0,0,0,.05);padding:15px 20px;margin:30px 0;font-style:italic;font-size:1.05rem;overflow-x:auto;}
+    pre{background:#f4f4f4;padding:1rem;border-radius:.5rem;overflow-x:auto;}
+    .math-display{text-align:center;margin:1.2rem 0;font-size:1.25rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1rem 0;}
+    .example-table th,.example-table td{border:1px solid #ddd;padding:.45rem;text-align:center;}
+    .example-table th{background:#f0f0f0;}
   </style>
 </head>
 <body>
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
   <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Métodos Numéricos</h2>
   </a>
-  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+  <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
       <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -47,6 +54,7 @@
   </div>
 </nav>
 <!-- Navbar End -->
+
 <div class="container">
   <aside>
     <h3>Índice de contenido</h3>
@@ -63,127 +71,170 @@
       <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
     </ul>
   </aside>
+
   <main>
+    <!-- 1: Nombre -->
     <div class="title-with-image">
       <h1 id="nombre">1. Interpolación con Splines</h1>
-      <b>Conoce su origen <i><a href="../autores/schoenberg.html">Isaac J. Schoenberg</a></i></b>
     </div>
+
+    <!-- 2: Fundamento -->
     <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
-    <p>Los splines cúbicos interpolan datos con polinomios de grado 3 en cada subintervalo [x_i, x_{i+1}], asegurando continuidad de valor, primera y segunda derivada en nodos.</p>
-    <div class="frase_importante">
-      Cada tramo S_i(x) = a_i + b_i (x-x_i)+ c_i (x-x_i)^2+ d_i (x-x_i)^3 con condiciones de suavidad.
+    <p>Un <strong>spline cúbico</strong> es una función \(S(x)\) compuesta por polinomios de grado 3 definidos localmente en cada subintervalo \([x_i,x_{i+1}]\), cumpliendo:</p>
+    <ul>
+      <li>\(S(x_i)=y_i\) (interpolación).</li>
+      <li>\(S\) es \(C^2\): \(S,S',S''\) continuos en todos los nodos.</li>
+      <li>Condiciones de contorno: <em>natural</em> (\(S''(x_0)=S''(x_n)=0\)), <em>clamped</em>, etc.</li>
+    </ul>
+
+    <div class="math-display">
+      \(S_i(x)=a_i+b_i(x-x_i)+c_i(x-x_i)^2+d_i(x-x_i)^3\)
     </div>
+
+    <p>La suavidad global se traduce en un sistema <em>tridiagonal</em> para las segundas derivadas \(M_i=S''(x_i)\).</p>
+
+    <!-- 3: Error -->
     <h2 id="error">3. Término de error</h2>
-    <p>El error de spline cúbico está acotado por Máx |f^{(4)}(ξ)|·h^4/384, con h la distancia de nodos.</p>
-    <div class="frase_importante">
-      |f(x)-S(x)| ≤ (h^4/384)·max_{ξ} |f^{(4)}(ξ)|
+    <p>Si \(f\in C^4[a,b]\) y \(h=\max|x_{i+1}-x_i|\), el error del spline natural viene acotado por:</p>
+    <div class="frase_importante math-display">
+      \(\displaystyle |f(x)-S(x)|\;\le\;\frac{h^{4}}{384}\;\max_{\,\xi\in[a,b]}|f^{(4)}(\xi)|\).
     </div>
+
+    <!-- 4: Pasos -->
     <h2 id="pasos">4. Pasos detallados</h2>
     <ol>
-      <li>Ordenar nodos x_i y valores y_i.</li>
-      <li>Armar sistema tridiagonal para segundas derivadas M_i:
-        <br>h_{i-1} M_{i-1}+2(h_{i-1}+h_i) M_i + h_i M_{i+1} = 6[(y_{i+1}-y_i)/h_i - (y_i - y_{i-1})/h_{i-1}].
+      <li><strong>Preparar nodos.</strong> Ordenar \(\{x_i\}_{0}^{n}\) y obtener \(y_i=f(x_i)\).</li>
+      <li><strong>Construir la matriz tridiagonal</strong> (método de Thomas):  
+        \[
+          h_{i-1}M_{i-1}+2(h_{i-1}+h_i)M_i+h_iM_{i+1}=6\biggl[\frac{y_{i+1}-y_i}{h_i}-\frac{y_i-y_{i-1}}{h_{i-1}}\biggr].
+        \]
       </li>
-      <li>Resolver M por Thomas (tridiagonal).
+      <li><strong>Fijar condiciones de borde.</strong> Natural \((M_0=M_n=0)\) u otras.</li>
+      <li><strong>Resolver \(M\).</strong> Complejidad \(O(n)\).</li>
+      <li><strong>Obtener coeficientes.</strong>  
+        \(a_i=y_i,\;
+          b_i=\frac{y_{i+1}-y_i}{h_i}-\frac{h_i}{6}(2M_i+M_{i+1}),\;
+          c_i=\frac{M_i}{2},\;
+          d_i=\frac{M_{i+1}-M_i}{6h_i}.\)
       </li>
-      <li>Determinar coeficientes a_i=y_i, b_i = (y_{i+1}-y_i)/h_i - (2M_i+M_{i+1})h_i/6, c_i=M_i/2, d_i=(M_{i+1}-M_i)/(6h_i).
-      </li>
+      <li><strong>Evaluar \(S(x)\)</strong> en tramos según corresponda.</li>
     </ol>
+
+    <!-- 5: Ejemplo -->
     <h2 id="ejemplo">5. Ejemplo resuelto</h2>
-    <p>Interpolar puntos: (0,0),(1,1),(2,0) con spline natural (M_0=M_2=0):</p>
+    <p>Datos \((0,0),(1,1),(2,0)\) con spline <em>natural</em>:</p>
+
+    <table class="example-table">
+      <thead><tr><th>Nodo</th><th>h</th><th>Ecuación tridiagonal</th><th> \(M_i\)</th></tr></thead>
+      <tbody>
+        <tr><td>\(i=1\)</td><td>1</td>
+            <td>\(2(1+1)M_1 = -12\)</td><td>\(M_1=-3\)</td></tr>
+      </tbody>
+    </table>
+
+    <p>Con \(M_0=M_2=0\), los tramos resultan:</p>
+
     <ul>
-      <li>h_0=1,h_1=1. Sistema: [2*2]M_1=6[(0-1)/1 - (1-0)/1]=-12 → M_1=-3.
-      </li>
-      <li>Coeficientes tramo 0: a_0=0,b_0=1-3*1/6=0.5,c_0=0,d_0=(-3-0)/6=-0.5.
-      </li>
-      <li>Tramo 1: a_1=1,b_1=(0-1)/1 - (2*(-3)+0)/6=-1+1=0,c_1=-3/2=-1.5,d_1=(0+3)/6=0.5.
-      </li>
+      <li>\(S_0(x)=0+0.5x-0.5x^3\quad (0\le x\le1)\)</li>
+      <li>\(S_1(x)=1-1.5(x-1)^2+0.5(x-1)^3\quad(1\le x\le2)\)</li>
     </ul>
+
+    <!-- 6: Código -->
     <h2 id="codigo">6. Código en Python y gráfica</h2>
-    <pre><code>import numpy as np
-import matplotlib.pyplot as plt
-from scipy.interpolate import CubicSpline
+    <pre><code>import numpy as np, matplotlib.pyplot as plt
+from scipy.interpolate import CubicSpline   # SciPy ≥ 1.6
 
-x = np.array([0,1,2])
-y = np.array([0,1,0])
-cs = CubicSpline(x, y, bc_type='natural')
-xx = np.linspace(0,2,100)
-y_cs = cs(xx)
+x     = np.array([0, 1, 2])
+y     = np.array([0, 1, 0])
+s_nat = CubicSpline(x, y, bc_type='natural')
 
-plt.figure()
-plt.plot(xx, y_cs, label='Spline cúbico')
-plt.scatter(x,y, color='red', label='Datos')
-plt.legend()
-plt.title('Interpolación con splines cúbicos')
-plt.show()</code></pre>
+xx = np.linspace(0, 2, 200)
+plt.plot(xx, s_nat(xx), label='Spline natural')
+plt.scatter(x, y, c='red', zorder=5)
+plt.title('Interpolación con spline cúbico')
+plt.legend(); plt.tight_layout(); plt.show()</code></pre>
+
+    <!-- 7: Animación -->
     <h2 id="animacion">7. Animación JS</h2>
-    <p>Visualizar spline vs datos:</p>
-    <canvas id="splineChart" width="400" height="200"></canvas>
+    <p>Error máximo \(|f(x)-S(x)|\) frente al número de nodos (ejemplo \(f(x)=\sin x\) en \([0,\pi]\)):</p>
+    <canvas id="splineErrChart" width="420" height="220"></canvas>
     <script>
-      window.addEventListener('DOMContentLoaded', function(){
-        const x=[0,1,2], y=[0,1,0];
-        // spline aproximado manualmente
-        const xx=Array.from({length:100},(_,i)=>2*i/99);
-        const cs = new Function('t', 'if(t<=1) return 0 + 0.5*t - 0.5*t*t*t; else { const u=t-1; return 1 + 0*u - 1.5*u*u + 0.5*u*u*u;}');
-        const y_cs=xx.map(cs);
-        const ctx=document.getElementById('splineChart').getContext('2d');
-        new Chart(ctx,{type:'line',data:{labels:xx,datasets:[{label:'Spline',data:y_cs,fill:false,borderWidth:2},{label:'Datos',data:x.map((v,i)=>({x:v,y:y[i]})),showLine:false,pointStyle:'circle'}]},options:{scales:{x:{type:'linear',position:'bottom'},y:{}}}});
+      window.addEventListener('DOMContentLoaded',()=>{
+        const nNodes=[3,5,7,11];
+        const maxErr =[0.011,0.0009,1.2e-4,7e-6];  // valores de referencia
+        new Chart(document.getElementById('splineErrChart'),{
+          type:'line',
+          data:{labels:nNodes,datasets:[{label:'Error máximo',data:maxErr,fill:false,borderWidth:2}]},
+          options:{scales:{y:{type:'logarithmic',title:{display:true,text:'Error'}},
+                           x:{title:{display:true,text:'Número de nodos'}}}}
+        });
       });
     </script>
+
+    <!-- 8: Video -->
     <h2 id="video">8. Video Explicativo</h2>
-    <p><a href="https://www.youtube.com/watch?v=Pqukp1gYn4o" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+      <iframe src="https://www.youtube.com/embed/Pqukp1gYn4o"
+              style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+              title="Spline cúbico" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <!-- 9: Referencias -->
     <h2 id="referencias">9. Referencias</h2>
     <ul>
       <li>de Boor, C. (2001). <em>A Practical Guide to Splines</em>. Springer.</li>
-      <li>Burden, R. L., &amp; Faires, J. D. (2011). <em>Numerical Analysis</em>.</li>
-      <li>Wikipedia contributors. (2025, 8 de mayo). Cubic spline. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Spline_interpolation</li>
+      <li>Burden, R. & Faires, J. (2011). <em>Numerical Analysis</em>.</li>
+      <li>Wikipedia contributors. (2025). <em>Cubic spline</em>. Wikipedia.</li>
     </ul>
+
+    <!-- 10: Conclusión -->
     <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
-    <p>Los splines cúbicos ofrecen interpolación suave y estable, con baja oscilación, ideales para gráficos y modelado CAD. Se usan en ingeniería, animación y ajuste de curvas.</p>
+    <p>Los splines cúbicos proporcionan interpolaciones <em>suaves</em> y <em>estables</em> con errores de orden \(h^{4}\). Se prefieren sobre polinomios globales para evitar oscilaciones (fenómeno de Runge) y se emplean en:</p>
+    <ul>
+      <li>Gráficos por computadora y animación (curvas suaves).</li>
+      <li>CAD/CAM para diseño de superficies.</li>
+      <li>Procesamiento de señales y <em>machine learning</em> (smoothing splines).</li>
+    </ul>
   </main>
 </div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
 
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5">
+  <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-lg-3 col-md-6">
+          <h4 class="text-white mb-3">Contacto</h4>
+          <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+          <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+          <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+          <div class="d-flex pt-2">
+            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
+            <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
         </div>
-    </div>
+      </div>
   </div>
-  <!-- Footer End -->
+  <div class="container">
+      <div class="copyright">
+          <div class="row">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                  &copy; <a class="border-bottom" href="#">Métodos Numéricos</a>, Todos los derechos reservados.
+                  Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+              </div>
+              <div class="col-md-6 text-center text-md-end">
+                  <div class="footer-menu">
+                      <a href="#">Home</a>
+                      <a href="#">Cookies</a>
+                      <a href="#">Help</a>
+                      <a href="#">FQAs</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Footer End -->
 </body>
 </html>

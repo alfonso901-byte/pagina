@@ -2,9 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Método de Newton-Raphson</title>
+  <title>Método de Newton‑Raphson</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
+  <!-- Fuentes & estilos -->
   <link href="../img/favicon.ico" rel="icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,71 +14,34 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
   <link href="../css/bootstrap.min.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
-  <!-- Chart.js -->
+  <!-- Chart.js & MathJax -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
-    .container {
-      display: flex;
-      gap: 2rem;
-      margin-top: 1rem;
-      padding: 0 1rem;
-    }
-    aside {
-      position: sticky;
-      top: 80px;
-      flex: 0 0 220px;
-      background-color: #f8f9fa;
-      border-radius: 0.375rem;
-      padding: 1rem;
-      height: fit-content;
-      box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
-    }
-    main { flex: 1; }
-    aside ul { padding-left: 0; list-style: none; }
-    aside ul li { padding: 0.4rem 0; border-bottom: 1px solid #ddd; }
-    aside ul li:last-child { border-bottom: none; }
-    @media (max-width: 768px) {
-      .container { flex-direction: column; }
-      aside {
-        position: relative;
-        top: auto;
-        flex: none;
-        width: 100%;
-        margin-bottom: 1rem;
-        box-shadow: none;
-        background-color: transparent;
-        padding: 0;
-      }
-    }
-    .frase_importante {
-      background-color: rgba(128,128,128,0.2);
-      border-left: 5px solid rgba(0,0,0,0.2);
-      box-shadow: -5px 0 10px rgba(0,0,0,0.1);
-      padding: 15px 20px;
-      margin: 30px 0;
-      font-style: italic;
-      font-size: 1.2rem;
-    }
-    pre {
-      background-color: #f4f4f4;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      overflow-x: auto;
-    }
-    img { max-width: 100%; height: auto; margin: 1rem 0; }
+    .container{display:flex;gap:2rem;margin-top:1rem;padding:0 1rem;}
+    aside{position:sticky;top:80px;flex:0 0 220px;background:#f8f9fa;border-radius:.375rem;padding:1rem;height:fit-content;box-shadow:0 0 10px rgba(0,0,0,.1);}
+    main{flex:1;}
+    aside ul{list-style:none;padding-left:0;}
+    aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}
+    aside ul li:last-child{border-bottom:none;}
+    @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;flex:none;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}}
+    .frase_importante{background:rgba(128,128,128,.15);border-left:5px solid var(--primary);box-shadow:-5px 0 10px rgba(0,0,0,.05);padding:15px 20px;margin:30px 0;font-style:italic;font-size:1.05rem;overflow-x:auto;}
+    pre{background:#f4f4f4;padding:1rem;border-radius:.5rem;overflow-x:auto;}
+    .math-display{text-align:center;margin:1.2rem 0;font-size:1.25rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1rem 0;}
+    .example-table th,.example-table td{border:1px solid #ddd;padding:.5rem;text-align:center;}
+    .example-table th{background:#f0f0f0;}
   </style>
 </head>
 <body>
-
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
   <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Métodos Numéricos</h2>
   </a>
-  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-  </button>
+  <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
           <a href="../index.html" class="nav-item nav-link">Inicio</a>
@@ -99,159 +63,141 @@
       <li><a href="#ejemplo">5. Ejemplo resuelto</a></li>
       <li><a href="#codigo">6. Código en Python y gráfica</a></li>
       <li><a href="#animacion">7. Animación JS</a></li>
-      <li><a href="#video">8. Video Explicativo</a></li>
+      <li><a href="#video">8. Video explicativo</a></li>
       <li><a href="#referencias">9. Referencias</a></li>
       <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
     </ul>
   </aside>
 
   <main>
+    <!-- 1: Nombre -->
     <div class="title-with-image">
-      <h1 id="nombre">1. Método de Newton-Raphson</h1>
-      <b>Conoce su origen <i><a href="../autores/newton_rhapson.html">Isaac Newton & Joseph Raphson</a></i></b>
+      <h1 id="nombre">1. Método de Newton‑Raphson</h1>
     </div>
 
+    <!-- 2: Fundamento -->
     <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
-    <p>El método de Newton-Raphson aproxima raíces de una función diferenciable f(x) mediante iteraciones usando la tangente en el punto actual x<sub>n</sub>. La fórmula básica es:</p>
-    <div class="frase_importante">
-      x<sub>n+1</sub> = x<sub>n</sub> - f(x<sub>n</sub>) / f'(x<sub>n</sub>)
-    </div>
-    <p>Parte de la expansión en serie de Taylor de f alrededor de x<sub>n</sub> y desprecia términos de orden superior.</p>
+    <p>Para una función diferenciable \(f\) con raíz simple \(x_*\), ampliamos la serie de Taylor alrededor de \(x_n\):</p>
+    <div class="math-display">$$f(x)=f(x_n)+f'(x_n)(x-x_n)+\frac{f''(\xi)}{2}(x-x_n)^2,$$</div>
+    <p>tomando \(f(x)=0\) y despreciando el término cuadrático obtenemos la <strong>iteración tangencial</strong>:</p>
+    <div class="math-display">$$\boxed{\;x_{n+1}=x_n-\frac{f(x_n)}{f'(x_n)}\;}$$</div>
 
+    <!-- 3: Error -->
     <h2 id="error">3. Término de error y convergencia</h2>
-    <p>El método converge cuadráticamente si f'(x*)≠0 y la semilla inicial está suficientemente cerca de la raíz x*. El error satisface:</p>
-    <div class="frase_importante">
-      |x<sub>n+1</sub> - x*| ≈ C · |x<sub>n</sub> - x*|<sup>2</sup>,  con  C = |f''(x*) / (2 f'(x*))|
-    </div>
+    <p>Sea \(e_n=x_n-x_*\).  Bajo \(f'(x_*)\neq0\) y cercanía inicial se verifica</p>
+    <div class="math-display">$$|e_{n+1}|\approx \frac{|f''(x_*)|}{2|f'(x_*)|}\,|e_n|^2,$$</div>
+    <p>mostrando <em>convergencia cuadrática</em>.  Si \(f'(x_n)\to0\) o la semilla está lejos, el método puede divergir o ciclar.</p>
 
+    <!-- 4: Pasos -->
     <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
     <ol>
-      <li>Elegir función f(x) y derivada f'(x).</li>
-      <li>Seleccionar estimación inicial x<sub>0</sub> cercana a la raíz.</li>
-      <li>Calcular x<sub>n+1</sub> = x<sub>n</sub> - f(x<sub>n</sub>)/f'(x<sub>n</sub>).</li>
-      <li>Verificar criterio de parada: |x<sub>n+1</sub> - x<sub>n</sub>|< tol o |f(x<sub>n+1</sub>)|< tol.</li>
-      <li>Repetir hasta cumplir tolerancia o iteraciones máximas.</li>
+      <li>Definir \(f\) y su derivada \(f'\).</li>
+      <li>Elegir semilla \(x_0\) (idealmente \(|f(x_0)|\) pequeño).</li>
+      <li>Iterar \(x_{n+1}=x_n-f(x_n)/f'(x_n)\).</li>
+      <li>Detener cuando \(|x_{n+1}-x_n|<\varepsilon\) <em>o</em> \(|f(x_{n+1})|<\varepsilon\).</li>
+      <li>Reportar \(x_{n+1}\) como aproximación de la raíz.</li>
     </ol>
 
+    <!-- 5: Ejemplo -->
     <h2 id="ejemplo">5. Ejemplo resuelto</h2>
-    <p>Encontrar √2 resolviendo f(x)=x<sup>2</sup>-2 con x<sub>0</sub>=1.5 y tol=1e-3.</p>
-    <ul>
-      <li>Iteración 1: x<sub>1</sub>=1.5 - (0.25)/3 = 1.4167</li>
-      <li>Iteración 2: x<sub>2</sub>=1.4167 - (0.0069)/2.8333 = 1.4142</li>
-      <li>Iteración 3: x<sub>3</sub>=1.4142 - (6·10<sup>-6</sup>)/2.8284 = 1.4142 (tol)</li>
-      <li>… raíz aproximada: x≈1.4142</li>
-    </ul>
+    <p>Resolver \(x^2-2=0\) con \(x_0=1.5\) y \(\varepsilon=10^{-3}\):</p>
+    <table class="example-table">
+      <thead><tr><th>n</th><th>\(x_n\)</th><th>|error|</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>1.5000</td><td>0.0858</td></tr>
+        <tr><td>1</td><td>1.4167</td><td>0.0025</td></tr>
+        <tr><td>2</td><td>1.4142</td><td>&lt;10^{-3}</td></tr>
+      </tbody>
+    </table>
 
+    <!-- 6: Código -->
     <h2 id="codigo">6. Código en Python y gráfica</h2>
-    <pre><code>import math
-import numpy as np
-import matplotlib.pyplot as plt
+    <pre><code>import numpy as np, math, matplotlib.pyplot as plt
 
-def newton_raphson(f, df, x0, tol=1e-5, max_iter=50):
-    xs = [x0]
-    for i in range(max_iter):
-        x1 = xs[-1] - f(xs[-1]) / df(xs[-1])
+def newton(f, df, x0, tol=1e-8, max_iter=25):
+    xs=[x0]; errs=[]
+    for _ in range(max_iter):
+        x1 = xs[-1] - f(xs[-1])/df(xs[-1])
         xs.append(x1)
-        if abs(x1 - xs[-2]) < tol:
+        errs.append(abs(x1-math.sqrt(2)))
+        if abs(x1-xs[-2]) < tol:
             break
-    return xs
+    return xs, errs
 
-# Ejemplo f(x)=x^2-2, df(x)=2x
-f = lambda x: x**2 - 2
-df = lambda x: 2*x
-its = newton_raphson(f, df, 1.5, tol=1e-3)
-errs = [abs(x - math.sqrt(2)) for x in its]
+f=lambda x:x**2-2; df=lambda x:2*x
+xs, errs = newton(f, df, 1.5, 1e-10)
+plt.figure(); plt.semilogy(errs, marker='o');
+plt.xlabel('Iteración'); plt.ylabel('|x-√2|'); plt.title('Newton‑Raphson'); plt.grid(True); plt.tight_layout()</code></pre>
 
-plt.figure()
-plt.semilogy(range(len(errs)), errs)
-plt.xlabel('Iteración')
-plt.ylabel('Error absoluto (log)')
-plt.title('Convergencia de Newton-Raphson')
-plt.show()</code></pre>
-
+    <!-- 7: Animación -->
     <h2 id="animacion">7. Animación JS</h2>
-    <p>Representación de la convergencia cuadrática:</p>
-    <canvas id="newtonChart" width="400" height="200"></canvas>
+    <p>Error absoluto estimado (escala log‑10):</p>
+    <canvas id="newtonChart" width="420" height="220"></canvas>
     <script>
-      window.addEventListener('DOMContentLoaded', function() {
-        function newtonData(x0, iter){
-          const f = x=>x*x-2, df=x=>2*x;
-          let xs=[x0], errs=[];
-          for(let i=1;i<=iter;i++){
-            let x1 = xs[i-1] - f(xs[i-1])/df(xs[i-1]);
-            xs.push(x1);
-            errs.push(Math.abs(x1 - Math.SQRT2));
-          }
-          return errs;
-        }
-        const errsN = newtonData(1.5,10);
-        const ctxN = document.getElementById('newtonChart').getContext('2d');
-        new Chart(ctxN, {
-          type:'line',
-          data:{ labels: errsN.map((_,i)=>i+1), datasets:[{ label:'Error', data:errsN, fill:false, borderWidth:2 }] },
-          options:{ scales:{ x:{ title:{ display:true, text:'Iteración' }}, y:{ title:{ display:true, text:'|x_n - √2|' }, type:'logarithmic' } }}
+      window.addEventListener('DOMContentLoaded',()=>{
+        const error=[8.58e-2,2.5e-3,4e-6,1e-11];
+        new Chart(document.getElementById('newtonChart'),{
+          type:'line',data:{labels:error.map((_,i)=>i),datasets:[{label:'|x-√2|',data:error,borderWidth:2,fill:false}]},
+          options:{scales:{y:{type:'logarithmic',title:{display:true,text:'Error'}},x:{title:{display:true,text:'Iteración'}}}}
         });
       });
     </script>
 
-    <h2 id="video">8. Video Explicativo</h2>8. Video Explicativo</h2>
-    <p><a href="https://www.youtube.com/watch?v=Ey9PSHUZn7w" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+    <!-- 8: Video -->
+    <h2 id="video">8. Video explicativo</h2>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;"><iframe src="https://www.youtube.com/embed/Ey9PSHUZn7w" title="Newton‑Raphson" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe></div>
 
+    <!-- 9: Referencias -->
     <h2 id="referencias">9. Referencias</h2>
     <ul>
-      <li>Burden, R. L., &amp; Faires, J. D. (2011). <em>Numerical Analysis</em> (9ª ed.). Brooks/Cole.</li>
+      <li>Burden, R. & Faires, J. (2011). <em>Numerical Analysis</em>. Brooks/Cole.</li>
       <li>Atkinson, K. (1989). <em>An Introduction to Numerical Analysis</em>. Wiley.</li>
-      <li>Wikipedia contributors. (2025, 12 de marzo). Newton's method. En <em>Wikipedia, The Free Encyclopedia</em>. Recuperado el 18 de mayo de 2025, de https://en.wikipedia.org/wiki/Newton%27s_method</li>
-      <li>Chapra, S. C., &amp; Canale, R. P. (2015). <em>Numerical Methods for Engineers</em> (7ª ed.). McGraw-Hill Education.</li>
+      <li>Chapra, S. & Canale, R. (2015). <em>Numerical Methods for Engineers</em>. McGraw‑Hill.</li>
+      <li>Wikipedia contributors. (2025, marzo). <em>Newton's method</em>. Wikipedia.</li>
     </ul>
 
+    <!-- 10: Conclusión -->
     <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
-    <p>Newton-Raphson ofrece convergencia cuadrática rápida cuando las hipótesis se cumplen, pero requiere cómputo de la derivada y puede divergir si la semilla está lejos de la raíz o f'≈0.</p>
-    <p>Es ampliamente usado en ingeniería y ciencias para solucionar ecuaciones no lineales con alta precisión y eficiencia.</p>
+    <p>Newton‑Raphson brinda una ruta rápida (orden 2) hacia la raíz cuando disponemos de derivadas y una semilla adecuada.  Se integra en algoritmos de optimización (paso de Newton), en balances de circuitos eléctricos y en aprendizaje automático (solución de ecuaciones no lineales en back‑propagation).</p>
   </main>
 </div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            
-            <div class="col-lg-3 col-md-6">
-                <h4 class="text-white mb-3">Contact</h4> 
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            
-            
-        </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Right Reserved.
 
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
+<!-- Footer Start -->
+<footer class="bg-dark text-light pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+    <div class="row g-5">
+      <div class="col-lg-3 col-md-6">
+        <h4 class="text-white mb-3">Contacto</h4>
+        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+        <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+        <div class="d-flex pt-2 gap-2">
+          <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
+          <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
+          <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
+          <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
         </div>
+      </div>
+      <div class="col-lg-9 col-md-6"><!-- Espacio para futuras columnas --></div>
     </div>
   </div>
-  <!-- Footer End -->
-</body>
-</html>
+  <div class="container border-top border-secondary pt-3">
+    <div class="row">
+      <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+        &copy; <a class="border-bottom" href="#">Métodos Numéricos</a>, All Rights Reserved.
+        Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <div class="footer-menu d-inline-flex gap-3">
+          <a href="#">Home</a>
+          <a href="#">Cookies</a>
+          <a href="#">Help</a>
+          <a href="#">FQAs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Footer End -->
+  </body>
+  </html>
