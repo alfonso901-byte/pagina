@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <title>Método de la Secante</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <!-- Fuentes & estilos -->
   <link href="../img/favicon.ico" rel="icon" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,15 +13,21 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
   <link href="../css/bootstrap.min.css" rel="stylesheet" />
-  <link href="../css/style.css" rel="stylesheet" />
+  <link href="../css/style.css"      rel="stylesheet" />
+
   <!-- Libs -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
   <style>
     .container{display:flex;gap:2rem;margin-top:1rem;padding:0 1rem;}
-    aside{position:sticky;top:80px;flex:0 0 220px;background:#f8f9fa;border-radius:.375rem;padding:1rem;height:fit-content;box-shadow:0 0 10px rgba(0,0,0,.1);}main{flex:1;}
-    aside ul{list-style:none;padding-left:0;}aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}aside ul li:last-child{border-bottom:none;}
+    aside{position:sticky;top:80px;flex:0 0 220px;background:#f8f9fa;border-radius:.375rem;padding:1rem;height:fit-content;box-shadow:0 0 10px rgba(0,0,0,.1);}
+    main{flex:1;}
+    aside ul{list-style:none;padding-left:0;}
+    aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}
+    aside ul li:last-child{border-bottom:none;}
     @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;flex:none;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}}
     .frase_importante{background:rgba(128,128,128,.15);border-left:5px solid var(--primary);box-shadow:-5px 0 10px rgba(0,0,0,.05);padding:15px 20px;margin:30px 0;font-style:italic;font-size:1.05rem;overflow-x:auto;}
     pre{background:#f4f4f4;padding:1rem;border-radius:.5rem;overflow-x:auto;}
@@ -28,12 +35,17 @@
     .example-table{width:100%;border-collapse:collapse;margin:1rem 0;}
     .example-table th,.example-table td{border:1px solid #ddd;padding:.5rem;text-align:center;}
     .example-table th{background:#f0f0f0;}
+    /* Quiz */
+    .question{margin-bottom:1rem;}
+    .question legend{font-weight:600;margin-bottom:.35rem;}
+    #quizResult{font-size:1.1rem;}
   </style>
 </head>
 <body>
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5"><h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Métodos Numéricos</h2></a>
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Métodos Numéricos</h2></a>
   <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <div class="navbar-nav ms-auto p-4 p-lg-0">
@@ -55,101 +67,150 @@
       <li><a href="#ejemplo">5. Ejemplo resuelto</a></li>
       <li><a href="#codigo">6. Código en Python y gráfica</a></li>
       <li><a href="#animacion">7. Animación JS</a></li>
-      <li><a href="#video">8. Video explicativo</a></li>
-      <li><a href="#referencias">9. Referencias</a></li>
-      <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
+      <li><a href="#evaluacion">8. Evaluación corta</a></li>
+      <li><a href="#video">9. Video explicativo</a></li>
+      <li><a href="#referencias">10. Referencias</a></li>
+      <li><a href="#conclusion">11. Conclusión y aplicaciones</a></li>
     </ul>
   </aside>
 
   <main>
-    <!-- 1 Nombre -->
-    <div class="title-with-image"><h1 id="nombre">1. Método de la Secante</h1>
+    <!-- 1 -->
+    <div class="title-with-image"><h1 id="nombre">1. Método de la Secante</h1></div>
 
-    <!-- 2 Fundamento -->
+    <!-- 2 -->
     <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
-    <p>Dados dos estimados consecutivos \(x_{n-1}\) y \(x_n\) próximos a la raíz \(x_*\) de una función continua \(f\), la línea secante a través de los puntos \((x_{n-1},f_{n-1})\) y \((x_n,f_n)\) corta el eje <em>x</em> en</p>
+    <p>Dadas dos estimaciones \(x_{n-1},x_{n}\) cerca de la raíz, la secante por \((x_{n-1},f_{n-1})\) y \((x_n,f_n)\) corta el eje&nbsp;x en</p>
     <div class="math-display">$$x_{n+1}=x_n-\frac{f_n\,(x_n-x_{n-1})}{f_n-f_{n-1}}.$$</div>
-    <p>Esta fórmula se deriva de la ecuación de la recta y reemplaza la derivada de Newton por un cociente incremental.</p>
+    <p>Sustituye la derivada de Newton por un cociente incremental.</p>
 
-    <!-- 3 Error -->
+    <!-- 3 -->
     <h2 id="error">3. Término de error y convergencia</h2>
-    <p>Bajo \(f,\,f'\neq0\) y cercanía a \(x_*\) la secante converge con <strong>orden</strong></p>
+    <p>Con \(f\in C^2\) y su derivada no nula en la raíz, el orden de convergencia es</p>
     <div class="math-display">$$p=\frac{1+\sqrt5}{2}\approx1.618.$$</div>
-    <p>El error cumple asintóticamente</p>
-    <div class="math-display">$$|e_{n+1}|\;\approx\;K\,|e_n|^{p},\qquad e_n=x_n-x_*.$$</div>
 
-    <!-- 4 Pasos -->
-    <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
+    <!-- 4 -->
+    <h2 id="pasos">4. Pasos detallados</h2>
     <ol>
-      <li>Elegir dos estimaciones iniciales \(x_0,\,x_1\).</li>
-      <li>Iterar con la ecuación de la secante para obtener \(x_{n+1}\).</li>
-      <li>Comprobar criterio de parada (\(|x_{n+1}-x_n|<\varepsilon\) o \(|f(x_{n+1})|<\varepsilon\)).</li>
-      <li>Actualizar pares \((x_{n-1},x_{n})\leftarrow(x_{n},x_{n+1})\) y continuar.</li>
+      <li>Escoger \(x_0,x_1\) (cercanos a la raíz).</li>
+      <li>Iterar con la fórmula de la secante.</li>
+      <li>Detener si \(|x_{n+1}-x_n|&lt;\varepsilon\) o \(|f(x_{n+1})|&lt;\varepsilon\).</li>
     </ol>
 
-    <!-- 5 Ejemplo -->
+    <!-- 5 -->
     <h2 id="ejemplo">5. Ejemplo resuelto</h2>
-    <p>\(f(x)=x^3-x-2,\; x_0=1,\;x_1=2,\;\varepsilon=10^{-3}\).</p>
-    <table class="example-table"><thead><tr><th>n</th><th>\(x_n\)</th><th>\(|f(x_n)|\)</th></tr></thead><tbody>
-      <tr><td>0</td><td>1.0000</td><td>2.0000</td></tr>
-      <tr><td>1</td><td>2.0000</td><td>4.0000</td></tr>
-      <tr><td>2</td><td>1.6667</td><td>0.9629</td></tr>
-      <tr><td>3</td><td>1.5217</td><td>0.2190</td></tr>
-      <tr><td>4</td><td>1.4969</td><td>0.0592</td></tr>
-      <tr><td>5</td><td>1.4936</td><td>&lt;0.02</td></tr>
-    </tbody></table>
+    <p>\(f(x)=x^{3}-x-2\); \(x_0=1,\;x_1=2,\;\varepsilon=10^{-3}\).</p>
+    <table class="example-table">
+      <thead><tr><th>n</th><th>\(x_n\)</th><th>\(|f(x_n)|\)</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>1.0000</td><td>2.0000</td></tr>
+        <tr><td>1</td><td>2.0000</td><td>4.0000</td></tr>
+        <tr><td>2</td><td>1.6667</td><td>0.9629</td></tr>
+        <tr><td>3</td><td>1.5217</td><td>0.2190</td></tr>
+        <tr><td>4</td><td>1.4969</td><td>0.0592</td></tr>
+        <tr><td>5</td><td>1.4936</td><td>0.0205</td></tr>
+      </tbody>
+    </table>
 
-    <!-- 6 Código -->
+    <!-- 6 -->
     <h2 id="codigo">6. Código en Python y gráfica</h2>
     <pre><code>import numpy as np, matplotlib.pyplot as plt
 
 def secante(f, x0, x1, tol=1e-6, max_iter=30):
     xs=[x0,x1]; errs=[]
     for _ in range(max_iter):
-        f0,f1 = f(xs[-2]), f(xs[-1])
+        f0, f1 = f(xs[-2]), f(xs[-1])
         x2 = xs[-1] - f1*(xs[-1]-xs[-2])/(f1-f0)
         xs.append(x2); errs.append(abs(xs[-1]-xs[-2]))
-        if errs[-1] < tol: break
+        if errs[-1] < tol:
+            break
     return xs, errs
 
-f=lambda x:x**3-x-2
+f = lambda x: x**3 - x - 2
 xs, errs = secante(f,1,2,1e-8)
-plt.figure(); plt.semilogy(errs,'o-');
-plt.xlabel('Iteración'); plt.ylabel('|x_n - x_{n-1}|');
-plt.title('Convergencia de la Secante'); plt.grid(True); plt.tight_layout()</code></pre>
 
-    <!-- 7 Animación -->
+plt.figure()
+plt.semilogy(errs,'o-')
+plt.xlabel('Iteración'); plt.ylabel('|x_n - x_{n-1}|')
+plt.title('Convergencia de la Secante')
+plt.grid(True); plt.tight_layout()
+plt.show()</code></pre>
+
+    <!-- 7 -->
     <h2 id="animacion">7. Animación JS</h2>
-    <p>Error iterativo (escala log‑10):</p>
+    <p>Error iterativo (escala log-10):</p>
     <canvas id="secChart" width="420" height="220"></canvas>
     <script>
       window.addEventListener('DOMContentLoaded',()=>{
-        function f(x){return x*x*x-x-2;}
+        function f(x){return x**3 - x - 2;}
         let xs=[1,2], errs=[];
-        for(let k=0;k<10;k++){
-          let f0=f(xs[xs.length-2]), f1=f(xs[xs.length-1]);
-          let x2=xs[xs.length-1]-f1*(xs[xs.length-1]-xs[xs.length-2])/(f1-f0);
+        for(let k=0;k<12;k++){
+          const f0=f(xs[xs.length-2]), f1=f(xs[xs.length-1]);
+          const x2=xs[xs.length-1]-f1*(xs[xs.length-1]-xs[xs.length-2])/(f1-f0);
           errs.push(Math.abs(x2-xs[xs.length-1])); xs.push(x2);
         }
-        new Chart(secChart,{type:'line',data:{labels:errs.map((_,i)=>i+1),datasets:[{label:'|x_n-x_{n-1}|',data:errs,borderWidth:2,fill:false}]},options:{scales:{y:{type:'logarithmic',title:{display:true,text:'error'}},x:{title:{display:true,text:'iteración'}}}}});
+        new Chart(document.getElementById('secChart'),{
+          type:'line',
+          data:{labels:errs.map((_,i)=>i+1),
+                datasets:[{label:'|x_n - x_{n-1}|',data:errs,borderWidth:2,fill:false}]},
+          options:{scales:{y:{type:'logarithmic',title:{display:true,text:'Error'}},
+                           x:{title:{display:true,text:'Iteración'}}}}
+        });
       });
     </script>
 
-    <!-- 8 Video -->
-    <h2 id="video">8. Video explicativo</h2>
-    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;"><iframe src="https://www.youtube.com/embed/E4f8HZlp2ps" title="Método de la Secante" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe></div>
+    <!-- 8 -->
+    <h2 id="evaluacion">8. Evaluación corta</h2>
+    <form id="quizForm" class="mb-4">
+      <!-- P1 -->
+      <fieldset class="question">
+        <legend>1. ¿Qué reemplaza la derivada de Newton en la secante?</legend>
+        <label><input type="radio" name="q1" value="a"> Un cociente incremental con dos puntos</label><br>
+        <label><input type="radio" name="q1" value="b"> La función cuadrática de Taylor</label><br>
+        <label><input type="radio" name="q1" value="c"> Una integración numérica</label>
+      </fieldset>
 
-    <!-- 9 Referencias -->
-    <h2 id="referencias">9. Referencias</h2>
+      <!-- P2 -->
+      <fieldset class="question">
+        <legend>2. El orden de convergencia teórico es</legend>
+        <label><input type="radio" name="q2" value="a"> 1&nbsp;(lineal)</label><br>
+        <label><input type="radio" name="q2" value="b"> 1.618&nbsp;(áureo)</label><br>
+        <label><input type="radio" name="q2" value="c"> 2&nbsp;(cuadrático)</label>
+      </fieldset>
+
+      <button type="button" class="btn btn-primary mt-2" onclick="gradeQuiz()">Calificar</button>
+      <p id="quizResult" class="mt-3 fw-bold"></p>
+    </form>
+    <script>
+      const key={q1:'a',q2:'b'};
+      function gradeQuiz(){
+        let total=0;
+        for(const k in key){
+          const ans=document.querySelector(`input[name="${k}"]:checked`);
+          if(ans && ans.value===key[k]) total++;
+        }
+        document.getElementById('quizResult').textContent=`Puntaje: ${total} / ${Object.keys(key).length}`;
+      }
+    </script>
+
+    <!-- 9 -->
+    <h2 id="video">9. Video explicativo</h2>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+      <iframe src="https://www.youtube.com/embed/E4f8HZlp2ps" title="Método de la Secante"
+              style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <!-- 10 -->
+    <h2 id="referencias">10. Referencias</h2>
     <ul>
       <li>Burden, R. & Faires, J. (2011). <em>Numerical Analysis</em>. Brooks/Cole.</li>
       <li>Atkinson, K. (1989). <em>An Introduction to Numerical Analysis</em>. Wiley.</li>
       <li>Wikipedia contributors. (2025). <em>Secant method</em>. Wikipedia.</li>
     </ul>
 
-    <!-- 10 Conclusión -->
-    <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
-    <p>La secante ofrece un compromiso entre la robustez de métodos sin derivadas y la rapidez de Newton. Aparece en modelos de equilibrio químico, diseño de ingeniería y algoritmos de optimización donde la derivada es costosa o desconocida.</p>
+    <!-- 11 -->
+    <h2 id="conclusion">11. Conclusión y aplicaciones</h2>
+    <p>La secante equilibra costo y velocidad frente a Newton; se emplea cuando la derivada es cara o desconocida (modelos de equilibrio, diseño de ingeniería, optimización).</p>
   </main>
 </div>
 
@@ -183,7 +244,14 @@ plt.title('Convergencia de la Secante'); plt.grid(True); plt.tight_layout()</cod
     </div>
   </div>
   <div class="container border-top border-secondary pt-3">
-    <div class="row"><div class="col-md-6 text-center text-md-start mb-2">&copy; <a class="border-bottom text-light" href="#">Métodos Numéricos</a>, 2025.</div><div class="col-md-6 text-center text-md-end"><small>Plantilla por <a class="border-bottom text-light" href="https://htmlcodex.com">HTML Codex</a></small></div></div>
+    <div class="row">
+      <div class="col-md-6 text-center text-md-start mb-2">
+        &copy; <a class="border-bottom text-light" href="#">Métodos Numéricos</a>, 2025.
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <small>Plantilla por <a class="border-bottom text-light" href="https://htmlcodex.com">HTML Codex</a></small>
+      </div>
+    </div>
   </div>
 </footer>
 </body>

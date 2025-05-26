@@ -34,6 +34,10 @@
     .example-table{width:100%;border-collapse:collapse;margin:1rem 0;}
     .example-table th,.example-table td{border:1px solid #ddd;padding:.45rem;text-align:center;}
     .example-table th{background:#f0f0f0;}
+    /* Quiz */
+    .question{margin-bottom:1rem;}
+    .question legend{font-weight:600;margin-bottom:.5rem;}
+    #quizResult{font-size:1.1rem;}
   </style>
 </head>
 <body>
@@ -66,9 +70,10 @@
       <li><a href="#ejemplo">5. Ejemplo resuelto</a></li>
       <li><a href="#codigo">6. Código en Python y gráfica</a></li>
       <li><a href="#animacion">7. Animación JS</a></li>
-      <li><a href="#video">8. Video Explicativo</a></li>
-      <li><a href="#referencias">9. Referencias</a></li>
-      <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
+      <li><a href="#evaluacion">8. Evaluación</a></li>
+      <li><a href="#video">9. Video Explicativo</a></li>
+      <li><a href="#referencias">10. Referencias</a></li>
+      <li><a href="#conclusion">11. Conclusión y aplicaciones</a></li>
     </ul>
   </aside>
 
@@ -180,8 +185,65 @@ plt.legend(); plt.title('Interpolación de Lagrange (grado 2)'); plt.tight_layou
       });
     </script>
 
-    <!-- 8: Video -->
-    <h2 id="video">8. Video Explicativo</h2>
+    <!-- 8: Evaluación -->
+    <h2 id="evaluacion">8. Evaluación</h2>
+    <p>Responde el cuestionario y presiona <em>Calificar</em> para comprobar tu dominio del método.</p>
+
+    <form id="quizForm" class="mb-4">
+      <!-- P1 -->
+      <fieldset class="question">
+        <legend>1. ¿Qué garantiza la existencia de un único polinomio interpolante de grado ≤ n?</legend>
+        <label><input type="radio" name="q1" value="a"> a) Que los nodos sean equiespaciados</label><br>
+        <label><input type="radio" name="q1" value="b"> b) Que todos los \(x_i\) sean distintos</label><br>
+        <label><input type="radio" name="q1" value="c"> c) Que \(f\) sea analítica</label><br>
+        <label><input type="radio" name="q1" value="d"> d) Que \(y_i\) sean positivos</label>
+      </fieldset>
+
+      <!-- P2 -->
+      <fieldset class="question">
+        <legend>2. El “fenómeno de Runge” se refiere a:</legend>
+        <label><input type="radio" name="q2" value="a"> a) Convergencia acelerada al aumentar n</label><br>
+        <label><input type="radio" name="q2" value="b"> b) Oscilaciones grandes lejos de los nodos</label><br>
+        <label><input type="radio" name="q2" value="c"> c) Cálculo del error máximo</label><br>
+        <label><input type="radio" name="q2" value="d"> d) Método iterativo para polinomios</label>
+      </fieldset>
+
+      <!-- P3 -->
+      <fieldset class="question">
+        <legend>3. El término de error depende de la derivada:</legend>
+        <label><input type="radio" name="q3" value="a"> a) Primera</label><br>
+        <label><input type="radio" name="q3" value="b"> b) \(n\)-ésima</label><br>
+        <label><input type="radio" name="q3" value="c"> c) \((n+1)\)-ésima</label><br>
+        <label><input type="radio" name="q3" value="d"> d) Segunda</label>
+      </fieldset>
+
+      <!-- P4 -->
+      <fieldset class="question">
+        <legend>4. Una desventaja práctica del polinomio de Lagrange es que:</legend>
+        <label><input type="radio" name="q4" value="a"> a) Requiere resolver un sistema lineal</label><br>
+        <label><input type="radio" name="q4" value="b"> b) Necesita recalcularse por completo si se añade un nodo</label><br>
+        <label><input type="radio" name="q4" value="c"> c) No puede usarse con funciones trigonométricas</label><br>
+        <label><input type="radio" name="q4" value="d"> d) Solo sirve para nodos igualmente espaciados</label>
+      </fieldset>
+
+      <button type="button" class="btn btn-primary mt-3" onclick="checkQuiz()">Calificar</button>
+      <p id="quizResult" class="mt-3 fw-bold"></p>
+    </form>
+
+    <script>
+      const quizKey={q1:'b',q2:'b',q3:'c',q4:'b'};
+      function checkQuiz(){
+        let score=0,total=Object.keys(quizKey).length;
+        for(const q in quizKey){
+          const ans=document.querySelector(`input[name="${q}"]:checked`);
+          if(ans && ans.value===quizKey[q]) score++;
+        }
+        document.getElementById('quizResult').textContent=`Tu puntaje: ${score} / ${total}`;
+      }
+    </script>
+
+    <!-- 9: Video -->
+    <h2 id="video">9. Video Explicativo</h2>
     <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
       <iframe src="https://www.youtube.com/embed/O99wI3X3iNg"
               title="Interpolación de Lagrange"
@@ -189,16 +251,16 @@ plt.legend(); plt.title('Interpolación de Lagrange (grado 2)'); plt.tight_layou
               allowfullscreen loading="lazy"></iframe>
     </div>
 
-    <!-- 9: Referencias -->
-    <h2 id="referencias">9. Referencias</h2>
+    <!-- 10: Referencias -->
+    <h2 id="referencias">10. Referencias</h2>
     <ul>
       <li>Burden, R.; Faires, J. (2011) <em>Numerical Analysis</em>, 9.ª ed.</li>
       <li>Atkinson, K. (1989) <em>An Introduction to Numerical Analysis</em>.</li>
       <li><em>Lagrange polynomial</em>, Wikipedia, 2025.</li>
     </ul>
 
-    <!-- 10: Conclusión -->
-    <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
+    <!-- 11: Conclusión -->
+    <h2 id="conclusion">11. Conclusión y aplicaciones</h2>
     <p>El método resulta muy útil para demostrar propiedades teóricas y obtener expresiones cerradas.  
        Sin embargo, para muchos nodos es preferible la forma de Newton o splines por razones de estabilidad numérica y coste de actualización.</p>
   </main>

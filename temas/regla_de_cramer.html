@@ -13,7 +13,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
   <link href="../css/bootstrap.min.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
-  <!-- MathJax for beautiful formulas -->
+
+  <!-- MathJax -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <!-- Chart.js -->
@@ -21,19 +22,19 @@
 
   <style>
     .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
-    aside { position: sticky; top: 80px; flex: 0 0 220px; background-color: #f8f9fa; border-radius: .375rem; padding: 1rem; height: fit-content; box-shadow: 0 0 10px rgb(0 0 0 / .1); }
+    aside { position: sticky; top: 80px; flex: 0 0 220px; background:#f8f9fa; border-radius:.375rem; padding:1rem; height:fit-content; box-shadow:0 0 10px rgba(0,0,0,.1); }
     main { flex: 1; }
-    aside ul { padding-left: 0; list-style: none; }
-    aside ul li { padding: .4rem 0; border-bottom: 1px solid #ddd; }
-    aside ul li:last-child { border-bottom: none; }
-    @media (max-width: 768px) { .container { flex-direction: column; } aside { position: relative; top: auto; flex: none; width: 100%; margin-bottom: 1rem; box-shadow: none; background-color: transparent; padding: 0; } }
-    .frase_importante { background-color: rgba(128,128,128,.1); border-left: 5px solid var(--primary); padding: 15px 20px; margin: 30px 0; font-style: italic; font-size: 1.05rem; }
-    pre { background-color: #f4f4f4; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
-    img { max-width: 100%; height: auto; margin: 1rem 0; }
-    .math-block { text-align: center; margin: 1rem 0; font-size: 1.25rem; }
-    .example-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-    .example-table th, .example-table td { border: 1px solid #ddd; padding: .5rem; text-align: center; }
-    .example-table th { background: #f0f0f0; }
+    aside ul{list-style:none;padding-left:0;}
+    aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}
+    aside ul li:last-child{border-bottom:none;}
+    @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;flex:none;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}}
+    .frase_importante{background:rgba(128,128,128,.1);border-left:5px solid var(--primary);padding:15px 20px;margin:30px 0;font-style:italic;font-size:1.05rem;}
+    pre{background:#f4f4f4;padding:1rem;border-radius:.5rem;overflow-x:auto;}
+    img{max-width:100%;height:auto;margin:1rem 0;}
+    .math-block{text-align:center;margin:1rem 0;font-size:1.25rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1rem 0;}
+    .example-table th,.example-table td{border:1px solid #ddd;padding:.5rem;text-align:center;}
+    .example-table th{background:#f0f0f0;}
   </style>
 </head>
 <body>
@@ -41,7 +42,7 @@
 <!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
   <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Métodos Numéricos</h2>
   </a>
   <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
       <span class="navbar-toggler-icon"></span>
@@ -81,7 +82,7 @@
 
     <!-- 2. Fundamento teórico ampliado -->
     <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
-    <p>Consideremos el sistema lineal \(A\mathbf{x}=\mathbf{b}\), donde <span class="math">\(A\in\mathbb{R}^{n \times n}\)</span> es <strong>invertible</strong>. Sea <span class="math">\(A_i\)</span> la matriz obtenida al reemplazar la <em>i‑ésima</em> columna de <span class="math">\(A\)</span> por el vector \(\mathbf{b}\). Entonces:</p>
+    <p>Consideremos el sistema lineal \(A\mathbf{x}=\mathbf{b}\), donde \(A\in\mathbb{R}^{n \times n}\) es <strong>invertible</strong>. Sea \(A_i\) la matriz obtenida al reemplazar la <em>i-ésima</em> columna de \(A\) por el vector \(\mathbf{b}\). Entonces:</p>
     <div class="math-block">$$x_i = \frac{\det(A_i)}{\det(A)},\qquad i=1,\dots,n.$$</div>
 
     <p>El resultado se deduce del <strong>teorema de Laplace</strong> y de la unicidad de la solución cuando \(\det(A)\neq 0\). Algunas propiedades notables:</p>
@@ -134,16 +135,16 @@
       <thead><tr><th></th><th>\(A\)</th><th>\(A_1\)</th><th>\(A_2\)</th><th>\(A_3\)</th></tr></thead>
       <tbody>
         <tr>
-          <td>1ª fila</td>
-          <td>2  −1  3</td><td>5  −1  3</td><td>2  5  3</td><td>2  −1  5</td>
+          <td>1ª&nbsp;fila</td>
+          <td>2&nbsp; −1&nbsp; 3</td><td>5&nbsp; −1&nbsp; 3</td><td>2&nbsp; 5&nbsp; 3</td><td>2&nbsp; −1&nbsp; 5</td>
         </tr>
         <tr>
-          <td>2ª fila</td>
-          <td>1   0  −2</td><td>−1  0  −2</td><td>1  −1  −2</td><td>1   0  −1</td>
+          <td>2ª&nbsp;fila</td>
+          <td>1&nbsp; 0&nbsp; −2</td><td>−1&nbsp; 0&nbsp; −2</td><td>1&nbsp; −1&nbsp; −2</td><td>1&nbsp; 0&nbsp; −1</td>
         </tr>
         <tr>
-          <td>3ª fila</td>
-          <td>3   1   4</td><td>10  1  4</td><td>3  10  4</td><td>3   1  10</td>
+          <td>3ª&nbsp;fila</td>
+          <td>3&nbsp; 1&nbsp; 4</td><td>10&nbsp; 1&nbsp; 4</td><td>3&nbsp; 10&nbsp; 4</td><td>3&nbsp; 1&nbsp; 10</td>
         </tr>
       </tbody>
     </table>
@@ -233,10 +234,10 @@ plt.show()</code></pre>
     <h2 id="referencias">9. Referencias</h2>
     <ul>
       <li>Cramer, G. (1750). <em>Introduction à l’analyse des lignes courbes algébriques</em>. Geneva.</li>
-      <li>Strang, G. (2016). <em>Introduction to Linear Algebra</em> (5.ª ed.). Wellesley–Cambridge Press.</li>
-      <li>Burden, R., &amp; Faires, D. (2010). <em>Numerical Analysis</em> (9.ª ed.). Brooks/Cole.</li>
+      <li>Strang, G. (2016). <em>Introduction to Linear Algebra</em> (5.ª ed.). Wellesley–Cambridge Press.</li>
+      <li>Burden, R., &amp; Faires, D. (2010). <em>Numerical Analysis</em> (9.ª ed.). Brooks/Cole.</li>
       <li>Trefethen, L. N., &amp; Bau, D. (1997). <em>Numerical Linear Algebra</em>. SIAM.</li>
-      <li>Wikipedia contributors. (2025, 1 mayo). <em>Cramer's rule</em>. Wikipedia. Recuperado 18 mayo 2025.</li>
+      <li>Wikipedia contributors. (2025, 1 mayo). <em>Cramer's rule</em>. Wikipedia. Recuperado 18 mayo 2025.</li>
     </ul>
 
     <!-- 10. Conclusión y aplicaciones -->
@@ -252,43 +253,47 @@ plt.show()</code></pre>
     <p>En definitiva, entender Cramer potencia la intuición algebraica, aun cuando la práctica profesional recurra a algoritmos más robustos.</p>
   </main>
 </div>
-  <!-- Footer Start -->
-  <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-          <div class="col-lg-3 col-md-6">
-            <h4 class="text-white mb-3">Contacto</h4>
-            <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
-            <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-            <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-            <div class="d-flex pt-2">
-              <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-              <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-              <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-              <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-            </div>
-          </div>
+
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+    <div class="row g-5">
+      <div class="col-lg-3 col-md-6">
+        <h4 class="text-white mb-3">Contacto</h4>
+        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+        <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+        <div class="d-flex pt-2">
+          <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+          <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+          <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+          <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
         </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Metodos Numericos</a>, All Rights Reserved.
-                    Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
   </div>
-  <!-- Footer End -->
+  <div class="container">
+    <div class="copyright">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+          &copy; <a class="border-bottom" href="#">Métodos Numéricos</a>, All Rights Reserved.
+          Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <div class="footer-menu">
+            <a href="#">Home</a>
+            <a href="#">Cookies</a>
+            <a href="#">Help</a>
+            <a href="#">FQAs</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Footer End -->
+
+<!-- Bootstrap JS -->
+<script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
