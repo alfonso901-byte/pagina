@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Regla de Cramer</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <link href="../img/favicon.ico" rel="icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+
+  <!-- MathJax -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+  <style>
+    .container { display: flex; gap: 2rem; margin-top: 1rem; padding: 0 1rem; }
+    aside { position: sticky; top: 80px; flex: 0 0 220px; background:#f8f9fa; border-radius:.375rem; padding:1rem; height:fit-content; box-shadow:0 0 10px rgba(0,0,0,.1); }
+    main { flex: 1; }
+    aside ul{list-style:none;padding-left:0;}
+    aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}
+    aside ul li:last-child{border-bottom:none;}
+    @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;flex:none;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}}
+    .frase_importante{background:rgba(128,128,128,.1);border-left:5px solid var(--primary);padding:15px 20px;margin:30px 0;font-style:italic;font-size:1.05rem;}
+    pre{background:#f4f4f4;padding:1rem;border-radius:.5rem;overflow-x:auto;}
+    img{max-width:100%;height:auto;margin:1rem 0;}
+    .math-block{text-align:center;margin:1rem 0;font-size:1.25rem;}
+    .example-table{width:100%;border-collapse:collapse;margin:1rem 0;}
+    .example-table th,.example-table td{border:1px solid #ddd;padding:.5rem;text-align:center;}
+    .example-table th{background:#f0f0f0;}
+  </style>
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Métodos Numéricos</h2>
+  </a>
+  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="../index.html" class="nav-item nav-link">Inicio</a>
+          <a href="../temas.html" class="nav-item nav-link active">Temas</a>
+          <a href="../autores.html" class="nav-item nav-link">Autores</a>
+      </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container">
+  <aside>
+    <h3>Índice de contenido</h3>
+    <ul>
+      <li><a href="#nombre">1. Nombre del método</a></li>
+      <li><a href="#fundamento">2. Fundamento teórico ampliado</a></li>
+      <li><a href="#error">3. Término de error y estabilidad</a></li>
+      <li><a href="#pasos">4. Pasos detallados del algoritmo</a></li>
+      <li><a href="#ejemplo">5. Ejemplo resuelto</a></li>
+      <li><a href="#codigo">6. Código en Python y gráfica</a></li>
+      <li><a href="#animacion">7. Animación JS</a></li>
+      <li><a href="#video">8. Video Explicativo</a></li>
+      <li><a href="#referencias">9. Referencias</a></li>
+      <li><a href="#conclusion">10. Conclusión y aplicaciones</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <!-- 1. Nombre del método -->
+    <div class="title-with-image">
+      <h1 id="nombre">1. Regla de Cramer</h1>
+    </div>
+
+    <!-- 2. Fundamento teórico ampliado -->
+    <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
+    <p>Consideremos el sistema lineal \(A\mathbf{x}=\mathbf{b}\), donde \(A\in\mathbb{R}^{n \times n}\) es <strong>invertible</strong>. Sea \(A_i\) la matriz obtenida al reemplazar la <em>i-ésima</em> columna de \(A\) por el vector \(\mathbf{b}\). Entonces:</p>
+    <div class="math-block">$$x_i = \frac{\det(A_i)}{\det(A)},\qquad i=1,\dots,n.$$</div>
+
+    <p>El resultado se deduce del <strong>teorema de Laplace</strong> y de la unicidad de la solución cuando \(\det(A)\neq 0\). Algunas propiedades notables:</p>
+    <ul>
+      <li>\(\det(A)\neq 0\) &xrArr; solución única.</li>
+      <li>La fórmula es <em>lineal</em> en \(\mathbf{b}\): cambios en la columna modifican solo el determinante del numerador.</li>
+      <li>Para \(n=2\), se reduce a la conocida expresión
+        <div class="math-block">$$x_1 = \frac{\begin{vmatrix} b_1 & a_{12}\\ b_2 & a_{22}\end{vmatrix}}{\begin{vmatrix} a_{11} & a_{12}\\ a_{21} & a_{22}\end{vmatrix}},\;\; x_2 = \frac{\begin{vmatrix} a_{11} & b_1\\ a_{21} & b_2\end{vmatrix}}{\begin{vmatrix} a_{11} & a_{12}\\ a_{21} & a_{22}\end{vmatrix}}.$$</div>
+      </li>
+    </ul>
+
+    <!-- 3. Término de error y estabilidad -->
+    <h2 id="error">3. Término de error y estabilidad</h2>
+    <p>El cálculo de determinantes con aritmética finita introduce errores de redondeo que pueden amplificarse si el <strong>número de condición</strong> \(\kappa(A)=\|A\|\,\|A^{-1}\|\) es grande.</p>
+    <div class="math-block">$$\frac{\|\delta \mathbf{x}\|}{\|\mathbf{x}\|}\;\lesssim\; \kappa(A)\;\frac{\|\delta \mathbf{b}\|}{\|\mathbf{b}\|}.$$</div>
+
+    <p>En términos de complejidad:</p>
+    <ul>
+      <li>Calcular cada determinante vía eliminación gaussiana cuesta \(\tfrac{1}{3}n^3\) operaciones ⇒ <strong>\(\mathcal{O}(n^4)\)</strong> para resolver todo el sistema (\(n+1\) determinantes).</li>
+      <li>Los métodos más usados en la práctica (LU, QR, factorización de Cholesky) requieren solo <strong>\(\mathcal{O}(n^3)\)</strong> y controlan mejor la estabilidad.</li>
+    </ul>
+    <div class="frase_importante">
+      <strong>Idea clave:</strong> La Regla de Cramer es pedagógica y útil para <em>pequeños</em> sistemas o deducciones simbólicas, pero pierde eficiencia numérica a gran escala.
+    </div>
+
+    <!-- 4. Pasos detallados del algoritmo -->
+    <h2 id="pasos">4. Pasos detallados del algoritmo</h2>
+    <ol>
+      <li><strong>Determinante principal:</strong> calcular \(D = \det(A)\). Si \(D = 0\) ⇒ el sistema no tiene solución única.</li>
+      <li><strong>Bucle por columnas:</strong> para cada \(i = 1,\dots,n\):
+        <ol type="a">
+          <li>Crear la matriz \(A_i\) sustituyendo la columna \(i\) de \(A\) por \(\mathbf{b}\).</li>
+          <li>Obtener \(D_i = \det(A_i)\).</li>
+          <li>Asignar \(x_i = D_i / D\).</li>
+        </ol>
+      </li>
+      <li><strong>Vector solución:</strong> \(\mathbf{x} = (x_1,\dots,x_n)^{\!T}\).</li>
+    </ol>
+
+    <!-- 5. Ejemplo resuelto -->
+    <h2 id="ejemplo">5. Ejemplo resuelto</h2>
+    <p>Sea el sistema</p>
+    <div class="math-block">$$\begin{cases}
+    2x_1 - x_2 + 3x_3 = 5\\
+    x_1 \phantom{-} + 0x_2 - 2x_3 = -1\\
+    3x_1 + x_2 + 4x_3 = 10
+    \end{cases}$$</div>
+
+    <table class="example-table">
+      <thead><tr><th></th><th>\(A\)</th><th>\(A_1\)</th><th>\(A_2\)</th><th>\(A_3\)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1ª&nbsp;fila</td>
+          <td>2&nbsp; −1&nbsp; 3</td><td>5&nbsp; −1&nbsp; 3</td><td>2&nbsp; 5&nbsp; 3</td><td>2&nbsp; −1&nbsp; 5</td>
+        </tr>
+        <tr>
+          <td>2ª&nbsp;fila</td>
+          <td>1&nbsp; 0&nbsp; −2</td><td>−1&nbsp; 0&nbsp; −2</td><td>1&nbsp; −1&nbsp; −2</td><td>1&nbsp; 0&nbsp; −1</td>
+        </tr>
+        <tr>
+          <td>3ª&nbsp;fila</td>
+          <td>3&nbsp; 1&nbsp; 4</td><td>10&nbsp; 1&nbsp; 4</td><td>3&nbsp; 10&nbsp; 4</td><td>3&nbsp; 1&nbsp; 10</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Usando cofactores o <code>numpy.linalg.det</code> obtenemos:</p>
+    <ul>
+      <li>\(D = \det(A) = 17\)</li>
+      <li>\(D_1 = 23, \; D_2 = 1, \; D_3 = 68\)</li>
+      <li>\(\displaystyle \mathbf{x}=\left(\frac{23}{17},\;\frac{1}{17},\;\frac{68}{17}\right)^{T}\approx (1.353,\;0.059,\;4)^{T}\)</li>
+    </ul>
+
+    <!-- 6. Código en Python y gráfica -->
+    <h2 id="codigo">6. Código en Python y gráfica</h2>
+    <pre><code>import numpy as np
+import time
+import matplotlib.pyplot as plt
+
+np.random.seed(0)
+
+def cramer(A, b):
+    """Resuelve A·x=b mediante la Regla de Cramer."""
+    n = A.shape[0]
+    detA = np.linalg.det(A)
+    x = np.empty(n)
+    for i in range(n):
+        Ai = A.copy()
+        Ai[:, i] = b
+        x[i] = np.linalg.det(Ai) / detA
+    return x
+
+sizes = range(2, 13)  # n = 2 … 12
+elapsed = []
+for n in sizes:
+    A = np.random.rand(n, n)
+    b = np.random.rand(n)
+    t0 = time.perf_counter()
+    cramer(A, b)
+    elapsed.append(time.perf_counter() - t0)
+
+plt.figure()
+plt.plot(list(sizes), elapsed, marker="o")
+plt.xlabel("Tamaño n")
+plt.ylabel("Tiempo (s)")
+plt.title("Escalabilidad de la Regla de Cramer")
+plt.grid(True)
+plt.tight_layout()
+plt.show()</code></pre>
+
+    <!-- 7. Animación JS -->
+    <h2 id="animacion">7. Animación JS</h2>
+    <p>A continuación se muestra una animación simplificada (valores precargados) comparando el tiempo de ejecución a medida que crece \(n\).</p>
+    <canvas id="cramerChart" width="400" height="220"></canvas>
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        const sizes = [2,3,4,5,6,7,8,9,10,11,12];
+        const times = [0.00002,0.00005,0.0001,0.00025,0.0006,0.0012,0.0024,0.0048,0.01,0.02,0.04];
+        const ctx = document.getElementById('cramerChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: sizes,
+            datasets: [{
+              label: 'Tiempo estimado (s)',
+              data: times,
+              borderWidth: 2,
+              tension: 0.3
+            }]
+          },
+          options: {
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { title: { display: true, text: 'Tamaño n' } },
+              y: { title: { display: true, text: 'Tiempo (s)' }, beginAtZero: true }
+            }
+          }
+        });
+      });
+    </script>
+
+    <!-- 8. Video Explicativo -->
+    <h2 id="video">8. Video Explicativo</h2>
+    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;">
+      <iframe src="https://www.youtube.com/embed/3Z4_crBxdEk" title="Regla de Cramer explicada" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <!-- 9. Referencias -->
+    <h2 id="referencias">9. Referencias</h2>
+    <ul>
+      <li>Cramer, G. (1750). <em>Introduction à l’analyse des lignes courbes algébriques</em>. Geneva.</li>
+      <li>Strang, G. (2016). <em>Introduction to Linear Algebra</em> (5.ª ed.). Wellesley–Cambridge Press.</li>
+      <li>Burden, R., &amp; Faires, D. (2010). <em>Numerical Analysis</em> (9.ª ed.). Brooks/Cole.</li>
+      <li>Trefethen, L. N., &amp; Bau, D. (1997). <em>Numerical Linear Algebra</em>. SIAM.</li>
+      <li>Wikipedia contributors. (2025, 1 mayo). <em>Cramer's rule</em>. Wikipedia. Recuperado 18 mayo 2025.</li>
+    </ul>
+
+    <!-- 10. Conclusión y aplicaciones -->
+    <h2 id="conclusion">10. Conclusión y aplicaciones</h2>
+    <p>La Regla de Cramer ilustra con claridad la relación entre determinantes y soluciones de sistemas lineales, convirtiéndola en una herramienta didáctica invaluable. No obstante, su <strong>costo computacional</strong> \(\mathcal{O}(n^4)\) y su <strong>sensibilidad numérica</strong> la relegan frente a factorizaciones como <em>LU</em> o <em>QR</em> cuando \(n\) es grande.</p>
+    <p>Se emplea en:</p>
+    <ul>
+      <li>Derivaciones teóricas en álgebra lineal y geometría analítica.</li>
+      <li>Análisis simbólico dentro de software de álgebra computacional.</li>
+      <li>Deducción de expresiones cerradas en circuitos eléctricos (ley de Kirchhoff) o mecanismos (métodos de rigidez en ingeniería).</li>
+      <li>Demostraciones de unicidad en ecuaciones diferenciales lineales.</li>
+    </ul>
+    <p>En definitiva, entender Cramer potencia la intuición algebraica, aun cuando la práctica profesional recurra a algoritmos más robustos.</p>
+  </main>
+</div>
+
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+    <div class="row g-5">
+      <div class="col-lg-3 col-md-6">
+        <h4 class="text-white mb-3">Contacto</h4>
+        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+        <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+        <div class="d-flex pt-2">
+          <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+          <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+          <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+          <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="copyright">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+          &copy; <a class="border-bottom" href="#">Métodos Numéricos</a>, All Rights Reserved.
+          Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <div class="footer-menu">
+            <a href="#">Home</a>
+            <a href="#">Cookies</a>
+            <a href="#">Help</a>
+            <a href="#">FQAs</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Footer End -->
+
+<!-- Bootstrap JS -->
+<script src="../js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

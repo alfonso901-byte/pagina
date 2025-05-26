@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Interpolación resolviendo Ax=b</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fuentes e iconos -->
+  <link href="../img/favicon.ico" rel="icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/style.css"         rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+  <style>
+    .container{display:flex;gap:2rem;margin-top:1rem;padding:0 1rem;}
+    aside{position:sticky;top:80px;flex:0 0 220px;background:#f8f9fa;border-radius:.375rem;padding:1rem;height:fit-content;box-shadow:0 0 10px rgba(0,0,0,.1);}
+    main{flex:1;}
+    aside ul{list-style:none;padding-left:0;}
+    aside ul li{padding:.4rem 0;border-bottom:1px solid #ddd;}
+    aside ul li:last-child{border-bottom:none;}
+    @media(max-width:768px){.container{flex-direction:column;}aside{position:relative;top:auto;flex:none;width:100%;margin-bottom:1rem;box-shadow:none;background:transparent;padding:0;}}
+    .frase_importante{background:rgba(128,128,128,.2);border-left:5px solid rgba(0,0,0,.2);box-shadow:-5px 0 10px rgba(0,0,0,.1);padding:15px 20px;margin:30px 0;font-style:italic;font-size:1.15rem;overflow-x:auto;}
+    pre{background:#f4f4f4;padding:1rem;border-radius:.5rem;overflow-x:auto;}
+    .math-display{text-align:center;margin:1.2rem 0;font-size:1.25rem;}
+    /* Evaluación */
+    .question{margin-bottom:1rem;}
+    .question legend{font-weight:600;margin-bottom:.35rem;}
+    #quizResult{font-size:1.1rem;}
+  </style>
+</head>
+<body>
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+  <a href="../index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+      <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Metodos Numericos</h2>
+  </a>
+  <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ms-auto p-4 p-lg-0">
+          <a href="../index.html" class="nav-item nav-link">Inicio</a>
+          <a href="../temas.html" class="nav-item nav-link active">Temas</a>
+          <a href="../autores.html" class="nav-item nav-link">Autores</a>
+      </div>
+  </div>
+</nav>
+<!-- Navbar End -->
+
+<div class="container">
+  <aside>
+    <h3>Índice de contenido</h3>
+    <ul>
+      <li><a href="#nombre">1. Nombre del método</a></li>
+      <li><a href="#fundamento">2. Fundamento teórico ampliado</a></li>
+      <li><a href="#error">3. Término de error</a></li>
+      <li><a href="#pasos">4. Pasos detallados</a></li>
+      <li><a href="#ejemplo">5. Ejemplo resuelto</a></li>
+      <li><a href="#codigo">6. Código en Python y gráfica</a></li>
+      <li><a href="#animacion">7. Animación JS</a></li>
+      <li><a href="#evaluacion">8. Evaluación</a></li>
+      <li><a href="#video">9. Video explicativo</a></li>
+      <li><a href="#referencias">10. Referencias</a></li>
+      <li><a href="#conclusion">11. Conclusión y aplicaciones</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <!-- 1 -->
+    <div class="title-with-image">
+      <h1 id="nombre">1. Interpolación resolviendo Ax = b</h1>
+      <b>Conoce su origen <i><a href="../autores/vandermonde.html">Vandermonde / Newton</a></i></b>
+    </div>
+
+    <!-- 2 -->
+    <h2 id="fundamento">2. Fundamento teórico ampliado</h2>
+    <p>Dado un conjunto de \(n+1\) puntos \((x_i,y_i)\), la interpolación polinómica busca un polinomio \(P_n\) (grado ≤ \(n\)) tal que \(P_n(x_i)=y_i\).  
+       Planteamos el sistema de Vandermonde:</p>
+    <div class="frase_importante">
+      \(V\,\mathbf c=\mathbf y,\qquad V_{ij}=x_i^{\,j} \;\;(j=0..n)\)
+    </div>
+
+    <!-- 3 -->
+    <h2 id="error">3. Término de error</h2>
+    <p>Para \(f\in\mathcal C^{\,n+1}\), existe \(\xi\) tal que</p>
+    <div class="frase_importante">
+      \(f(x)-P_n(x)=\dfrac{f^{(n+1)}(\xi)}{(n+1)!}\,\prod_{i=0}^{n}(x-x_i).\)
+    </div>
+
+    <!-- 4 -->
+    <h2 id="pasos">4. Pasos detallados</h2>
+    <ol>
+      <li>Recolectar los puntos \((x_i,y_i)\).</li>
+      <li>Formar Vandermonde \(V\) y el vector \(\mathbf y\).</li>
+      <li>Resolver \(V\mathbf c=\mathbf y\) (LU, QR o <code>np.linalg.solve</code>).</li>
+      <li>Construir \(P_n(x)=\sum c_j x^j\).</li>
+      <li>Evaluar \(P_n\) o estimar el error cuando se conozca \(f\).</li>
+    </ol>
+
+    <!-- 5 -->
+    <h2 id="ejemplo">5. Ejemplo resuelto</h2>
+    <p>Interpolar \(f(x)=e^x\) en \(\{0,0.5,1\}\):</p>
+    <ul>
+      <li>Vandermonde: \(\begin{bmatrix}1&0&0\\1&0.5&0.25\\1&1&1\end{bmatrix}\).</li>
+      <li>Solución \(c\approx(1,1.067,0.357)^\mathsf T\).</li>
+      <li>\(P_2(x)=1+1.067x+0.357x^2\).</li>
+      <li>Error en \(x=0.75\): \(\approx0.005\).</li>
+    </ul>
+
+    <!-- 6 -->
+    <h2 id="codigo">6. Código en Python y gráfica</h2>
+    <pre><code>import numpy as np, matplotlib.pyplot as plt
+
+x = np.array([0,0.5,1]); y = np.exp(x)
+V = np.vander(x, increasing=True)
+c = np.linalg.solve(V, y)
+
+xx = np.linspace(0,1,200)
+Pn = np.polyval(c[::-1], xx)
+
+plt.figure()
+plt.plot(xx, np.exp(xx), label='e^x')
+plt.plot(xx, Pn, '--', label='P₂')
+plt.scatter(x, y, color='red')
+plt.title('Interpolación polinómica grado 2')
+plt.legend(); plt.tight_layout()</code></pre>
+
+    <!-- 7 -->
+    <h2 id="animacion">7. Animación JS</h2>
+    <p>Comparación \(e^x\) vs \(P_2\):</p>
+    <canvas id="interpChart" width="420" height="220"></canvas>
+    <script>
+      window.addEventListener('DOMContentLoaded',()=>{
+        const xx=[...Array(101).keys()].map(i=>i/100);
+        const fx=xx.map(x=>Math.exp(x));
+        const c=[1,1.067,0.357];
+        const pn=xx.map(x=>c[0]+c[1]*x+c[2]*x*x);
+        new Chart(document.getElementById('interpChart'),{
+          type:'line',
+          data:{labels:xx,datasets:[
+            {label:'e^x',data:fx,borderWidth:2,fill:false},
+            {label:'P₂',data:pn,borderWidth:2,fill:false,borderDash:[5,5]}
+          ]},
+          options:{scales:{x:{title:{display:true,text:'x'}},
+                           y:{title:{display:true,text:'y'}}}}
+        });
+      });
+    </script>
+
+    <!-- 8 -->
+    <h2 id="evaluacion">8. Evaluación</h2>
+    <p>Responde y pulsa <em>Calificar</em> para comprobar tu comprensión.</p>
+
+    <form id="quizForm" class="mb-4">
+      <!-- P1 -->
+      <fieldset class="question">
+        <legend>1. Cada entrada \(V_{ij}\) de la matriz de Vandermonde es:</legend>
+        <label><input type="radio" name="q1" value="a"> a) \(\sin(x_i+j)\)</label><br>
+        <label><input type="radio" name="q1" value="b"> b) \(x_i^{\,j}\)</label><br>
+        <label><input type="radio" name="q1" value="c"> c) \(\frac{1}{x_i+j}\)</label><br>
+        <label><input type="radio" name="q1" value="d"> d) \(j!\)</label>
+      </fieldset>
+
+      <!-- P2 -->
+      <fieldset class="question">
+        <legend>2. El sistema \(V\mathbf c=\mathbf y\) se resuelve para obtener:</legend>
+        <label><input type="radio" name="q2" value="a"> a) Los valores \(y_i\)</label><br>
+        <label><input type="radio" name="q2" value="b"> b) Las abscisas \(x_i\)</label><br>
+        <label><input type="radio" name="q2" value="c"> c) Los coeficientes del polinomio interpolante</label><br>
+        <label><input type="radio" name="q2" value="d"> d) El error máximo</label>
+      </fieldset>
+
+      <!-- P3 -->
+      <fieldset class="question">
+        <legend>3. El producto \(\prod(x-x_i)\) en el término de error indica que el error se anula:</legend>
+        <label><input type="radio" name="q3" value="a"> a) En los nodos de interpolación</label><br>
+        <label><input type="radio" name="q3" value="b"> b) Solo en \(x=0\)</label><br>
+        <label><input type="radio" name="q3" value="c"> c) Nunca se anula</label><br>
+        <label><input type="radio" name="q3" value="d"> d) Cuando \(f^{(n+1)}(\xi)=0\)</label>
+      </fieldset>
+
+      <!-- P4 -->
+      <fieldset class="question">
+        <legend>4. Para grandes \(n\), la matriz de Vandermonde suele ser:</legend>
+        <label><input type="radio" name="q4" value="a"> a) Triangular inferior</label><br>
+        <label><input type="radio" name="q4" value="b"> b) Muy bien condicionada</label><br>
+        <label><input type="radio" name="q4" value="c"> c) Mal condicionada e inestable numéricamente</label><br>
+        <label><input type="radio" name="q4" value="d"> d) Ortogonal</label>
+      </fieldset>
+
+      <button type="button" class="btn btn-primary mt-3" onclick="checkQuiz()">Calificar</button>
+      <p id="quizResult" class="mt-3 fw-bold"></p>
+    </form>
+
+    <script>
+      const quizKey={q1:'b',q2:'c',q3:'a',q4:'c'};
+      function checkQuiz(){
+        let score=0,total=Object.keys(quizKey).length;
+        for(const q in quizKey){
+          const ans=document.querySelector(`input[name="${q}"]:checked`);
+          if(ans && ans.value===quizKey[q]) score++;
+        }
+        document.getElementById('quizResult').textContent=`Tu puntaje: ${score} / ${total}`;
+      }
+    </script>
+
+    <!-- 9 -->
+    <h2 id="video">9. Video explicativo</h2>
+    <p><a href="https://www.youtube.com/watch?v=UjtKJdF7PtQ" target="_blank" rel="noopener">Ver video explicativo en YouTube</a></p>
+
+    <!-- 10 -->
+    <h2 id="referencias">10. Referencias</h2>
+    <ul>
+      <li>Atkinson, K. (1989). <em>An Introduction to Numerical Analysis</em>. Wiley.</li>
+      <li>Burden, R. &amp; Faires, J. (2011). <em>Numerical Analysis</em>. Brooks/Cole.</li>
+      <li>Wikipedia contributors. (2025, 15 abr.). <em>Polynomial interpolation</em>. Wikipedia.</li>
+    </ul>
+
+    <!-- 11 -->
+    <h2 id="conclusion">11. Conclusión y aplicaciones</h2>
+    <p>Resolver \(A\mathbf x=\mathbf b\) con Vandermonde es la vía más directa para un polinomio en base potencias; no obstante, su <em>mal condicionamiento</em> hace preferibles formas como Newton o los splines para gran cantidad de nodos.  
+       Se usa en gráficos, ajuste de datos y aproximación de funciones de baja dimensión.</p>
+  </main>
+</div>
+
+<!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container py-5">
+    <div class="row g-5">
+      <div class="col-lg-3 col-md-6">
+        <h4 class="text-white mb-3">Contacto</h4>
+        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>FIME</p>
+        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+        <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+        <div class="d-flex pt-2">
+          <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
+          <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
+          <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
+          <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="copyright">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+          &copy; <a class="border-bottom" href="#">Métodos Numéricos</a>, Todos los derechos reservados.
+          Diseñado por <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <div class="footer-menu">
+            <a href="#">Home</a>
+            <a href="#">Cookies</a>
+            <a href="#">Help</a>
+            <a href="#">FQAs</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Footer End -->
+</body>
+</html>
